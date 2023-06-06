@@ -4,6 +4,7 @@ import Login from './pages/login';
 import Dashboard from './pages/dashboard';
 import Create from './pages/create';
 import Test from './pages/test';
+import Name from './create_groups/name';
 const App =()=> {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ const App =()=> {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/create' element={<Create />} />
         <Route path='/test' element={<Test />} />
+        <Route path='/create/name' element={<Name/>} />
       </Routes>
     </main>
     </BrowserRouter>
