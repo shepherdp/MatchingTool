@@ -6,6 +6,7 @@ import Create from './pages/create';
 import Test from './pages/test';
 import Name from './create_groups/name';
 import Type from './create_groups/type';
+import Members from './create_groups/members';
 const App =()=> {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ const App =()=> {
         <Route path='/test' element={<Test />} />
         <Route path='/create/name' element={<Name/>} />
         <Route path='/create/type' element={<Type/>} />
+        <Route path='/create/addmember' element={<Members/>} />
       </Routes>
     </main>
     </BrowserRouter>

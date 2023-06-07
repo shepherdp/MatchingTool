@@ -5,8 +5,10 @@ import { GrLinkNext } from "react-icons/gr";
 import { useState } from "react";
 import {IoMdArrowDropdown, IoMdArrowDropup} from 'react-icons/io';
 import Send from "../components/send_data";
+import { useNavigate } from "react-router-dom";
 
 const Type =()=>{
+    let navigate = useNavigate();
     const options = ['Class', 'Organization', 'Sport', 'Work', 'Friends', 'Team']
     const [isOpen, setIsOpen] = useState(false)
     const [selected, setSelected] = useState(options[0])
@@ -49,7 +51,7 @@ const Type =()=>{
                                                 </div>   
                                             }
                                         </div>
-                                        <button type="button" className="absolute top-[260px] left-[289px]" onClick={()=>Send('/addtype', JSON.stringify({type:selected}))}>
+                                        <button type="button" className="absolute top-[260px] left-[289px]" onClick={()=>Send('/addtype', JSON.stringify({type:selected})).then(navigate('../create/addmember'))}>
                                             <div className="h-12 w-16 flex justify-center items-center bg-[#E6F3FE] border-b-2 border-[#4169E1]">
                                                 <GrLinkNext className="text-xl font-bold"/>
                                             </div>
