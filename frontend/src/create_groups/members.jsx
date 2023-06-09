@@ -2,6 +2,7 @@ import { FaRegUserCircle } from "react-icons/fa"
 import Footer from "../components/footer"
 import LoggedNav from "../components/navbar"
 import { useState } from "react";
+import {SendWRes} from '../components/send_data';
 
 const Members = () => {
     const [members, setMembers] = useState([])
@@ -9,15 +10,7 @@ const Members = () => {
 
 
     const AddMember = async(path, data) =>{
-        const response = await fetch(`http://localhost:5000${path}`, {
-            method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: data
-        });
-        const result = await response.json();
-        setMembers(result);
+        setMembers(SendWRes(path, data));
         setNewMember('')
     };
 

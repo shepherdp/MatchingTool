@@ -4,7 +4,7 @@ import LoggedNav from "../components/navbar";
 import { useEffect, useState } from "react";
 import {GrLinkNext} from "react-icons/gr";
 import {useNavigate} from "react-router-dom";
-import Send from "../components/send_data";
+import {Send} from "../components/send_data";
 const Name = () =>{
 
     const [groupName, setGroupName] = useState('')

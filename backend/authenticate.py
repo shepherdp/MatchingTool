@@ -19,17 +19,16 @@ login_manager.login_message_category = "info"
 
 bcrypt = Bcrypt()
 
-login_manager.init_app(auth)
-bcrypt.init_app(auth)
-
 
 class Users(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
     name = db.Column(db.String(100))
+    email = db.Column(db.String(100))
     password = db.Column(db.String(200))
 
-    def __init__(self, name, password):
+    def __init__(self, name, email, password):
         self.name = name
+        self.email = email
         self.password = password
 
 
@@ -46,6 +45,23 @@ def login():
     return jsonify({'message': 'logged in successfully!'})
 
 
-# @auth.route('/register')
-# def register():
-#     pass
+@auth.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        new_name = request.json['name']
+        new_email = request.json['email']
+        new_pass = request.json['password']
+        registered = Users.query.filter_by(email=new_email).first()
+        if not registered:
+            hashed_password = bcrypt.generate_password_hash(
+                new_pass).decode('utf-8')
+            new_user = Users(name=new_name, email=new_email,
+                             password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            temp = Users.query.filter_by(name=new_name).first()
+            print(temp.password)
+            return jsonify({'message': 'logged in successfully!'})
+        print('an account is already linked to {email}'.format(
+            email=new_email))
+        return jsonify({'message': 'registration failed'})

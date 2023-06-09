@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {FcGoogle} from 'react-icons/fc';
-import Send from '../components/send_data';
+import {Send} from '../components/send_data';
 function Login() {
   const [name, setName] = useState('')
   const [pass, setPass] = useState('')

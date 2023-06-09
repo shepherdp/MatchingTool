@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-
+from authenticate import bcrypt, login_manager
 from flask_cors import CORS
 import json
 from database import db
@@ -18,7 +18,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db.init_app(app)
-
+login_manager.init_app(app)
+bcrypt.init_app(app)
 
 groups = {
     'name': '',
