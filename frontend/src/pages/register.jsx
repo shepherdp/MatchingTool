@@ -1,31 +1,34 @@
 import { useState } from 'react';
 import {FcGoogle} from 'react-icons/fc';
-import {Send} from '../components/send_data';
+import {SendWRes} from '../components/send_data';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {schema} from '../validation/validate_registration';
 import {useNavigate} from "react-router-dom";
-
+import Popup from "reactjs-popup";
 
 const Register=()=> {
-    let navigate = useNavigate();
-    const {register, handleSubmit, formState: {errors}, reset} = useForm({
-      resolver: yupResolver(schema),
-    });
+  const [isRegistered, setIsRegistered] = useState(true)
+  const [email, setEmail] = useState('')
+  let navigate = useNavigate();
+  const {register, handleSubmit, formState: {errors}, reset} = useForm({
+    resolver: yupResolver(schema),
+  });
 
-    const onSubmitHandler=(data)=>{
-      const name = data.name;
-      const email = data.email;
-      const password = data.password;
-      console.log(name)
-      Send('/user/register', JSON.stringify({
+  const onSubmitHandler=(data)=>{
+    const name = data.name;
+    const email = data.email;
+    const password = data.password;
+    setEmail(email)
+    
+    setIsRegistered(
+      SendWRes('/user/register', JSON.stringify({
         name:name, 
         email:email, 
         password:password
-      }));
-
-     reset();
-    }
+      }))
+    )
+  }
 
   return (
     <>
@@ -48,6 +51,9 @@ const Register=()=> {
           <div className='h-screen w-screen flex items-center justify-center -space-x-[308px] -space-y-[16px]'>
           <div className='w-[300px] h-[550px] bg-[#4169E1]'></div>
           <div className='flex flex-col place-items-center justify-center w-[300px] h-[550px] bg-white'>
+            {/* <Popup trigger={isRegistered == false} position='right center'>
+              <p>An account is already linked to {email}</p>
+              </Popup> */}
             <form onSubmit={handleSubmit(onSubmitHandler)} className=' flex flex-col place-items-center justify-center w-[300px] bg-white'>
               <input {...register('name')} className='border-b-2 w-52 h-12 border-b-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mt-8 outline-none' type="text" placeholder='name'  required/>
               <p className='text-xs text-[#EE4B2B]'>{errors.name?.message}</p>
@@ -58,7 +64,7 @@ const Register=()=> {
               <input {...register('passwordConfirmation')} className='border-b-2 w-52 h-12 border-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mt-4 outline-none' type="password" placeholder='confirm password' required/>
               <p className='text-xs text-[#EE4B2B]'>{errors.passwordConfirmation?.message}</p>
               {/* changing the login button to link just for testing */}
-              <button type='submit' onClick={()=>navigate('/login')} className='bg-[#4169E1] font-semibold w-52 h-12 mt-4 text-white'>Register</button>
+              <button type='submit' onClick={()=> {isRegistered==true ? navigate('/login'): alert(`An account is already linked to ${email}. Please log in or use a different email address`)}} className='bg-[#4169E1] font-semibold w-52 h-12 mt-4 text-white'>Register</button>
             </form>
             <h3 className='text-gray-500 text-xs mt-4'>OR</h3>
             <a href="#">
