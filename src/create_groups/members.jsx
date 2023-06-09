@@ -1,7 +1,7 @@
 import { FaRegUserCircle } from "react-icons/fa"
 import Footer from "../components/footer"
 import LoggedNav from "../components/navbar"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Members = () => {
     const [members, setMembers] = useState([])
@@ -39,12 +39,13 @@ const Members = () => {
                                             </div>
                                             <input className="w-52 h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] text-gray-700 pl-2 lg:w-64 outline-none" type="text" name="add" placeholder="participant's name..." value={newMember} 
                                             onChange={(e) => setNewMember(e.target.value)}/>
-                                            <button type='button' onClick={()=>AddMember('/addmember', JSON.stringify({new_member:newMember}))} className="w-52 h-12 bg-[#4169E1] text-center mb-2 lg:w-64 text-white" >Add</button>
+                                            <button type='button' onClick={()=>{newMember.length > 0 && 
+                                                AddMember('/addmember', JSON.stringify({new_member:newMember}))}} className="w-52 h-12 bg-[#4169E1] text-center mb-2 lg:w-64 text-white" >Add</button>
                                         </div>
+                                        <div className="w-52 max-h-60 overflow-auto cursor-default lg:mt-6 mb-4 lg:w-[400px] lg:max-h-[400px]">
                                         {
                                             members.length > 0 
                                             &&
-                                            <div className="w-52 max-h-60 overflow-auto border-t-2 border-b-2 cursor-default lg:mt-6 border-[#4169E1] mb-4 lg:w-[400px] lg:max-h-[400px]">
                                             <ul className="text-black flex flex-col items-center mb-2">
                                                 {members.map((member, i) => (
                                                     <div key={i} className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2">
@@ -53,8 +54,8 @@ const Members = () => {
                                                     </div>
                                                 ))}
                                             </ul>
-                                        </div>
-                                        }
+                                            }
+                                            </div>
                                    </div>
                                     <button className="w-[400px] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="submit">Create Groups</button>
                                 </div>

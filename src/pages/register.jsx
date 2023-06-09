@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {FcGoogle} from 'react-icons/fc';
 import Send from '../components/send_data';
-function Login() {
+const Register=()=> {
   const [name, setName] = useState('')
   const [pass, setPass] = useState('')
 
@@ -18,18 +18,20 @@ function Login() {
                 <p className=' leading-[18px] mt-[21px] text-center text-xl font-bold font-display'>ATCH <br/> AKER</p>
                 </div>
               </a>
-              <a className='mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white' href="#">Register</a>
+              <a className='mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white' href="#">Login</a>
             </div>
           </header>
         </section>
         <section className='bg-[#E6F3FE] min-h-screen'>
           <div className='h-screen w-screen flex items-center justify-center -space-x-[308px] -space-y-[16px]'>
-          <div className='w-[300px] h-[450px] bg-[#4169E1]'></div>
-          <div className='flex flex-col gap-y-3 place-items-center justify-center w-[300px] h-[450px] bg-white'>
-            <input onChange={(e)=>setName(e.target.value)} className='border-b-2 w-52 h-12 border-b-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mt-12 mb-4 outline-none' type="email" placeholder='email address' />
+          <div className='w-[300px] h-[500px] bg-[#4169E1]'></div>
+          <div className='flex flex-col gap-y-3 place-items-center justify-center w-[300px] h-[500px] bg-white'>
+            <input onChange={(e)=>setName(e.target.value)} className='border-b-2 w-52 h-12 border-b-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mt-12 mb-4 outline-none' type="email" placeholder='name' />
+            <input onChange={(e)=>setName(e.target.value)} className='border-b-2 w-52 h-12 border-b-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mb-4 outline-none' type="email" placeholder='email address' />
             <input onChange={(e)=>setPass(e.target.value)} className='border-b-2 w-52 h-12 border-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mb-4 outline-none' type="password" placeholder='password' />
+            <input onChange={(e)=>setPass(e.target.value)} className='border-b-2 w-52 h-12 border-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mb-4 outline-none' type="password" placeholder='confirm password' />
             {/* changing the login button to link just for testing */}
-            <button type='button' onClick={()=>Send('/user/login', JSON.stringify({name:name, pass:pass}))} className='bg-[#4169E1] font-semibold w-52 h-12 mb-4 text-white'>Login</button>
+            <button type='button' onClick={()=>Send('/user/register', JSON.stringify({name:name, pass:pass}))} className='bg-[#4169E1] font-semibold w-52 h-12 mb-4 text-white'>Register</button>
             <h3 className='text-gray-500 text-xs mb-4'>OR</h3>
             <a href="#">
               <div className='flex border-2 w-52 h-10 border-[#4169E1] rounded-2xl mb-4'>
@@ -49,4 +51,4 @@ function Login() {
   );
 };
 
-export default Login;
+export default Register;
