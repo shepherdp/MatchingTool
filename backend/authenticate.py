@@ -61,7 +61,7 @@ def register():
             db.session.commit()
             temp = Users.query.filter_by(name=new_name).first()
             print(temp.password)
-            return jsonify({'message': 'logged in successfully!'})
+            return jsonify({'response': True})
         print('an account is already linked to {email}'.format(
             email=new_email))
-        return jsonify({'message': 'registration failed'})
+        return jsonify({'response': False})
