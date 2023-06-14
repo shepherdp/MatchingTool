@@ -2,12 +2,16 @@ import './App.css';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
-// import Test from './pages/test';
+import Test from './pages/test';
 import Name from './create_groups/name';
 import Type from './create_groups/type';
 import Members from './create_groups/members';
 import Register from './pages/register';
+import PrivateRoute from './components/private_route';
+
+window.is_auth = false;
 const App =()=> {
+
   return (
     
     <>
@@ -23,11 +27,12 @@ const App =()=> {
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/dashboard' element={<Dashboard />} />
-          {/* <Route path='/test' element={<Test />} /> */}
-          <Route path='/create/name' element={<Name/>} />
-          <Route path='/create/type' element={<Type/>} />
-          <Route path='/create/addmember' element={<Members/>} />
+          
+          <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
+          <Route path='/test' element={<PrivateRoute><Test /> </PrivateRoute>} />
+          <Route path='/create/name' element={<PrivateRoute><Name /> </PrivateRoute>} />
+          <Route path='/create/type' element={<PrivateRoute><Type /> </PrivateRoute>} />
+          <Route path='/create/addmember' element={<PrivateRoute><Members /> </PrivateRoute>} />
         </Routes>
        </BrowserRouter>
     </>

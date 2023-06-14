@@ -16,9 +16,7 @@ const SendWRes=async(path, data)=>{
                 'Content-Type': 'application/json'
             },
             body: data
-}).then(response => {response.json();
-    return response}
-    );
+}).then(response => response.json()).then(resp=>{return resp})
     
 };
 

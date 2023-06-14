@@ -1,24 +1,32 @@
 from flask import Flask, redirect, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from authenticate import bcrypt, login_manager
+from authenticate import bcrypt
 from flask_cors import CORS
 import json
 from database import db
 from authenticate import auth
-
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+from contents import content
 
 app = Flask(__name__)
 app.register_blueprint(auth, url_prefix='/user')
+app.register_blueprint(content, url_prefix='/member')
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-app.secret_key = 'secret-key'
+# setting up flask-jwt for authentification
+app.config['JWT_SECRET_KEY'] = 'secret key'  # to be changed
+jwt = JWTManager(app)
+
+# setting up the database (to be changed to MySQL later)
+app.secret_key = 'secret-key'  # to be changed
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db.init_app(app)
-login_manager.init_app(app)
 bcrypt.init_app(app)
 
 groups = {
