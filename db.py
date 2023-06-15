@@ -1,6 +1,16 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
+class Users(db.Model):
+    id = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(100))
+    password = db.Column(db.String(200))
+
+    def __init__(self, name, email, password):
+        self.name = name
+        self.email = email
+        self.password = password
 
 class ClassTable(db.Model):
     class_id = db.Column('class_id', db.Integer, primary_key=True)
