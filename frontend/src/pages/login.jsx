@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import {FcGoogle} from 'react-icons/fc';
-import {Send} from '../components/send_data';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 function Login() {
   let navigate = useNavigate()
+  const cookies = new Cookies()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
 
@@ -33,7 +34,7 @@ function Login() {
             <input onChange={(e)=>setPass(e.target.value)} className='border-b-2 w-52 h-12 border-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mb-4 outline-none' type="password" placeholder='password' />
             {/* changing the login button to link just for testing */}
             <button type='button' onClick={async()=>{
-              await fetch(`http://localhost:5000/user/login`, {
+              await fetch(`http://10.16.1.91:5000/user/login`, {
                 method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
@@ -42,10 +43,15 @@ function Login() {
         }).then(response => {
           if (response.ok){
             response.json()
-            .then(resp=>{sessionStorage.setItem('user_token', resp.token)
+            .then(resp=>{
+              // cookies.set('access_token_cookie', resp.token, {path:'/',})
             navigate('/dashboard')
           })
-          }})
+          }
+          else{
+            alert('login failed! incorrect email address or password')
+          }    
+        })
             
             }} className='bg-[#4169E1] font-semibold w-52 h-12 mb-4 text-white'>Login</button>
             <h3 className='text-gray-500 text-xs mb-4'>OR</h3>

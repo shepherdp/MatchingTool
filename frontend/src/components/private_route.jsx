@@ -1,29 +1,39 @@
 import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom';
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    // console.log(parts)
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  
 const PrivateRoute=({children})=>{
-    
+    // const cookies = new Cookies()
     const [jwt, setJwt] = useState(null) 
+    // const jwt_auth = cookies.get('access_token_cookie')
+    // if (!jwt_auth){
+    //     return <Navigate to='/login' />
+    // };
 
-    if (!sessionStorage.getItem('user_token')){
-        return <Navigate to='/login' />
-    };
-
-    fetch('http://localhost:5000/user/dashboard', {
+    const options = {
         method: 'GET',
+        credentials: 'include',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + sessionStorage.getItem('user_token')
+            // 'X-CSRF-TOKEN' : getCookie('csrf_access_token')
+            'Content-Type': 'application/json'
         }
-    }).then(response=> response)
+    }
+    fetch('http://10.16.1.91:5000/user/dashboard', options).then(response=> response)
         .then(resp=> {
-            setJwt(resp.ok)
+            setJwt(resp.status)
         })
    
             
     
     
-    return  !jwt ? <br /> : (jwt === true ? children : <Navigate to='/login' />)
+    return  !jwt ? <br /> : (jwt === 200 ? children : <Navigate to='/login' />)
 };
 
 export default PrivateRoute;

@@ -2,7 +2,7 @@
   "name": "matchmaker",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://10.16.1.91:5000",
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -19,6 +19,7 @@
     "react-scripts": "5.0.1",
     "reactjs-popup": "^2.0.5",
     "state-pool": "^0.10.0",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   },

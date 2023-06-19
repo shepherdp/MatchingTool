@@ -41,7 +41,7 @@ const Register=()=> {
             <form onSubmit={handleSubmit(
                   async(data)=>{  
 
-                    await fetch(`http://localhost:5000/user/register`, {
+                    await fetch(`http://10.16.1.91:5000/user/register`, {
                       method: "POST",
                           headers: {
                               'Content-Type': 'application/json'

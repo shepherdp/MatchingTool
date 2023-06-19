@@ -2,26 +2,28 @@ from flask import Flask, redirect, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from authenticate import bcrypt
 from flask_cors import CORS
+from datetime import datetime, timedelta, timezone
 import json
 from database import db
 from authenticate import auth
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import get_jwt_identity, jwt_required, JWTManager, get_jwt, create_access_token, set_access_cookies
+
 from contents import content
 
 app = Flask(__name__)
 app.register_blueprint(auth, url_prefix='/user')
 app.register_blueprint(content, url_prefix='/member')
-CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app, supports_credentials=True)
+
 
 # setting up flask-jwt for authentification
-app.config['JWT_SECRET_KEY'] = 'secret key'  # to be changed
+app.config['JWT_SECRET_KEY'] = 'secretkey'  # to be changed
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config["JWT_COOKIE_SECURE"] = False
+app.config['JWT_TOKEN_EXPIRES'] = timedelta(hours=1)
 jwt = JWTManager(app)
 
 # setting up the database (to be changed to MySQL later)
-app.secret_key = 'secret-key'  # to be changed
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -36,9 +38,29 @@ groups = {
 }
 
 
+# @app.after_request
+# def refresh_expiring_jwts(response):
+#     try:
+#         exp_timestamp = get_jwt()['exp']
+#         now = datetime.now(timezone.utc)
+#         target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+#         if target_timestamp > exp_timestamp:
+#             access_token = create_access_token(identity=get_jwt_identity())
+#             set_access_cookies(response, access_token)
+#         return response
+#     except (RuntimeError, KeyError):
+#         return response
+
+
 @app.route('/home')
 def home():
     return {'names': ['tojo', 'heri']}
+
+
+@app.route("/protected", methods=["GET", "POST"])
+@jwt_required()
+def protected():
+    return jsonify(foo="bar")
 
 
 @app.route('/add', methods=['GET'])

@@ -29,7 +29,7 @@ const App =()=> {
           <Route path='/register' element={<Register />} />
           
           <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
-          <Route path='/test' element={<PrivateRoute><Test /> </PrivateRoute>} />
+          <Route path='/test' element={<Test />} />
           <Route path='/create/name' element={<PrivateRoute><Name /> </PrivateRoute>} />
           <Route path='/create/type' element={<PrivateRoute><Type /> </PrivateRoute>} />
           <Route path='/create/addmember' element={<PrivateRoute><Members /> </PrivateRoute>} />

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, make_response
 from database import db
 import json
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, set_access_cookies
 
 auth = Blueprint('auth', __name__)
 
@@ -31,7 +31,9 @@ def login():
         return jsonify({'response': 'wrong email address or password'}), 401
 
     access_token = create_access_token(identity=user_email)
-    return jsonify({'token': access_token, "id": is_registered.id}), 200
+    resp = jsonify({'msg': 'logged in'})
+    set_access_cookies(resp, access_token)
+    return resp
 
 
 @auth.route('/register', methods=['POST', 'GET'])
@@ -61,4 +63,6 @@ def register():
 @jwt_required()
 def verify():
     current_user = get_jwt_identity()
+    if not current_user:
+        print('error')
     return jsonify(logged_in_as=current_user), 200
