@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 import json
 from database import db
 from authenticate import auth
+from flask_wtf.csrf import CSRFProtect
 from flask_jwt_extended import get_jwt_identity, jwt_required, JWTManager, get_jwt, create_access_token, set_access_cookies
 
 from contents import content
@@ -13,13 +14,20 @@ from contents import content
 app = Flask(__name__)
 app.register_blueprint(auth, url_prefix='/user')
 app.register_blueprint(content, url_prefix='/member')
-CORS(app, supports_credentials=True)
+# csrf = CSRFProtect(app)
+CORS(app, supports_credentials=True,  origins=['http://10.16.1.91:3000'])
 
+# config up flask_wtf
+app.config['SECRET_KEY'] = 'secret-key'
 
 # setting up flask-jwt for authentification
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
+app.config['JWT_COOKIE_SECURE'] = True
+app.config['JWT_COOKIE_SAMESITE'] = 'None'
 app.config['JWT_SECRET_KEY'] = 'secretkey'  # to be changed
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config["JWT_COOKIE_SECURE"] = False
+app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_TOKEN_EXPIRES'] = timedelta(hours=1)
 jwt = JWTManager(app)
 

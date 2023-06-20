@@ -19,13 +19,14 @@ const PrivateRoute=({children})=>{
 
     const options = {
         method: 'GET',
-        credentials: 'include',
-        headers: {
-            // 'X-CSRF-TOKEN' : getCookie('csrf_access_token')
-            'Content-Type': 'application/json'
-        }
+        credentials: 'same-origin',
+        // headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+        //     'Content-Type': 'application/json; charset=utf-8',
+        //     'Accept': 'application/json'
+        // },
     }
-    fetch('http://10.16.1.91:5000/user/dashboard', options).then(response=> response)
+    fetch('/user/dashboard', options).then(response=> response)
         .then(resp=> {
             setJwt(resp.status)
         })

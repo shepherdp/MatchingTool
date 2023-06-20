@@ -3,11 +3,12 @@ from database import db
 import json
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, set_access_cookies
-
+from flask_cors import CORS
 auth = Blueprint('auth', __name__)
 
-
 bcrypt = Bcrypt()
+
+CORS(auth, supports_credentials=True)
 
 
 class Users(db.Model):
@@ -32,8 +33,10 @@ def login():
 
     access_token = create_access_token(identity=user_email)
     resp = jsonify({'msg': 'logged in'})
+    resp.headers.add('Access-Control-Allow-Origin', 'http://10.16.1.91:3000')
     set_access_cookies(resp, access_token)
-    return resp
+    print(resp.headers)
+    return resp, 200, {'Access-Control-Allow-Credentials': 'true'}
 
 
 @auth.route('/register', methods=['POST', 'GET'])
@@ -65,4 +68,4 @@ def verify():
     current_user = get_jwt_identity()
     if not current_user:
         print('error')
-    return jsonify(logged_in_as=current_user), 200
+    return jsonify(logged_in_as=current_user), 200, {'Access-Control-Allow-Credentials': 'true'}

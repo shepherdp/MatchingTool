@@ -34,24 +34,22 @@ function Login() {
             <input onChange={(e)=>setPass(e.target.value)} className='border-b-2 w-52 h-12 border-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mb-4 outline-none' type="password" placeholder='password' />
             {/* changing the login button to link just for testing */}
             <button type='button' onClick={async()=>{
-              await fetch(`http://10.16.1.91:5000/user/login`, {
+              await fetch(`/user/login`, {
                 method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({email:email, pass:pass})
-        }).then(response => {
+        }).then(response => 
+          {
           if (response.ok){
-            response.json()
-            .then(resp=>{
-              // cookies.set('access_token_cookie', resp.token, {path:'/',})
             navigate('/dashboard')
-          })
           }
           else{
             alert('login failed! incorrect email address or password')
           }    
-        })
+        }
+      ).then(resp=> console.log(resp))
             
             }} className='bg-[#4169E1] font-semibold w-52 h-12 mb-4 text-white'>Login</button>
             <h3 className='text-gray-500 text-xs mb-4'>OR</h3>
