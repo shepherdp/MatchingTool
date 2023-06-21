@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request, make_response
 from database import db
 import json
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, set_access_cookies
+from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
+                                set_access_cookies, set_refresh_cookies, create_refresh_token)
 from flask_cors import CORS
 auth = Blueprint('auth', __name__)
 
@@ -33,9 +34,11 @@ def login():
         return jsonify({'response': 'wrong email address or password'}), 401
 
     access_token = create_access_token(identity=user_email)
+    refresh_token = create_refresh_token(identity=user_email)
     resp = jsonify({'msg': 'logged in'})
     resp.headers.add('Access-Control-Allow-Origin', 'https://10.16.1.91:3000')
     set_access_cookies(resp, access_token)
+    set_refresh_cookies(resp, refresh_token)
     print(resp.headers)
     return resp, 200, {'Access-Control-Allow-Credentials': 'true'}
 
@@ -61,6 +64,18 @@ def register():
     resp = make_response(json.dumps(
         {'resp': False}), 200)
     return resp
+
+
+@auth.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    current_user = get_jwt_identity()
+    if current_user:
+        resp = jsonify({'msg': 'user refreshed'})
+        access_token = create_access_token(identity=current_user)
+        set_access_cookies(resp, access_token)
+        return resp, 200
+    return jsonify({'msg': 'login required'}), 401
 
 
 @auth.route('/dashboard', methods=['GET', 'POST'])

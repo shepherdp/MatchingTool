@@ -7,7 +7,8 @@ import json
 from database import db
 from authenticate import auth
 from flask_wtf.csrf import CSRFProtect
-from flask_jwt_extended import get_jwt_identity, jwt_required, JWTManager, get_jwt, create_access_token, set_access_cookies
+from flask_jwt_extended import (get_jwt_identity, jwt_required, JWTManager,
+                                get_jwt, create_access_token, set_access_cookies)
 
 from contents import content
 
