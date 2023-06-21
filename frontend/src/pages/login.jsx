@@ -36,6 +36,7 @@ function Login() {
             <button type='button' onClick={async()=>{
               await fetch(`/user/login`, {
                 method: "POST",
+                credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json'
                     },

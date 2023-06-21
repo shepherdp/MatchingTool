@@ -8,7 +8,8 @@ auth = Blueprint('auth', __name__)
 
 bcrypt = Bcrypt()
 
-CORS(auth, supports_credentials=True)
+CORS(auth, supports_credentials=True,  origins=[
+     'https://10.16.1.91:3000', 'https://localhost:3000'])
 
 
 class Users(db.Model):
@@ -33,7 +34,7 @@ def login():
 
     access_token = create_access_token(identity=user_email)
     resp = jsonify({'msg': 'logged in'})
-    resp.headers.add('Access-Control-Allow-Origin', 'http://10.16.1.91:3000')
+    resp.headers.add('Access-Control-Allow-Origin', 'https://10.16.1.91:3000')
     set_access_cookies(resp, access_token)
     print(resp.headers)
     return resp, 200, {'Access-Control-Allow-Credentials': 'true'}

@@ -15,7 +15,8 @@ app = Flask(__name__)
 app.register_blueprint(auth, url_prefix='/user')
 app.register_blueprint(content, url_prefix='/member')
 # csrf = CSRFProtect(app)
-CORS(app, supports_credentials=True,  origins=['http://10.16.1.91:3000'])
+CORS(app, supports_credentials=True,  origins=[
+     'https://10.16.1.91:3000', 'https://localhost:3000'])
 
 # config up flask_wtf
 app.config['SECRET_KEY'] = 'secret-key'
@@ -26,7 +27,6 @@ app.config['JWT_COOKIE_SECURE'] = True
 app.config['JWT_COOKIE_SAMESITE'] = 'None'
 app.config['JWT_SECRET_KEY'] = 'secretkey'  # to be changed
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-app.config["JWT_COOKIE_SECURE"] = False
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_TOKEN_EXPIRES'] = timedelta(hours=1)
 jwt = JWTManager(app)
@@ -112,4 +112,5 @@ def addMember():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True, use_reloader=False, host='0.0.0.0')
+    app.run(debug=True, use_reloader=False,
+            host='0.0.0.0', ssl_context='adhoc')
