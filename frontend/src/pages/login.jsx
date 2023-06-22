@@ -8,6 +8,7 @@ function Login() {
   const cookies = new Cookies()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
+  const [status, setStatus] = useState(null)
 
   return (
     <>
@@ -42,15 +43,19 @@ function Login() {
                     },
                     body: JSON.stringify({email:email, pass:pass})
         }).then(response => 
+          response.json()
+        )
+        .then(resp => 
           {
-          if (response.ok){
+          if (resp['msg'] === 'logged in'){
+            sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
             navigate('/dashboard')
           }
           else{
             alert('login failed! incorrect email address or password')
           }    
         }
-      ).then(resp=> console.log(resp))
+      )
             
             }} className='bg-[#4169E1] font-semibold w-52 h-12 mb-4 text-white'>Login</button>
             <h3 className='text-gray-500 text-xs mb-4'>OR</h3>

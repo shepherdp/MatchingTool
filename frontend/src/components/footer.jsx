@@ -3,7 +3,7 @@ const Footer = () => {
         <>
             <section className="bg-[#002147] h-[100px] w-screen">
                 <div className="w-screen h-[100px] place-content-end">
-                    <h1 className="ml-6 text-end">copyright 2023</h1>
+                    <h1 className="mr-8 text-end text-white">copyright 2023</h1>
                 </div>
             </section>
         </>

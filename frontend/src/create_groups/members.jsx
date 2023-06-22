@@ -2,7 +2,7 @@ import { FaRegUserCircle } from "react-icons/fa"
 import Footer from "../components/footer"
 import LoggedNav from "../components/navbar"
 import { useEffect, useState } from "react";
-import {SendWRes} from '../components/send_data';
+import {Send} from '../components/send_data';
 
 const Members = () => {
     const [members, setMembers] = useState([])
@@ -58,45 +58,23 @@ const Members = () => {
                                             }
                                         </div>
                                     </div>
-                                    <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="submit">Create Groups</button>
+                                    <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="button" onClick={
+                                        ()=>{Send('/member/createmember', JSON.stringify({
+                                            name:sessionStorage.getItem('group_name'), 
+                                            type:sessionStorage.getItem('group_type'), 
+                                            participants:members})).then(()=>{
+                                                sessionStorage.removeItem('group_name')
+                                                sessionStorage.removeItem('group_type')
+                                                sessionStorage.removeItem('members')
+                                            }).then(
+                                                response => response.json()
+                                            ).then(
+                                                resp => sessionStorage.setItem('groups', JSON.stringify(resp))
+                                            )}
+                                    }>Create Groups</button>
                                 </div>
                             </div>
-                            {/* <div className="w-[450px] h-[520px] bg-white flex flex-col items-center lg:w-[900px]">
-                                <div className="w-[450px] h-[480px] bg-white flex flex-col items-center justify-center lg:flex-row lg:w-[900px]">
-                                    <div className="w-[450px] bg-white flex flex-col items-center justify-center lg:items-start lg:ml-6">
-                                        
-                                        <div className="w-52 text-gray-700">
-                                            <label htmlFor="add">Add Participants</label>
-                                        </div>
-                                        <input className="w-52 h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] text-gray-700 pl-2 lg:w-64 outline-none" type="text" name="add" placeholder="participant's name..." value={newMember} 
-                                        onChange={(e) => setNewMember(e.target.value)}/>
-                                        <button type='button' onClick={()=>{newMember.length > 0 && 
-                                            AddMember(newMember).then(()=>{
-                                                const json_array = JSON.stringify(members);
-                                                sessionStorage.setItem('members', json_array);
-                                                setNewMember('');
-                                            }).then( console.log(sessionStorage.getItem('members'))
-                                            )}} className="w-52 h-12 bg-[#4169E1] text-center mb-2 lg:w-64 text-white" >Add</button>
-                                    </div>
-                                    <div className="w-52 max-h-60 overflow-auto cursor-default lg:mt-6 mb-4 lg:w-[400px] lg:max-h-[400px]">
-                                    {
-                                        members.length > 0 
-                                        &&
-                                        <ul className="text-black flex flex-col items-center mb-2">
-                                            {members.map((member, i) => (
-                                                <div key={i} className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2">
-                                                    <FaRegUserCircle className="w-[24px] h-[24px] text-[#4169E1]"/>
-                                                    <li className="text-center ">{member}</li>
-                                                </div>
-                                            ))}
-                                        </ul>
-                                        }
-                                        </div>
-                                </div>
-                                <button className="w-[400px] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="submit">Create Groups</button>
-                            </div> */}
-                        </div>
-                        
+                        </div>     
                 </div>
                 <Footer/>
             </main>

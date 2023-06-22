@@ -1,10 +1,15 @@
-const Display =()=>{
+const Display =(name, type)=>{
     return (
         <>
-            <div className="flex items-center justify-center -space-x-[258px] -space-y-[16px]">
-                <div className="w-[250px] h-[250px] bg-[#002147]"></div>
-                <div className="w-[250px] h-[250px] bg-white"></div>
-            </div>
+            <button type="button" className=" active:bg-inherit">
+                <div className="relative w-[250px] h-[250px] bg-[#4169E1] ml-2 mt-2">
+                    <div className="absolute flex flex-col justify-center gap-y-4 place-items-center w-full h-full -top-[3%] -left-[3%] bg-white">
+                       <h1 className=" text-4xl font-bold text-[#002147]">{name}</h1>
+                       <h3 className="text-lg text-[#002147]">{type}</h3> 
+                    </div>
+                </div>
+            </button>
+                
         </>
     )
 };

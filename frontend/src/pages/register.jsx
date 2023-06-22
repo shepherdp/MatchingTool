@@ -51,9 +51,9 @@ const Register=()=> {
                             email:data.email, 
                             password:data.password
                           })
-                  }).then(response => response.json())
+                  }).then(response => response)
                     .then(resp=>{
-                      if (resp.resp===true){
+                      if (resp.status===200){
                         navigate('/login');
                       }
                       else{

@@ -28,7 +28,7 @@ const PrivateRoute=({children})=>{
     }).then(response => response)
     .then(resp => setRefreshed(resp.ok))
 
-    fetch(`/user/dashboard`, options).then(response=> response)
+    fetch(`/member/dashboard`, options).then(response=> response)
         .then(resp=> {
             setJwt(resp.status)
         })
