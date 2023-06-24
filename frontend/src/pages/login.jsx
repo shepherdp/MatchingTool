@@ -2,8 +2,14 @@ import { useState } from 'react';
 import {FcGoogle} from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import { useContext } from 'react';
+import { groupContext } from '../helper/group_context';
+
 
 function Login() {
+
+  const {groups, setGroups} = useContext(groupContext)
+
   let navigate = useNavigate()
   const cookies = new Cookies()
   const [email, setEmail] = useState('')
@@ -42,21 +48,17 @@ function Login() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({email:email, pass:pass})
-        }).then(response => 
-          response.json()
-        )
-        .then(resp => 
-          {
-          if (resp['msg'] === 'logged in'){
+        }).then(response => Promise.all([response.json(), response.status]))
+        .then(([resp, status]) => {
+          if (status === 200){
             sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
             navigate('/dashboard')
           }
           else{
             alert('login failed! incorrect email address or password')
-          }    
-        }
-      )
-            
+          }   
+        })
+         
             }} className='bg-[#4169E1] font-semibold w-52 h-12 mb-4 text-white'>Login</button>
             <h3 className='text-gray-500 text-xs mb-4'>OR</h3>
             <a href="#">

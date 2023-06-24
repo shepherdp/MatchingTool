@@ -15,16 +15,16 @@ CORS(auth, supports_credentials=True,  origins=[
      'https://10.16.1.91:3000', 'https://localhost:3000'])
 
 
-class Users(db.Model):
-    id = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    email = db.Column(db.String(100))
-    password = db.Column(db.String(200))
+# class Users(db.Model):
+#     id = db.Column('id', db.Integer, primary_key=True)
+#     name = db.Column(db.String(100))
+#     email = db.Column(db.String(100))
+#     password = db.Column(db.String(200))
 
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
-        self.password = password
+#     def __init__(self, name, email, password):
+#         self.name = name
+#         self.email = email
+#         self.password = password
 
 
 @auth.route('/register', methods=['POST', 'GET'])
@@ -39,7 +39,8 @@ def register():
         new_user = {
             'name': new_name,
             'email': new_email,
-            'password': hashed_password
+            'password': hashed_password,
+            'groups': []
         }
         database['Users'].insert_one(new_user)
         return jsonify({'msg': 'Account created successfully'}), 200
@@ -59,6 +60,7 @@ def login():
     refresh_token = create_refresh_token(identity=user_email)
     groups = database['Users'].find_one({'email': user_email})['groups']
     resp = jsonify({'msg': 'logged in', 'groups': groups})
+    print(resp)
     resp.headers.add('Access-Control-Allow-Origin', 'https://10.16.1.91:3000')
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)

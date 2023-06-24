@@ -2,9 +2,14 @@ import { FaRegUserCircle } from "react-icons/fa"
 import Footer from "../components/footer"
 import LoggedNav from "../components/navbar"
 import { useEffect, useState } from "react";
-import {Send} from '../components/send_data';
+import {Send, getCookie} from '../components/send_data';
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { groupContext } from "../helper/group_context";
 
 const Members = () => {
+    const {setGroups} = useContext(groupContext)
+    const navigate = useNavigate()
     const [members, setMembers] = useState([])
     const [newMember, setNewMember] = useState('')
 
@@ -59,18 +64,35 @@ const Members = () => {
                                         </div>
                                     </div>
                                     <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="button" onClick={
-                                        ()=>{Send('/member/createmember', JSON.stringify({
-                                            name:sessionStorage.getItem('group_name'), 
-                                            type:sessionStorage.getItem('group_type'), 
-                                            participants:members})).then(()=>{
+                                        ()=>{fetch('/member/createmember', {
+                                            method: "POST",
+                                            credentials: 'include',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify({
+                                                    name:sessionStorage.getItem('group_name'), 
+                                                    type:sessionStorage.getItem('group_type'), 
+                                                    participants:members})
+                                        })
+                                           
+                                            .then(
+                                                response => response.json()
+                                            )
+                                            .then(
+                                                resp => 
+                                                sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
+                                                
+                                                    
+                                            )
+                                            .then(()=>navigate('../dashboard'))
+                                             .then(()=>{
                                                 sessionStorage.removeItem('group_name')
                                                 sessionStorage.removeItem('group_type')
                                                 sessionStorage.removeItem('members')
-                                            }).then(
-                                                response => response.json()
-                                            ).then(
-                                                resp => sessionStorage.setItem('groups', JSON.stringify(resp))
-                                            )}
+                                            })
+                                        }
                                     }>Create Groups</button>
                                 </div>
                             </div>

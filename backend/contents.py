@@ -1,6 +1,5 @@
 from flask import Flask, Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from authenticate import Users
 from database import db_init
 content = Blueprint('content', __name__)
 
@@ -40,4 +39,5 @@ def createMembers():
     database['Groups'].insert_one(new_group)
     database['Users'].update_one({'email': current_user}, {
                                  '$push': {'groups': [new_name, new_type]}})
-    return jsonify({'msg': 'group added successfully'}), 200
+    groups = database['Users'].find_one({'_id': owner})['groups']
+    return jsonify({'groups': groups}), 200

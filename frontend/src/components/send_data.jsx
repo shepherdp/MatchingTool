@@ -30,4 +30,4 @@ const SendWRes=async(path, data)=>{
     
 };
 
-export {Send, SendWRes};
+export {Send, SendWRes, getCookie};
