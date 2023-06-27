@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from database import db_init
+from matchmaker import Student, Graph, make_balanced_groups
 content = Blueprint('content', __name__)
 
 database = db_init()
@@ -15,7 +16,7 @@ def dashboard():
     return jsonify(logged_in_as=current_user), 200
 
 
-@content.route('createmember', methods=['POST'])
+@content.route('/createmember', methods=['POST'])
 @jwt_required()
 def createMembers():
     new_name = request.json['name']
@@ -41,3 +42,33 @@ def createMembers():
                                  '$push': {'groups': [new_name, new_type]}})
     groups = database['Users'].find_one({'_id': owner})['groups']
     return jsonify({'groups': groups}), 200
+
+
+@content.route('/maketeams', methods=['POST'])
+@jwt_required()
+def create_teams():
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+    group_name = request.json['group_name']
+    activity = request.json['activity_name']
+    per_team = request.json['size']
+    matching_option = request.json['matching_option']
+
+    owner = database['Users'].find_one({'email': current_user})['_id']
+
+    participants = database['Groups'].find_one({'owner': owner, 'group_name': group_name})[
+        'participants']
+
+    to_be_matched = []
+    for p in participants:
+        to_be_matched.append(Student(p[0], p[-1]))
+
+    graph = Graph()
+    teams = make_balanced_groups(graph=graph, students=to_be_matched,
+                                 previous_pairs=[], emphasis_on_new_teams=1, group_size=int(per_team))
+
+    for t in teams:
+        print(t[0].name, t[-1].name)
+
+    return jsonify({'msg': 'success'}), 200

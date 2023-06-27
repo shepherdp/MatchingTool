@@ -11,10 +11,12 @@ import PrivateRoute from './components/private_route';
 import MakeTeams from './pages/maketeams';
 import { groupContext } from './helper/group_context';
 import { useState } from 'react';
+import DisplayTeams from './pages/display_teams';
 
 const App =()=> {
 const [groups, setGroups] = useState(JSON.parse(sessionStorage.getItem('groups')))
 const [groupName, setGroupName] = useState(sessionStorage.getItem('groupName'))
+const [teams, setTeams] = useState(null)
   return (
     
     <>
@@ -38,6 +40,7 @@ const [groupName, setGroupName] = useState(sessionStorage.getItem('groupName'))
           <Route path='/create/type' element={<PrivateRoute><Type /> </PrivateRoute>} />
           <Route path='/maketeams/:groupName' element={<PrivateRoute><MakeTeams /> </PrivateRoute>} />
           <Route path='/create/addmember' element={<PrivateRoute><Members /> </PrivateRoute>} />
+          <Route path='/teams' element={<DisplayTeams /> } />
         </Routes>
        </BrowserRouter>
        </groupContext.Provider>
