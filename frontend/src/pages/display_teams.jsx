@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LoggedNav from '../components/navbar';
 import Footer from '../components/footer';
+import { useContext } from 'react';
+import { groupContext } from '../helper/group_context';
 
 function DisplayTeams() {
-    const teams = ['one', 'two', 'three', 'four', 'five'];
+    const {teams, setTeams} = useContext(groupContext)
+    useEffect(()=>{
+        const temp = JSON.parse(sessionStorage.getItem('teams'))
+        setTeams(temp)
+    }, [])
   return (
     <>
        <main className='min-h-sreen'>
@@ -13,8 +19,14 @@ function DisplayTeams() {
                         {teams.map((team, i)=>(
                             <div key={i}>
                                 <h1 className='w-52 text-center lg:w-64'>Team {i+1}</h1>
-                                <div className='w-52 m-h-52 h-52 bg-white lg:w-64 lg:m-h-64 lg:h-64'>
-                                    <h1>{team}</h1>
+                                <div className='flex justify-center place-items-center w-52 m-h-52 h-52 bg-white border-2 border-[#4169E1] lg:w-64 lg:m-h-64 lg:h-64'>
+                                    <ul>
+                                        {team.map((name, j)=>(
+                                            <li key={j}>
+                                                <h1>{name}</h1>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
                             </div>
                         ))}

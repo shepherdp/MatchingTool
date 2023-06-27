@@ -16,7 +16,7 @@ import DisplayTeams from './pages/display_teams';
 const App =()=> {
 const [groups, setGroups] = useState(JSON.parse(sessionStorage.getItem('groups')))
 const [groupName, setGroupName] = useState(sessionStorage.getItem('groupName'))
-const [teams, setTeams] = useState(null)
+const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
   return (
     
     <>
@@ -28,7 +28,7 @@ const [teams, setTeams] = useState(null)
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
         <link href="https://fonts.googleapis.com/css2?family=Changa:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     </header>
-    <groupContext.Provider value={{groups, setGroups, groupName, setGroupName}}>
+    <groupContext.Provider value={{groups, setGroups, groupName, setGroupName, teams, setTeams}}>
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<Login />} />
@@ -40,7 +40,7 @@ const [teams, setTeams] = useState(null)
           <Route path='/create/type' element={<PrivateRoute><Type /> </PrivateRoute>} />
           <Route path='/maketeams/:groupName' element={<PrivateRoute><MakeTeams /> </PrivateRoute>} />
           <Route path='/create/addmember' element={<PrivateRoute><Members /> </PrivateRoute>} />
-          <Route path='/teams' element={<DisplayTeams /> } />
+          <Route path='/teams' element={<PrivateRoute><DisplayTeams /></PrivateRoute> } />
         </Routes>
        </BrowserRouter>
        </groupContext.Provider>

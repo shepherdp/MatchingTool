@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from database import db_init
-from matchmaker import Student, Graph, make_balanced_groups
+from teams import makeTeams
 content = Blueprint('content', __name__)
 
 database = db_init()
@@ -25,12 +25,12 @@ def createMembers():
 
     new_type = request.json['type']
     new_participants = request.json['participants']
-
-    is_valid = database['Users'].find_one({'group_name': new_name})
-    if is_valid:
-        return jsonify({'msg': 'a group of the same name already exists'}), 500
     current_user = get_jwt_identity()
     owner = database['Users'].find_one({'email': current_user})['_id']
+    is_valid = database['Groups'].find_one(
+        {'group_name': new_name, 'owner': owner})
+    if is_valid:
+        return jsonify({'msg': 'a group of the same name already exists'}), 500
     new_group = {
         'group_name': new_name,
         'group_type': new_type,
@@ -60,15 +60,9 @@ def create_teams():
     participants = database['Groups'].find_one({'owner': owner, 'group_name': group_name})[
         'participants']
 
-    to_be_matched = []
-    for p in participants:
-        to_be_matched.append(Student(p[0], p[-1]))
+    teams = makeTeams(participants=participants,
+                      matching_option=matching_option, size=int(per_team))
 
-    graph = Graph()
-    teams = make_balanced_groups(graph=graph, students=to_be_matched,
-                                 previous_pairs=[], emphasis_on_new_teams=1, group_size=int(per_team))
+    print(teams)
 
-    for t in teams:
-        print(t[0].name, t[-1].name)
-
-    return jsonify({'msg': 'success'}), 200
+    return jsonify({'teams': teams}), 200

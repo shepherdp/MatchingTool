@@ -74,8 +74,7 @@ const Members = () => {
                                                     const json_array = JSON.stringify(members);
                                                     sessionStorage.setItem('members', json_array);
                                                     setNewMember('');
-                                                }).then( console.log(sessionStorage.getItem('members'))
-                                                )}} className="w-[70%] bg-[#4169E1] text-center mb-2 h-11 text-white" >Add</button>
+                                                })}} className="w-[70%] bg-[#4169E1] text-center mb-2 h-11 text-white" >Add</button>
                                         </div>
                                         <div className="static w-[70%] max-h-[40%] overflow-y-scroll cursor-default lg:mt-6 mb-4 lg:w-[60%] lg:max-h-[50%] lg:mr-4">
                                             {
@@ -116,20 +115,23 @@ const Members = () => {
                                         })
                                            
                                             .then(
-                                                response => response.json()
+                                                response => Promise.all([response.json(), response.status])
                                             )
                                             .then(
-                                                resp => 
-                                                sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
-                                                
+                                                ([resp, status]) => {
+                                                    if (status === 200){
+                                                        sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
+                                                        navigate('../dashboard')
+                                                        sessionStorage.removeItem('group_name')
+                                                        sessionStorage.removeItem('group_type')
+                                                        sessionStorage.removeItem('members')
+                                                    }
+                                                    else{
+                                                        alert('a group of the same name already exists')
+                                                    }
+                                                }
                                                     
                                             )
-                                            .then(()=>navigate('../dashboard'))
-                                             .then(()=>{
-                                                sessionStorage.removeItem('group_name')
-                                                sessionStorage.removeItem('group_type')
-                                                sessionStorage.removeItem('members')
-                                            })
                                         }
                                     }>Create Groups</button>
                                 </div>

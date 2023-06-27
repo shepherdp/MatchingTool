@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const MakeTeams=()=> {
     let navigate = useNavigate()
     const {groupName, setGroupName} = useContext(groupContext)
-    const options = ['random', 'skill-based', 'option 3', 'option 4']
+    const options = ['equal ratings', 'balanced', 'teams with leaders']
     const [isOpen, setIsOpen] = useState(false)
     const [selected, setSelected] = useState(options[0])
     const [name, setName] = useState('')
@@ -76,9 +76,11 @@ const MakeTeams=()=> {
                                     'matching_option':selected
                                 })
                         })
-                        // .then(response => response.json()).
-                        // then(resp => sessionStorage.setItem('teams', JSON.stringify(resp))).
-                        // then(()=> navigate('../../teams'))
+                        .then(response => response.json()).
+                        // then(resp => console.log(resp['teams']))
+                        then(resp => sessionStorage.setItem('teams', JSON.stringify(resp['teams']))).
+                        // then(console.log(JSON.parse(sessionStorage.getItem('teams'))))
+                        then(()=> navigate('../../teams'))
                     }}>Generate Teams</button>
                 </div>
                 
