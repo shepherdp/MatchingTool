@@ -63,6 +63,16 @@ def create_teams():
     teams = makeTeams(participants=participants,
                       matching_option=matching_option, size=int(per_team))
 
-    print(teams)
+    database['Teams'].insert_one({
+        activity: teams,
+        'owner': owner
+    })
+
+    for team in teams:
+        for lead in team:
+            for member in team:
+                if lead != member:
+                    database['Groups'].update_one({'owner': owner, 'group_name': group_name},
+                                                  {'$inc': {f'prev_ratings.{lead}.{member}': 1}})
 
     return jsonify({'teams': teams}), 200
