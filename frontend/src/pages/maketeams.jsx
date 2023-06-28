@@ -78,7 +78,10 @@ const MakeTeams=()=> {
                         })
                         .then(response => response.json()).
                         // then(resp => console.log(resp['teams']))
-                        then(resp => sessionStorage.setItem('teams', JSON.stringify(resp['teams']))).
+                        then(resp => {
+                            sessionStorage.setItem('teams', JSON.stringify(resp['teams']))
+                            sessionStorage.setItem('activity', resp['activity'])
+                        }).
                         // then(console.log(JSON.parse(sessionStorage.getItem('teams'))))
                         then(()=> navigate('../../teams'))
                     }}>Generate Teams</button>

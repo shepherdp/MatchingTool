@@ -75,4 +75,4 @@ def create_teams():
                     database['Groups'].update_one({'owner': owner, 'group_name': group_name},
                                                   {'$inc': {f'prev_ratings.{lead}.{member}': 1}})
 
-    return jsonify({'teams': teams}), 200
+    return jsonify({'teams': teams, 'activity': activity}), 200

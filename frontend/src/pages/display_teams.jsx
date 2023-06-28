@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import LoggedNav from '../components/navbar';
 import Footer from '../components/footer';
 import { useContext } from 'react';
@@ -6,15 +6,21 @@ import { groupContext } from '../helper/group_context';
 
 function DisplayTeams() {
     const {teams, setTeams} = useContext(groupContext)
+    const [activity, setActivity] = useState(null)
     useEffect(()=>{
         const temp = JSON.parse(sessionStorage.getItem('teams'))
         setTeams(temp)
+        const act = sessionStorage.getItem('activity')
+        setActivity(act)
     }, [])
   return (
     <>
        <main className='min-h-sreen'>
         <LoggedNav/>
-            <section className='bg-[#E6F3FE] min-h-screen overlfow-scroll'>
+            <section className=' bg-[#E6F3FE] min-h-screen overlfow-scroll'>
+                <div className='w-screen flex justify-center p-8'>
+                    <h1 className=' w-[50%] p-2 bg-white left-[25%] text-center text-2xl'>{activity}</h1>
+                </div>
                     <ul className='min-w-full max-h-screen overflow-x-hidden flex flex-wrap gap-10 justify-center lg:justify-start lg:pl-12 lg:pr-12 pb-6 pt-6 lg:gap-8 lg:pt-24'>
                         {teams.map((team, i)=>(
                             <div key={i}>
