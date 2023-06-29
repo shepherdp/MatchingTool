@@ -116,7 +116,9 @@ class Graph:
                         group_weights[j] += delta2
 
     def get_lowest_weight_group(self, previous_pairs, group_size=2):
+        group_size = int(group_size)
         min_weight_grouping = []
+
         dead_vertices = set()
         ranked_vertices = list(self.vertices.keys())
 
@@ -156,10 +158,11 @@ class Graph:
             dead_vertices.add(v1)
 
             min_weight_grouping.append(group)
-        return min_weight_grouping
+        return min_weight_grouping, previous_pairs
 
 
 def make_groups_with_equal_teammates(graph, students, previous_pairs, emphasis_on_new_teams, group_size):
+    group_size = int(group_size)
 
     # Add each student as a node to the graph
     for student in students:
@@ -195,14 +198,16 @@ def make_groups_with_equal_teammates(graph, students, previous_pairs, emphasis_o
                 graph.add_edge(student1, student2, edge_weight)
 
     # Find min weight matching
-    matching = graph.get_lowest_weight_group(previous_pairs, group_size)
+    matching, previous_pairs = graph.get_lowest_weight_group(
+        previous_pairs, group_size)
     for i in range(3):
         graph.swap_students(matching)
-    return matching
+    return matching, previous_pairs
 
 
 def make_balanced_groups(graph, students, previous_pairs, emphasis_on_new_teams, group_size):
-    # Add each student as a node to the graph
+    group_size = int(group_size)
+
     for student in students:
         graph.add_vertex(student)
 
@@ -238,13 +243,53 @@ def make_balanced_groups(graph, students, previous_pairs, emphasis_on_new_teams,
     print("graph constructed")
 
     # Find min weight matching
-    matching = graph.get_lowest_weight_group(previous_pairs, group_size)
+    matching, previous_pairs = graph.get_lowest_weight_group(
+        previous_pairs, group_size)
     for i in range(3):
         graph.swap_students(matching)
-    return matching
+    return matching, previous_pairs
+
+
+def make_random_groups(graph, students, previous_pairs, emphasis_on_new_teams, group_size):
+    group_size = int(group_size)
+
+    for student in students:
+        graph.add_vertex(student)
+
+    # Calculate the length of students list
+    num_students = len(students)
+
+    # Convert previous_pairs to a set of tuples for pair count calculation
+    previous_pairs_set = set((p[0], p[1]) for p in previous_pairs)
+
+    # Assign weights to edges between students
+    for i in range(num_students):
+        student1 = students[i]
+        for j in range(i + 1, num_students):
+            student2 = students[j]
+            edge_weight = 0
+            # Check the number of occurrences in previous pairings and increase the edge weight
+            pair_count = sum(
+                1 for p in previous_pairs_set if student1 in p and student2 in p)
+            is_forbidden = pair_count > 0 and any(
+                p[2] == -1 for p in previous_pairs if student1 in p and student2 in p)
+            edge_weight += pair_count * emphasis_on_new_teams
+
+            # Add weighted edge to the graph
+            if not is_forbidden:
+                graph.add_edge(student1, student2, edge_weight)
+
+    # Find min weight matching
+    matching, previous_pairs = graph.get_lowest_weight_group(
+        previous_pairs, group_size)
+    for i in range(3):
+        graph.swap_students(matching)
+    return matching, previous_pairs
 
 
 def make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_teams, group_size):
+    group_size = int(group_size)
+
     # Put leaders in a group
     leader_count = len(students) // group_size
     leaders = students[:leader_count]
@@ -283,13 +328,12 @@ def make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_te
             if (student1, student2) not in forbidden_pairs:
                 graph.add_edge(student1, student2, edge_weight)
 
-    # Find min weight matching
-    matching = graph.get_lowest_weight_group(previous_pairs, group_size)
-    # swap students to make better groups
+        # Find min weight matching
+    matching, previous_pairs = graph.get_lowest_weight_group(
+        previous_pairs, group_size)
     for i in range(3):
         graph.swap_students(matching)
-
-    return matching
+    return matching, previous_pairs
 
 
 def make_students(how_many_students):
@@ -313,7 +357,7 @@ def draw_previous_pairs_graph(previous_pairs):
 
     # Normalize the edge weights
     normalized_weights = [(weight - min(weights)) /
-                          (max(weights) - min(weights)+0.01) for weight in weights]
+                          (max(weights) - min(weights)+0.2) for weight in weights]
 
     # Define a colormap based on the pair counts
     cmap = plt.cm.get_cmap('YlGnBu')
@@ -327,246 +371,246 @@ def draw_previous_pairs_graph(previous_pairs):
     # Add labels to the nodes
     nx.draw_networkx_labels(G, pos)
 
+    # Draw the edges with the normalized weights
+    nx.draw_networkx_edges(G, pos, width=normalized_weights,
+                           edge_color='lightblue', edge_cmap=cmap)
+
     # Show the graph
     plt.axis('off')
     plt.show()
 
 
-def main():
-    # Example usage of the pair_students function
-    students = [
-        Student("Daniel", 1),
-        Student("Baniel", 1),
-        Student("Shaniel", 2),
-        Student("Maniel", 2),
-        Student("Sydney", 3),
-        Student("Bidney", 4),
-        Student("Kidney", 5),
-        Student("Fidney", 5),
-        Student("James", 5),
-        Student("Ava", 3),
-        Student("David", 2),
-        Student("Emma", 1),
-        Student("Joseph", 4),
-        Student("Chloe", 2),
-        Student("Samuel", 3),
-        Student("Grace", 1),
-        # Student("Benjamin", 3),
-        # Student("Mia", 2),
-        # Student("William", 4),
-        # Student("Isabella", 1),
-        # Student("Michael", 2),
-        # Student("Ella", 3),
-        # Student("Jacob", 4),
-        # Student("Abigail", 2),
-        # Student("Alexander", 3),
-        # Student("Sofia", 5),
-        # Student("Matthew", 2),
-        # Student("Victoria", 1),
-        # Student("Ryan", 4),
-        # Student("Madison", 3),
-        # Student("Joshua", 5),
-        # Student("Lily", 5),
-        # Student("Nathan", 4),
-        # Student("Grace", 5),
-        # Student("Christopher", 5),
-        # Student("Zoe", 1),
-        # Student("Hannah", 5),
-        # Student("Anthony", 5),
-        # Student("Natalie", 5),
-        # Student("William", 1),
-        # Student("Elizabeth", 4),
-        # Student("David", 3),
-        # Student("Samantha", 2),
-        # Student("Joseph", 1),
-        # Student("Addison", 4),
-        # Student("Andrew", 3),
-        # Student("Avery", 2),
-        # Student("Nicholas", 1),
-        # Student("Evelyn", 4),
-        # Student("Tyler", 3),
-        # Student("Aria", 2),
-        # Student("Benjamin", 1),
-        # Student("Grace", 5),
-        # Student("Christian", 5),
-        # Student("Charlotte", 5),
-        # Student("Jonathan", 5),
-        # Student("Chloe", 5),
-        # Student("Julian", 3),
-        # Student("Sofia", 2),
-        # Student("Daniel", 1),
-        # Student("Ella", 4),
-        # Student("Samuel", 3),
-        # Student("Avery", 5),
-        # Student("Liam", 1),
-        # Student("Evelyn", 4),
-        # Student("Caleb", 3),
-        # Student("Scarlett", 5),
-        # Student("Elijah", 1),
-        # Student("Audrey", 4),
-        # Student("Gabriel", 3),
-        # Student("Hazel", 2),
-        # Student("Jackson", 1),
-        # Student("Brooklyn", 4),
-        # Student("Benjamin", 3),
-        # Student("Layla", 2),
-        # Student("Mason", 1),
-        # Student("Paisley", 4),
-        # Student("Samuel", 3),
-        # Student("Nora", 5),
-        # Student("Logan", 1),
-        # Student("Ellie", 4),
-        # Student("Daniel", 3),
-        # Student("Zoey", 2),
-        # Student("Christopher", 1),
-        # Student("Lucy", 4),
-        # Student("Jacob", 3),
-        # ...
-    ]
+# def main():
+#     # Example usage of the pair_students function
+#     students = [
+#         Student("Daniel", 1),
+#         Student("Baniel", 1),
+#         Student("Shaniel", 2),
+#         Student("Maniel", 2),
+#         Student("Sydney", 3),
+#         Student("Bidney", 4),
+#         Student("Kidney", 5),
+#         Student("Fidney", 5),
+#         Student("James", 5),
+#         Student("Ava", 3),
+#         Student("David", 2),
+#         Student("Emma", 1),
+#         Student("Joseph", 4),
+#         Student("Chloe", 2),
+#         Student("Samuel", 3),
+#         Student("Grace", 1),
+#         # Student("Benjamin", 3),
+#         # Student("Mia", 2),
+#         # Student("William", 4),
+#         # Student("Isabella", 1),
+#         # Student("Michael", 2),
+#         # Student("Ella", 3),
+#         # Student("Jacob", 4),
+#         # Student("Abigail", 2),
+#         # Student("Alexander", 3),
+#         # Student("Sofia", 5),
+#         # Student("Matthew", 2),
+#         # Student("Victoria", 1),
+#         # Student("Ryan", 4),
+#         # Student("Madison", 3),
+#         # Student("Joshua", 5),
+#         # Student("Lily", 5),
+#         # Student("Nathan", 4),
+#         # Student("Grace", 5),
+#         # Student("Christopher", 5),
+#         # Student("Zoe", 1),
+#         # Student("Hannah", 5),
+#         # Student("Anthony", 5),
+#         # Student("Natalie", 5),
+#         # Student("William", 1),
+#         # Student("Elizabeth", 4),
+#         # Student("David", 3),
+#         # Student("Samantha", 2),
+#         # Student("Joseph", 1),
+#         # Student("Addison", 4),
+#         # Student("Andrew", 3),
+#         # Student("Avery", 2),
+#         # Student("Nicholas", 1),
+#         # Student("Evelyn", 4),
+#         # Student("Tyler", 3),
+#         # Student("Aria", 2),
+#         # Student("Benjamin", 1),
+#         # Student("Grace", 5),
+#         # Student("Christian", 5),
+#         # Student("Charlotte", 5),
+#         # Student("Jonathan", 5),
+#         # Student("Chloe", 5),
+#         # Student("Julian", 3),
+#         # Student("Sofia", 2),
+#         # Student("Daniel", 1),
+#         # Student("Ella", 4),
+#         # Student("Samuel", 3),
+#         # Student("Avery", 5),
+#         # Student("Liam", 1),
+#         # Student("Evelyn", 4),
+#         # Student("Caleb", 3),
+#         # Student("Scarlett", 5),
+#         # Student("Elijah", 1),
+#         # Student("Audrey", 4),
+#         # Student("Gabriel", 3),
+#         # Student("Hazel", 2),
+#         # Student("Jackson", 1),
+#         # Student("Brooklyn", 4),
+#         # Student("Benjamin", 3),
+#         # Student("Layla", 2),
+#         # Student("Mason", 1),
+#         # Student("Paisley", 4),
+#         # Student("Samuel", 3),
+#         # Student("Nora", 5),
+#         # Student("Logan", 1),
+#         # Student("Ellie", 4),
+#         # Student("Daniel", 3),
+#         # Student("Zoey", 2),
+#         # Student("Christopher", 1),
+#         # Student("Lucy", 4),
+#         # Student("Jacob", 3),
+#         # ...
+#     ]
 
-    # students = make_students(100)
+#     #students = make_students(100)
 
-    # Previous student pairings
-    previous_pairs = [
-        # ...
-    ]
+#     # Previous student pairings
+#     previous_pairs = [
+#         # ...
+#     ]
 
-    # Special pairs of students that should never be paired
-    # forbidden pairs need to be added as a previous pairing with -1 ocurrences
-
-    # should priority be on newness or balanced teams:
-    emphasis_on_new_teams = 1  # higher = more newness
-
-    # Group sizes - how many students should be in each group
-    global group_size
-    group_size = 2
-
-    choice = 'y'
-    graph = Graph()
-
-    while choice.lower() == 'y':
-        # get initial groupings
-
-        def run_algorithm1():
-
-            paired_students = make_balanced_groups(
-                graph, students, previous_pairs, emphasis_on_new_teams, group_size)
-            draw_previous_pairs_graph(previous_pairs)
-            graph.draw_graph()
-
-            # Populate the result text widget with the paired students
-            for group in paired_students:
-                add_line = True
-                for student in group:
-                    line = "______________________________________________________________________________________________________________________________________________________"
-                    if add_line:
-                        result_text.insert(tk.END, str(line + "\n\n\t" + student.name) + "\t" + "\t" + str(
-                            student.rating) + "\n")
-                    else:
-                        result_text.insert(tk.END, str(
-                            "\t" + student.name) + "\t" + "\t" + str(student.rating) + "\n")
-                    add_line = False
-
-        def run_algorithm2():
-            paired_students = make_groups_with_equal_teammates(
-                graph, students, previous_pairs, emphasis_on_new_teams, group_size)
-            draw_previous_pairs_graph(previous_pairs)
-            graph.draw_graph()
-            # Clear the previous result display
-            result_text.delete("1.0", tk.END)
-
-            # Populate the result text widget with the paired students
-            for group in paired_students:
-                add_line = True
-                for student in group:
-                    line = "______________________________________________________________________________________________________________________________________________________"
-                    if add_line:
-                        result_text.insert(tk.END, str(line + "\n\n\t" + student.name) + "\t" + "\t" + str(
-                            student.rating) + "\n")
-                    else:
-                        result_text.insert(tk.END, str(
-                            "\t" + student.name) + "\t" + "\t" + str(student.rating) + "\n")
-                    add_line = False
-
-        def run_algorithm3():
-            paired_students = make_groups_with_leaders(
-                graph, students, previous_pairs, emphasis_on_new_teams, group_size)
-            draw_previous_pairs_graph(previous_pairs)
-            graph.draw_graph()
-            # Clear the previous result display
-            result_text.delete("1.0", tk.END)
-
-            # Populate the result text widget with the paired students
-            for group in paired_students:
-                add_line = True
-                for student in group:
-                    line = "______________________________________________________________________________________________________________________________________________________"
-                    if add_line:
-                        result_text.insert(tk.END, str(line + "\n\n\t" + student.name) + "\t" + "\t" + str(
-                            student.rating) + "\n")
-                    else:
-                        result_text.insert(tk.END, str(
-                            "\t" + student.name) + "\t" + "\t" + str(student.rating) + "\n")
-                    add_line = False
-
-        # Create the Tkinter window
-        window = tk.Tk()
-        window.title("Teammate Pairs")
-
-        def update_group_size(event):
-            global group_size  # Declare 'group_size' as a global variable
-            # Get the value from the entry box and convert it to an integer
-            group_sz = int(entry.get())
-
-            group_size = group_sz
-            # Update the label with the new group size
-            label.config(text="Group Size: " + str(group_size))
-            entry.delete(0, tk.END)  # Clear the entry box
-
-        # Create a label for the entry box
-        label = tk.Label(window, text="Group Size: " + str(group_size))
-        label.grid(row=0, column=0, padx=5, pady=10, sticky="W")
-
-        # Create an entry box
-        entry = tk.Entry(window)
-        entry.grid(row=0, column=1, padx=5, pady=10, sticky="W")
-
-        # Configure the entry box to call the update_group_size function whenever the Enter key is pressed
-        entry.bind('<Return>', update_group_size)
-
-        # Create the buttons and place them side by side using the grid layout manager
-        button = tk.Button(
-            window, text="Make Balanced Groups", command=run_algorithm1)
-        button.grid(row=0, column=2, padx=5, pady=10, sticky="W")
-
-        button1 = tk.Button(
-            window, text="Make Even Students Groups", command=run_algorithm2)
-        button1.grid(row=0, column=3, padx=5, pady=10, sticky="W")
-
-        button2 = tk.Button(
-            window, text="Make Groups With Leaders", command=run_algorithm3)
-        button2.grid(row=0, column=4, padx=5, pady=10, sticky="W")
-
-        # Create a text widget to display the result
-        result_text = tk.Text(window, width=150, height=40)
-        result_text.grid(row=1, column=0, columnspan=5, padx=10, pady=10)
-
-        # Configure the font size of the result text widget
-        result_font = font.Font(size=12, family="Verdana")
-        result_text.configure(font=result_font)
-
-        # Create a scrollbar for the result text widget
-        scrollbar = tk.Scrollbar(window, command=result_text.yview)
-        scrollbar.grid(row=1, column=5, sticky="NS")
-        result_text.config(yscrollcommand=scrollbar.set)
-
-        # Start the Tkinter event loop
-        window.mainloop()
-        #####################################################################################################
-
-        # Ask the user if they want to generate another pairing
-        choice = input("\nGenerate another pairing? (y/n): \n")
+#     # Special pairs of students that should never be paired
+#     # forbidden pairs need to be added as a previous pairing with -1 ocurrences
 
 
-if __name__ == "__main__":
-    main()
+#     # should priority be on newness or balanced teams:
+#     emphasis_on_new_teams = 1 # higher = more newness
+
+#     #Group sizes - how many students should be in each group
+#     global group_size
+#     group_size = 2
+
+
+#     choice = 'y'
+#     graph = Graph()
+
+#     while choice.lower() == 'y':
+#         # get initial groupings
+
+
+#         def run_algorithm1():
+#             previous_pairs = []
+#             paired_students, previous_pairs = make_balanced_groups(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
+#             draw_previous_pairs_graph(previous_pairs)
+#             graph.draw_graph()
+#             # Clear the previous result display
+#             result_text.delete("1.0", tk.END)
+#             # Populate the result text widget with the paired students
+#             for group in paired_students:
+#                 add_line = True
+#                 for student in group:
+#                     line = "______________________________________________________________________________________________________________________________________________________"
+#                     if add_line:
+#                         result_text.insert(tk.END, str(line + "\n\n\t" + student.name) + "\t" + "\t" + str(
+#                             student.rating) + "\n")
+#                     else:
+#                         result_text.insert(tk.END, str("\t" + student.name) + "\t" + "\t" + str(student.rating) + "\n")
+#                     add_line = False
+
+#         def run_algorithm2():
+#             previous_pairs = []
+#             paired_students, previous_pairs = make_groups_with_equal_teammates(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
+#             draw_previous_pairs_graph(previous_pairs)
+#             graph.draw_graph()
+#             # Clear the previous result display
+#             result_text.delete("1.0", tk.END)
+
+#             # Populate the result text widget with the paired students
+#             for group in paired_students:
+#                 add_line = True
+#                 for student in group:
+#                     line = "______________________________________________________________________________________________________________________________________________________"
+#                     if add_line:
+#                         result_text.insert(tk.END, str(line + "\n\n\t" + student.name) + "\t" + "\t" + str(
+#                             student.rating) + "\n")
+#                     else:
+#                         result_text.insert(tk.END, str("\t" + student.name) + "\t" + "\t" + str(student.rating) + "\n")
+#                     add_line = False
+
+#         def run_algorithm3():
+#             previous_pairs = []
+#             paired_students, previous_pairs = make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
+#             draw_previous_pairs_graph(previous_pairs)
+#             graph.draw_graph()
+#             # Clear the previous result display
+#             result_text.delete("1.0", tk.END)
+
+#             # Populate the result text widget with the paired students
+#             for group in paired_students:
+#                 add_line = True
+#                 for student in group:
+#                     line = "______________________________________________________________________________________________________________________________________________________"
+#                     if add_line:
+#                         result_text.insert(tk.END, str(line + "\n\n\t" + student.name) + "\t" + "\t" + str(
+#                             student.rating) + "\n")
+#                     else:
+#                         result_text.insert(tk.END, str("\t" + student.name) + "\t" + "\t" + str(student.rating) + "\n")
+#                     add_line = False
+
+#         # Create the Tkinter window
+#         window = tk.Tk()
+#         window.title("Teammate Pairs")
+
+#         def update_group_size(event):
+#             global group_size  # Declare 'group_size' as a global variable
+#             group_sz = int(entry.get())  # Get the value from the entry box and convert it to an integer
+
+#             group_size = group_sz
+#             label.config(text="Group Size: " + str(group_size))  # Update the label with the new group size
+#             entry.delete(0, tk.END)  # Clear the entry box
+
+#         # Create a label for the entry box
+#         label = tk.Label(window, text="Group Size: " + str(group_size))
+#         label.grid(row=0, column=0, padx=5, pady=10, sticky="W")
+
+#         # Create an entry box
+#         entry = tk.Entry(window)
+#         entry.grid(row=0, column=1, padx=5, pady=10, sticky="W")
+
+#         # Configure the entry box to call the update_group_size function whenever the Enter key is pressed
+#         entry.bind('<Return>', update_group_size)
+
+#         # Create the buttons and place them side by side using the grid layout manager
+#         button = tk.Button(window, text="Make Balanced Groups", command=run_algorithm1)
+#         button.grid(row=0, column=2, padx=5, pady=10, sticky="W")
+
+#         button1 = tk.Button(window, text="Make Even Students Groups", command=run_algorithm2)
+#         button1.grid(row=0, column=3, padx=5, pady=10, sticky="W")
+
+#         button2 = tk.Button(window, text="Make Groups With Leaders", command=run_algorithm3)
+#         button2.grid(row=0, column=4, padx=5, pady=10, sticky="W")
+
+#         # Create a text widget to display the result
+#         result_text = tk.Text(window, width=150, height=40)
+#         result_text.grid(row=1, column=0, columnspan=5, padx=10, pady=10)
+
+#         # Configure the font size of the result text widget
+#         result_font = font.Font(size=12, family="Verdana")
+#         result_text.configure(font=result_font)
+
+#         # Create a scrollbar for the result text widget
+#         scrollbar = tk.Scrollbar(window, command=result_text.yview)
+#         scrollbar.grid(row=1, column=5, sticky="NS")
+#         result_text.config(yscrollcommand=scrollbar.set)
+
+#         # Start the Tkinter event loop
+#         window.mainloop()
+#         #####################################################################################################
+
+
+#         # Ask the user if they want to generate another pairing
+#         choice = input("\nGenerate another pairing? (y/n): \n")
+
+
+# if __name__ == "__main__":
+#     main()

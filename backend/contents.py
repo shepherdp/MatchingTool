@@ -60,19 +60,32 @@ def create_teams():
     participants = database['Groups'].find_one({'owner': owner, 'group_name': group_name})[
         'participants']
 
-    teams = makeTeams(participants=participants,
-                      matching_option=matching_option, size=int(per_team))
+    in_previous_pairs = database['Groups'].find_one({'owner': owner, 'group_name': group_name})[
+        'prev_ratings']
 
+    # prev_pairs = []
+
+    # if in_previous_pairs:
+    #     for key, value in in_previous_pairs.items():
+    #         prev_pairs.append([key, value])
+
+    # print(prev_pairs)
+    teams, out_prev_matchings = makeTeams(participants=participants,
+                                          matching_option=matching_option, size=int(per_team))
+
+    updated_prev_matchings = {}
+
+    for pairs in out_prev_matchings:
+        updated_prev_matchings[pairs[0].name] = {}
+        updated_prev_matchings[pairs[0].name][pairs[1].name] = pairs[-1]
+
+    print(updated_prev_matchings)
     database['Teams'].insert_one({
         activity: teams,
         'owner': owner
     })
 
-    for team in teams:
-        for lead in team:
-            for member in team:
-                if lead != member:
-                    database['Groups'].update_one({'owner': owner, 'group_name': group_name},
-                                                  {'$inc': {f'prev_ratings.{lead}.{member}': 1}})
+    database['Groups'].update_one({'owner': owner, 'group_name': group_name},
+                                  {'$set': {'prev_ratings': updated_prev_matchings}})
 
     return jsonify({'teams': teams, 'activity': activity}), 200
