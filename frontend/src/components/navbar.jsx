@@ -1,6 +1,8 @@
 import {RiUserSettingsLine} from 'react-icons/ri'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { getCookie } from './send_data';
+
 
 const LoggedNav = () => {
     const navigate = useNavigate()
@@ -15,9 +17,19 @@ const LoggedNav = () => {
                                 <p className="leading-[18px] mt-[21px] text-center text-xl font-bold font-display">ATCH <br/> AKER</p>
                             </div>
                         </button>
-                        <Link className="mr-12 mt-4 align-middle mb-2 p-2 pt-1 font-semibold" href="#">
-                            <RiUserSettingsLine className="w-[26px] h-[26px] text-white"/>
-                        </Link>
+                        <button className="mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white" onClick={
+                            ()=>{fetch(`/user/logout`, {
+                                method: "POST",
+                                credentials: 'include',
+                                    headers: {
+                                        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                                        'Content-Type': 'application/json'
+                                    },
+                            })
+                        .then(navigate('/login'))}
+                        }>
+                            Logout
+                        </button>
                     </div>   
                 </header>
             </section>

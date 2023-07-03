@@ -60,16 +60,17 @@ def create_teams():
     participants = database['Groups'].find_one({'owner': owner, 'group_name': group_name})[
         'participants']
 
-    in_previous_pairs = database['Groups'].find_one({'owner': owner, 'group_name': group_name})[
-        'prev_ratings']
+    in_previous_pairs = database['Groups'].find_one(
+        {'owner': owner, 'group_name': group_name})
 
-    # prev_pairs = []
+    prev_pairs = []
 
-    # if in_previous_pairs:
-    #     for key, value in in_previous_pairs.items():
-    #         prev_pairs.append([key, value])
+    if 'prev_ratings' in in_previous_pairs:
+        for key, value in in_previous_pairs['prev_ratings'].items():
+            prev_pairs.append([key, list(value.keys())[0],
+                              value[list(value.keys())[0]]])
 
-    # print(prev_pairs)
+    print(prev_pairs)
     teams, out_prev_matchings = makeTeams(participants=participants,
                                           matching_option=matching_option, size=int(per_team))
 
