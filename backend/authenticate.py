@@ -3,7 +3,7 @@ from database import db, db_init
 import json
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
-                                set_access_cookies, set_refresh_cookies, create_refresh_token)
+                                set_access_cookies, set_refresh_cookies, create_refresh_token, unset_jwt_cookies)
 from flask_cors import CORS
 auth = Blueprint('auth', __name__)
 
@@ -66,6 +66,14 @@ def login():
     set_refresh_cookies(resp, refresh_token)
     print(resp.headers)
     return resp, 200, {'Access-Control-Allow-Credentials': 'true'}
+
+
+@auth.route("/logout", methods=["POST"])
+@jwt_required()
+def logout_with_cookies():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
 
 
 @auth.route('/refresh', methods=['POST'])
