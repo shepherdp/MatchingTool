@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useContext } from 'react';
 import { groupContext } from '../helper/group_context';
+import { NonLoggedNav } from '../components/navbar';
 
 
 function Login() {
 
   const {groups, setGroups} = useContext(groupContext)
-
   let navigate = useNavigate()
   const cookies = new Cookies()
   const [email, setEmail] = useState('')
@@ -20,19 +20,7 @@ function Login() {
     <>
       
       <main className="min-h-screen">
-        <section>
-          <header className='justify-start'>
-            <div className=' flex justify-between min-w-screen bg-[#4169E1]'>
-              <a href="#">
-                <div className=' flex min-w-screen  ml-12 text-white'>
-                <h1 className=' text-5xl mt-4  ml-2 font-bold font-displa'>M</h1>
-                <p className=' leading-[18px] mt-[21px] text-center text-xl font-bold font-display'>ATCH <br/> AKER</p>
-                </div>
-              </a>
-              <button type='button' onClick={()=>navigate('/register')} className='mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white'>Register</button>
-            </div>
-          </header>
-        </section>
+        <NonLoggedNav name='Register' direction='/register'/>
         <section className='bg-[#E6F3FE] min-h-screen'>
           <div className='h-screen w-screen flex items-center justify-center -space-x-[308px] -space-y-[16px]'>
           <div className='w-[300px] h-[450px] bg-[#4169E1]'></div>
