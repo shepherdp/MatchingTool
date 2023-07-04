@@ -4,7 +4,7 @@ import Footer from "../components/footer";
 import { GrLinkNext } from "react-icons/gr";
 import { useState } from "react";
 import {IoMdArrowDropdown, IoMdArrowDropup} from 'react-icons/io';
-import {Send} from "../components/send_data";
+import {Send} from "../components/queries";
 import { useNavigate } from "react-router-dom";
 
 const Type =()=>{

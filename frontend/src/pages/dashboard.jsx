@@ -6,21 +6,40 @@ import Display from "../components/displays";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { groupContext } from "../helper/group_context";
+import { getCookie } from "../components/queries";
 
 const Dashboard =()=>{
     const {groups, setGroups} = useContext(groupContext)
     let navigate = useNavigate()
 
+
     useEffect(()=>{
         const val = JSON.parse(sessionStorage.getItem('groups'));
-        setGroups(val)
+        if (!val){
+            fetch(
+                `/member/getparticipants`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                            'Content-Type': 'application/json'
+                    }
+                }
+            ).
+            then(response => response.json()).
+            then(resp => setGroups(resp['groups']))
+        }
+        else{
+            setGroups(val)
+        }
+        
     }, [])
     
     return (
         <main className="w-screen">
             <LoggedNav />
             <section className="bg-[#E6F3FE] min-h-screen">
-                {groups === null ? <h1>loading...</h1> : <ul className=" min-w-full max-h-screen overflow-x-hidden flex flex-wrap gap-4 justify-center lg:justify-start lg:pl-12 lg:pr-12 pb-6 pt-6 lg:gap-8 lg:pt-24">
+                {groups !== null && <ul className=" min-w-full max-h-screen overflow-x-hidden flex flex-wrap gap-4 justify-center lg:justify-start lg:pl-12 lg:pr-12 pb-6 pt-6 lg:gap-8 lg:pt-24">
                     
                     <ul className="min-w-full max-h-screen overflow-x-hidden flex place-items-center flex-col justify-center lg:flex-wrap lg:flex-row gap-4 lg:justify-start lg:pl-12 lg:pr-12 pb-6 lg:gap-8 lg:pt-24">
                     <li>

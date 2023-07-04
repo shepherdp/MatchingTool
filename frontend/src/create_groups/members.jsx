@@ -2,7 +2,7 @@ import { FaRegUserCircle } from "react-icons/fa"
 import Footer from "../components/footer"
 import LoggedNav from "../components/navbar"
 import { useEffect, useState } from "react";
-import {Send, getCookie} from '../components/send_data';
+import {Send, getCookie} from '../components/queries';
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { groupContext } from "../helper/group_context";

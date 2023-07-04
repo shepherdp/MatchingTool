@@ -7,10 +7,10 @@ import {useNavigate} from 'react-router-dom'
 import {FiDelete} from 'react-icons/fi'
 import { useContext } from 'react';
 import { groupContext } from '../helper/group_context';
-import { getCookie } from '../components/send_data';
+import { getCookie } from '../components/queries';
 
 const EditParticipants =()=> {
-    const [members, setMembers] = useState([['one', 3], ['two', 4], ['three', 2], ['four', 5], ['five', 3]])
+    const [members, setMembers] = useState([])
     const ratings = [1,2,3,4,5]
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
@@ -37,14 +37,17 @@ const EditParticipants =()=> {
       }, []);
 
       useEffect(()=>{
-        fetch(fetch('/member/createmember', {
-            method: "GET",
+        fetch(fetch('/member/getparticipants', {
+            method: "POST",
             credentials: 'include',
                 headers: {
                     'X-CSRF-TOKEN': getCookie('csrf_access_token'),
                     'Content-Type': 'application/json'
                 },
-        }))
+                body: JSON.stringify({
+
+                    group_name:sessionStorage.getItem('groupName')})
+        })).then(response => response.json()).then(res => setMembers(res['participants']))
       }, [])
 
   return (

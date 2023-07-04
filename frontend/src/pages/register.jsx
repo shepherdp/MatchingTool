@@ -1,5 +1,5 @@
 import {FcGoogle} from 'react-icons/fc';
-import {SendWRes} from '../components/send_data';
+import {SendWRes} from '../components/queries';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {schema} from '../validation/validate_registration';

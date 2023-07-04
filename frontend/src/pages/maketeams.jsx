@@ -4,7 +4,7 @@ import LoggedNav from "../components/navbar";
 import Footer from "../components/footer";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import { getCookie } from "../components/send_data";
+import { getCookie } from "../components/queries";
 import { useNavigate } from "react-router-dom";
 const MakeTeams=()=> {
     let navigate = useNavigate()

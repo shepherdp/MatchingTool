@@ -30,4 +30,14 @@ const SendWRes=async(path, data)=>{
     
 };
 
+export const GetGroups = fetch(
+    `/member/getparticipants`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                'Content-Type': 'application/json'
+        }
+    }
+)
 export {Send, SendWRes, getCookie};

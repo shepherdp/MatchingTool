@@ -35,7 +35,7 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/editparticipants' element={<EditParticipants/>} />
+          <Route path='/editparticipants' element={<PrivateRoute><EditParticipants/></PrivateRoute>} />
           <Route path='/' element = {<Home/>} />
           <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
           <Route path='/test' element={<Test />} />

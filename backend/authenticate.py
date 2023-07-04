@@ -15,18 +15,6 @@ CORS(auth, supports_credentials=True,  origins=[
      'https://10.16.1.91:3000', 'https://localhost:3000'])
 
 
-# class Users(db.Model):
-#     id = db.Column('id', db.Integer, primary_key=True)
-#     name = db.Column(db.String(100))
-#     email = db.Column(db.String(100))
-#     password = db.Column(db.String(200))
-
-#     def __init__(self, name, email, password):
-#         self.name = name
-#         self.email = email
-#         self.password = password
-
-
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
     new_name = request.json['name']
@@ -93,5 +81,20 @@ def refresh():
 def verify():
     current_user = get_jwt_identity()
     if not current_user:
-        print('error')
+        return jsonify({'msg': 'forbiden access'}), 401
     return jsonify(logged_in_as=current_user), 200, {'Access-Control-Allow-Credentials': 'true'}
+
+
+@auth.route('/delete', methods=['GET'])
+@jwt_required()
+def DeleteAcc():
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    database['Teams'].delete_many({'owner': owner})
+    database['Groups'].delete_many({'owner': owner})
+    database['Users'].delete_many({'_id': owner})
+    response = jsonify({"msg": "account deleted successfully"})
+    unset_jwt_cookies(response)
+    return response, 200

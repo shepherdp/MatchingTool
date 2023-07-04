@@ -1,7 +1,7 @@
 import {RiUserSettingsLine} from 'react-icons/ri'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { getCookie } from './send_data';
+import { getCookie } from './queries';
 
 
 const LoggedNav = () => {
@@ -33,7 +33,7 @@ const LoggedNav = () => {
                                         'Content-Type': 'application/json'
                                     },
                             })
-                        .then(navigate('/login'))}
+                        .then(sessionStorage.clear()).then(navigate('/login'))}
                         }>
                             Logout
                         </button>
