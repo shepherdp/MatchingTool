@@ -5,6 +5,9 @@ import {IoMdArrowDropdown, IoMdArrowDropup} from 'react-icons/io'
 import {FaRegUserCircle} from 'react-icons/fa'
 import {useNavigate} from 'react-router-dom'
 import {FiDelete} from 'react-icons/fi'
+import { useContext } from 'react';
+import { groupContext } from '../helper/group_context';
+import { getCookie } from '../components/send_data';
 
 const EditParticipants =()=> {
     const [members, setMembers] = useState([['one', 3], ['two', 4], ['three', 2], ['four', 5], ['five', 3]])
@@ -32,6 +35,17 @@ const EditParticipants =()=> {
           document.removeEventListener('mousedown', handleOutsideClick);
         };
       }, []);
+
+      useEffect(()=>{
+        fetch(fetch('/member/createmember', {
+            method: "GET",
+            credentials: 'include',
+                headers: {
+                    'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                    'Content-Type': 'application/json'
+                },
+        }))
+      }, [])
 
   return (
     <>
@@ -122,40 +136,36 @@ const EditParticipants =()=> {
                     </div>
                     <div className=' flex w-full max-h-[20%] place-items-center justify-center'>
                     <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="button" 
-                    // onClick={
-                    //     ()=>{fetch('/member/createmember', {
-                    //         method: "POST",
-                    //         credentials: 'include',
-                    //             headers: {
-                    //                 'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-                    //                 'Content-Type': 'application/json'
-                    //             },
-                    //             body: JSON.stringify({
-                    //                 name:sessionStorage.getItem('group_name'), 
-                    //                 type:sessionStorage.getItem('group_type'), 
-                    //                 participants:members})
-                    //     })
+                    onClick={
+                        ()=>{fetch('/member/createmember', {
+                            method: "POST",
+                            credentials: 'include',
+                                headers: {
+                                    'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+ 
+                                    participants:members})
+                        })
                             
-                    //         .then(
-                    //             response => Promise.all([response.json(), response.status])
-                    //         )
-                    //         .then(
-                    //             ([resp, status]) => {
-                    //                 if (status === 200){
-                    //                     sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
-                    //                     navigate('../dashboard')
-                    //                     sessionStorage.removeItem('group_name')
-                    //                     sessionStorage.removeItem('group_type')
-                    //                     sessionStorage.removeItem('members')
-                    //                 }
-                    //                 else{
-                    //                     alert('a group of the same name already exists')
-                    //                 }
-                    //             }
+                            .then(
+                                response => Promise.all([response.json(), response.status])
+                            )
+                            .then(
+                                ([resp, status]) => {
+                                    if (status === 200){
+                                        sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
+                                        navigate('../dashboard')
+                                    }
+                                    else{
+                                        alert('a group of the same name already exists')
+                                    }
+                                }
                                     
-                    //         )
-                    //     }
-                    // }
+                            )
+                        }
+                    }
                     >Save Changes</button>
                     </div>
                     </div>
