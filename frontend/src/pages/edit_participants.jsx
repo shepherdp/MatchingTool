@@ -37,7 +37,7 @@ const EditParticipants =()=> {
       }, []);
 
       useEffect(()=>{
-        fetch(fetch('/member/getparticipants', {
+        fetch('/member/getparticipants', {
             method: "POST",
             credentials: 'include',
                 headers: {
@@ -47,7 +47,7 @@ const EditParticipants =()=> {
                 body: JSON.stringify({
 
                     group_name:sessionStorage.getItem('groupName')})
-        })).then(response => response.json()).then(res => setMembers(res['participants']))
+        }).then(response => response.json()).then(res => setMembers(res['participants']))
       }, [])
 
   return (
@@ -149,9 +149,9 @@ const EditParticipants =()=> {
                                 },
                                 body: JSON.stringify({
  
-                                    participants:members})
+                                    participants:members, group_name:sessionStorage.getItem('groupName')})
                         })
-                            
+                            // .then(response => response.json()).then(resp => console.log(resp))
                             .then(
                                 response => Promise.all([response.json(), response.status])
                             )
@@ -183,3 +183,33 @@ const EditParticipants =()=> {
 }
 
 export default EditParticipants;
+
+
+
+
+
+
+
+
+
+// const teams = [
+//     ['T10', 
+    
+//     [['one', 'two', 'three'], ['four', 'five', 'six']]
+// ], 
+
+
+// ]
+
+// teams.map((team, i)=>{
+//     const name = team[0]
+//     const each_team = team[0]
+//     each_team.map((t, j)=>{
+//         t.map((name, k)=>{
+//             <h1>{name}</h1>
+//         })
+//     })
+// })
+
+// const team1_name = team1[0]
+// const team1_teams = team1[1]

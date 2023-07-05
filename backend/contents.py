@@ -79,10 +79,11 @@ def create_teams():
         updated_prev_matchings[pairs[0].name] = {}
         updated_prev_matchings[pairs[0].name][pairs[1].name] = pairs[-1]
 
-    print(updated_prev_matchings)
+    print(group_name)
     database['Teams'].insert_one({
         activity: teams,
-        'owner': owner
+        'owner': owner,
+        'group_name': group_name
     })
 
     database['Groups'].update_one({'owner': owner, 'group_name': group_name},
@@ -108,12 +109,37 @@ def GetParticipants():
     return jsonify({'participants': participants}), 200
 
 
-@content.route('/editparticipants', methods=['POST', 'GET'])
+@content.route('/editparticipants', methods=['POST'])
 @jwt_required()
 def EditParticipants():
     current_user = get_jwt_identity()
     if not current_user:
         return jsonify({'msg': 'forbiden access'}), 401
     owner = database['Users'].find_one({'email': current_user})['_id']
-    if request.method == 'GET':
-        participants = database['Groups'].find_one({})
+    group_name = request.json['group_name']
+    updated_participants = request.json['participants']
+    database['Groups'].replace_one({'owner': owner, 'group_name': group_name}, {
+                                   'participants': updated_participants})
+    return jsonify({'msg': 'update successful'}), 200
+
+
+@content.route('/previousteams', methods=['POST'])
+@jwt_required()
+def GetPresiousTeams():
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    group_name = request.json['group_name']
+    raw_team_data = database['Teams'].find(
+        {'owner': owner, 'group_name': group_name})
+
+    teams_list = []
+
+    for team in raw_team_data:
+        name = team.key()
+        teams = team[name]
+        teams_list.append([name, teams])
+
+    return jsonify({'teams': teams_list}), 200
