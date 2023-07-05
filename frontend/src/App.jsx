@@ -14,6 +14,17 @@ import { useState } from 'react';
 import DisplayTeams from './pages/display_teams';
 import Home from './pages/home';
 import TeamOptions from './pages/team_options';
+import PreviousGroups from './pages/PreviousGroups';
+import EditRatings from './pages/EditRatings';
+import ReactDOM from 'react-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
+
+ReactDOM.render(
+  <Router>
+    <TeamOptions />
+  </Router>,
+  document.getElementById('root')
+);
 
 const App =()=> {
 const [groups, setGroups] = useState(JSON.parse(sessionStorage.getItem('groups')))
@@ -44,6 +55,8 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
           <Route path='/create/addmember' element={<PrivateRoute><Members /> </PrivateRoute>} />
           <Route path='/teams' element={<PrivateRoute><DisplayTeams /></PrivateRoute> } />
           <Route path='/teamoptions' element={<TeamOptions /> } />
+          <Route path='/editratings' element={<EditRatings />} />
+          <Route path='/PreviousGroups' element={<PreviousGroups />} />
         </Routes>
        </BrowserRouter>
        </groupContext.Provider>

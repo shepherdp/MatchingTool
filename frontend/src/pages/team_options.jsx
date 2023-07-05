@@ -1,3 +1,5 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoggedNav from "../components/navbar";
 import Footer from "../components/footer";
 import { BiPlusMedical } from "react-icons/bi";
@@ -6,6 +8,7 @@ import { GiPlayerPrevious } from "react-icons/gi";
 import { useState } from 'react';
 
 const TeamOptions = () => {
+  const navigate = useNavigate();
   const [isHovered1, setIsHovered1] = useState(false);
   const [isHovered2, setIsHovered2] = useState(false);
   const [isHovered3, setIsHovered3] = useState(false);
@@ -33,16 +36,21 @@ const TeamOptions = () => {
   const handleMouseLeave3 = () => {
     setIsHovered3(false);
   };
-
+  const handleEditButtonClick = () => {
+    navigate('/EditRatings');
+  };
+  const handlePreviousGroupsButtonClick = () => {
+    navigate('/PreviousGroups');
+  };
   return (
     <>
-      <main className='w-screen h-screen bg-[#E6F3FE]'>
+      <main className='w-screen h-screen bg-[#99cefc]'>
         <LoggedNav />
         <section className="bg-[#E6F3FE] h-screen">
           <div className='relative w-[100%] h-[100%] bg-[#E6F3FE]'>
             <div className='flex justify-center items-center h-full gap-4'>
               <button type='button'>
-                <div 
+                <div
                   className='w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]'
                   onMouseEnter={handleMouseEnter1}
                   onMouseLeave={handleMouseLeave1}
@@ -54,7 +62,7 @@ const TeamOptions = () => {
                   )}
                 </div>
               </button>
-              <button type="button">
+              <button type="button"onClick={handleEditButtonClick}>
                 <div
                   className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]"
                   onMouseEnter={handleMouseEnter2}
@@ -67,7 +75,7 @@ const TeamOptions = () => {
                   )}
                 </div>
               </button>
-              <button type='button'>
+              <button type='button' onClick={handlePreviousGroupsButtonClick}>
                 <div
                   className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]"
                   onMouseEnter={handleMouseEnter3}
@@ -90,4 +98,3 @@ const TeamOptions = () => {
 };
 
 export default TeamOptions;
-
