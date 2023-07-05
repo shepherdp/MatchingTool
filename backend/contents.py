@@ -70,7 +70,6 @@ def create_teams():
             prev_pairs.append([key, list(value.keys())[0],
                               value[list(value.keys())[0]]])
 
-    print(prev_pairs)
     teams, out_prev_matchings = makeTeams(participants=participants,
                                           matching_option=matching_option, size=int(per_team))
 
@@ -90,3 +89,31 @@ def create_teams():
                                   {'$set': {'prev_ratings': updated_prev_matchings}})
 
     return jsonify({'teams': teams, 'activity': activity}), 200
+
+
+@content.route('/getparticipants', methods=['GET', 'POST'])
+@jwt_required()
+def GetParticipants():
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+    if request.method == 'GET':
+        groups = database['Users'].find_one({'email': current_user})['groups']
+        return jsonify({'groups': groups}), 200
+
+    group_name = request.json['group_name']
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    participants = database['Groups'].find_one(
+        {'owner': owner, 'group_name': group_name})['participants']
+    return jsonify({'participants': participants}), 200
+
+
+@content.route('/editparticipants', methods=['POST', 'GET'])
+@jwt_required()
+def EditParticipants():
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    if request.method == 'GET':
+        participants = database['Groups'].find_one({})

@@ -13,6 +13,7 @@ import { groupContext } from './helper/group_context';
 import { useState } from 'react';
 import DisplayTeams from './pages/display_teams';
 import Home from './pages/home';
+<<<<<<< HEAD
 import TeamOptions from './pages/team_options';
 import PreviousGroups from './pages/PreviousGroups';
 import EditRatings from './pages/EditRatings';
@@ -25,6 +26,9 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root')
 );
+=======
+import EditParticipants from './pages/edit_participants';
+>>>>>>> 7c346e6a4122a5613a7239c23eba8e1ac1996012
 
 const App =()=> {
 const [groups, setGroups] = useState(JSON.parse(sessionStorage.getItem('groups')))
@@ -46,6 +50,7 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/editparticipants' element={<PrivateRoute><EditParticipants/></PrivateRoute>} />
           <Route path='/' element = {<Home/>} />
           <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
           <Route path='/test' element={<Test />} />

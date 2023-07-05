@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -9,7 +9,7 @@ function getCookie(name) {
 
 
 const PrivateRoute=({children})=>{
-
+    const navigate = useNavigate()
     const [jwt, setJwt] = useState(null) 
     const [refreshed, setRefreshed] = useState(null)
 
@@ -36,7 +36,7 @@ const PrivateRoute=({children})=>{
             
     
     
-    return  !jwt ? <br /> : (refreshed === true && jwt === 200 ? children : <Navigate to='/login' />)
+    return  !jwt ? <br /> : (refreshed === true && jwt === 200 ? children : navigate('/login'))
 };
 
 export default PrivateRoute;
