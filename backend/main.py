@@ -1,21 +1,18 @@
 from flask import Flask, redirect, url_for, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from authenticate import bcrypt
 from flask_cors import CORS
 from datetime import datetime, timedelta, timezone
 import json
 from database import db, db_init
 from authenticate import auth
-from flask_wtf.csrf import CSRFProtect
 from flask_jwt_extended import JWTManager
 from contents import content
 
 app = Flask(__name__)
 app.register_blueprint(auth, url_prefix='/user')
 app.register_blueprint(content, url_prefix='/member')
-# csrf = CSRFProtect(app)
 CORS(app, supports_credentials=True,  origins=[
-     'https://10.16.1.91:3000', 'https://localhost:3000'])
+     'http://10.16.3.216:3000', 'http://localhost:3000'])
 
 # config up flask_wtf
 app.config['SECRET_KEY'] = 'secret-key'

@@ -53,7 +53,7 @@ const Dashboard =()=>{
                             <li key={i}>
                                 <button type="button" className=" active:bg-inherit" onClick={()=>{
                                     sessionStorage.setItem('groupName', group[0])
-                                    navigate(`../maketeams/${group[0]}`)}}>
+                                    navigate(`../teamoptions`)}}>
                                     {Display(group[0], group[1])}
                                 </button>
                             </li>

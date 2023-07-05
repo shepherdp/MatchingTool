@@ -36,9 +36,9 @@ const TeamOptions = () => {
   const handleMouseLeave3 = () => {
     setIsHovered3(false);
   };
-  const handleEditButtonClick = () => {
-    navigate('/EditRatings');
-  };
+  // const handleEditButtonClick = () => {
+  //   navigate('/EditParticipants');
+  // };
   const handlePreviousGroupsButtonClick = () => {
     navigate('/PreviousGroups');
   };
@@ -49,27 +49,27 @@ const TeamOptions = () => {
         <section className="bg-[#E6F3FE] h-screen">
           <div className='relative w-[100%] h-[100%] bg-[#E6F3FE]'>
             <div className='flex justify-center items-center h-full gap-4'>
-              <button type='button'>
+              <button type='button' onClick={()=>{navigate(`../maketeams/${sessionStorage.getItem('groupName')}`)}}>
                 <div
                   className='w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]'
                   onMouseEnter={handleMouseEnter1}
                   onMouseLeave={handleMouseLeave1}
                 >
                   {isHovered1 ? (
-                    <span className="text-[50px] font-bold overflow-hidden">Create groups</span>
+                    <span className="text-[40px] font-bold overflow-hidden">Create Teams</span>
                   ) : (
                     <BiPlusMedical />
                   )}
                 </div>
               </button>
-              <button type="button"onClick={handleEditButtonClick}>
+              <button type="button" onClick={()=>{navigate(`/editparticipants/${sessionStorage.getItem('groupName')}`)}}>
                 <div
                   className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]"
                   onMouseEnter={handleMouseEnter2}
                   onMouseLeave={handleMouseLeave2}
                 >
                   {isHovered2 ? (
-                    <span className="text-[50px] font-bold overflow-hidden">Edit</span>
+                    <span className="text-[40px] font-bold overflow-hidden">Edit</span>
                   ) : (
                     <AiFillEdit />
                   )}
@@ -82,7 +82,7 @@ const TeamOptions = () => {
                   onMouseLeave={handleMouseLeave3}
                 >
                   {isHovered3 ? (
-                    <span className="text-[50px] font-bold overflow-hidden">Previous Groups</span>
+                    <span className="text-[40px] font-bold overflow-hidden">Previous Groups</span>
                   ) : (
                     <GiPlayerPrevious />
                   )}
