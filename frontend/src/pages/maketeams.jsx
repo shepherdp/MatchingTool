@@ -14,6 +14,8 @@ const MakeTeams=()=> {
     const [selected, setSelected] = useState(options[0])
     const [name, setName] = useState('')
     const [size, setSize] = useState(null)
+    const [members, setMembers] = useState(null)
+
     const optionsRef = useRef(null)
 
     const handleClick =()=>{
@@ -26,16 +28,29 @@ const MakeTeams=()=> {
         }
     }
 
-
-    useEffect(()=>{
-        const val = sessionStorage.getItem('groupName');
-        setGroupName(val)
-
+    useEffect(() => {
         document.addEventListener('mousedown', handleOutsideClick);
     
         return () => {
           document.removeEventListener('mousedown', handleOutsideClick);
         };
+      }, []);
+
+    useEffect(()=>{
+        const val = sessionStorage.getItem('groupName');
+        setGroupName(val)
+
+        fetch('/member/getparticipants', {
+            method: "POST",
+            credentials: 'include',
+                headers: {
+                    'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+
+                    group_name:sessionStorage.getItem('groupName')})
+        }).then(response => response.json()).then(res => setMembers(res['participants']))
     }, []);
       
   return (
@@ -55,39 +70,49 @@ const MakeTeams=()=> {
                                 <h1>Team Size</h1>
                                 <input onChange={(e)=> setSize(e.target.value)} className="bg-[#E6F3FE] text-gray-700 w-[70%] h-[100%] outline-none pl-2 border-b-2 border-[#4169E1] lg:w-[28%]" type="text" />
                             </div>
-                            <div ref={optionsRef} className="flex flex-col w-[100%] h-[40%] justify-center place-items-center">
+                            <div className="flex flex-col w-[100%] h-[40%] justify-center place-items-center">
                                 <h1 className="absolute top-[67%]">Matching Options</h1>
-                                <button type="button" onClick={()=>{
-                                    if(!isOpen){
-                                        handleClick()
-                                    }
-                                    else{
-                                        setIsOpen(false)
-                                    }
-                                }} className="absolute h-[20%] w-[70%] lg:w-[28%] flex justify-between pl-2 items-center bg-[#E6F3FE] border-b-2 border-[#4169E1]">
-                                    {selected}
-                                    {isOpen ? <IoMdArrowDropup className="text-2xl" /> : <IoMdArrowDropdown className="text-2xl" />}
-                                </button>
-                                {
+                                <div ref={optionsRef} className="w-[100%] flex justify-center place-items-center">
+                                    <button type="button" onClick={()=>{
+                                        if(!isOpen){
+                                            handleClick()
+                                        }
+                                        else{
+                                            setIsOpen(false)
+                                        }
+                                    }} className="absolute h-[20%] w-[70%] lg:w-[28%] flex justify-between pl-6 items-center bg-[#E6F3FE] border-b-2 border-[#4169E1]">
+                                        {selected}
+                                        {isOpen ? <IoMdArrowDropup className="text-2xl" /> : <IoMdArrowDropdown className="text-2xl" />}
+                                    </button>
+                                    {
                                     isOpen
                                         && 
-                                    <div className="absolute top-[95%] w-[28%] h-[50%] z-40 overflow-visible border-t-2 border-b-2 cursor-default border-[#4169E1] mb-4 lg:h-[200px]">
+                                    <div className="absolute top-[95%] w-[70%] lg:w-[28%] max-h-[50%] z-40 overflow-visible border-t-2 cursor-default border-[#4169E1] mb-4">
                                         <ul className=" text-black flex flex-col items-center mb-2">
-                                            {options.map((member, i) => (
+                                            {options.map((option, i) => (
+                                                option != selected &&
                                                 <button type="button" onClick={()=>{
-                                                    setSelected(member)
+                                                    setSelected(option)
                                                     setIsOpen((prev)=>!prev)
-                                                }} key={i}  className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2">
-                                                    <li className="text-center ">{member}</li>
+                                                }} key={i}  className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2 hover:text-white hover:bg-[#4169E1] hover:enl">
+                                                    <li className="text-center ">{option}</li>
                                                 </button>
                                             ))}
                                         </ul>
                                     </div>   
                                 }
+                                </div>
+                                
                             </div>
                         </div>
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center mt-[5%]">
                             <h1>Matching Restrictions</h1>
+                            <div className="absolute w-[100%] h-[100%] z-50 flex flex-row top-[0%]">
+                                <div className="w-full h-full bg-white">
+                                    <h1>I will put restrictions here</h1>
+                                    <h1>the othere information are just below this div</h1>
+                                </div>
+                            </div>
                         </div>  
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center">
                             <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white" onClick={()=>{
