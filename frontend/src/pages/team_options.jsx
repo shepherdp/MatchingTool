@@ -39,8 +39,8 @@ const TeamOptions = () => {
   // const handleEditButtonClick = () => {
   //   navigate('/EditParticipants');
   // };
-  const handlePreviousGroupsButtonClick = () => {
-    navigate('/PreviousGroups');
+  const handlePreviousTeamsButtonClick = () => {
+    navigate('/PreviousTeams');
   };
   return (
     <>
@@ -75,14 +75,14 @@ const TeamOptions = () => {
                   )}
                 </div>
               </button>
-              <button type='button' onClick={handlePreviousGroupsButtonClick}>
+              <button type='button' onClick={handlePreviousTeamsButtonClick}>
                 <div
                   className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]"
                   onMouseEnter={handleMouseEnter3}
                   onMouseLeave={handleMouseLeave3}
                 >
                   {isHovered3 ? (
-                    <span className="text-[40px] font-bold overflow-hidden">Previous Groups</span>
+                    <span className="text-[40px] font-bold overflow-hidden">Previous Teams</span>
                   ) : (
                     <GiPlayerPrevious />
                   )}

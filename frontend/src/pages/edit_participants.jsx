@@ -36,19 +36,21 @@ const EditParticipants =()=> {
         };
       }, []);
 
-      useEffect(()=>{
+      useEffect(() => {
         fetch('/member/getparticipants', {
-            method: "POST",
-            credentials: 'include',
-                headers: {
-                    'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-
-                    group_name:sessionStorage.getItem('groupName')})
-        })).then(response => response.json()).then(res => setMembers(res['participants']))
-      }, [])
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            group_name: sessionStorage.getItem('groupName'),
+          }),
+        })
+          .then((response) => response.json())
+          .then((res) => setMembers(res['participants']));
+      }, []);
 
   return (
     <>
@@ -183,11 +185,6 @@ const EditParticipants =()=> {
 }
 
 export default EditParticipants;
-
-
-
-
-
 
 
 

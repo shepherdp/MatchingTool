@@ -14,7 +14,7 @@ import { useState } from 'react';
 import DisplayTeams from './pages/display_teams';
 import Home from './pages/home';
 import TeamOptions from './pages/team_options';
-import PreviousGroups from './pages/PreviousGroups';
+import PrevTeams from './pages/PreviousTeams';
 import EditParticipants from './pages/edit_participants';
 
 const App =()=> {
@@ -47,7 +47,7 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
           <Route path='/create/addmember' element={<PrivateRoute><Members /> </PrivateRoute>} />
           <Route path='/teams' element={<PrivateRoute><DisplayTeams /></PrivateRoute> } />
           <Route path='/teamoptions' element={<PrivateRoute><TeamOptions /></PrivateRoute> } />
-          <Route path='/PreviousGroups' element={<PrivateRoute><PreviousGroups /></PrivateRoute>} />
+          <Route path='/PreviousTeams' element={<PrivateRoute><PrevTeams /></PrivateRoute>} />
         </Routes>
        </BrowserRouter>
        </groupContext.Provider>
