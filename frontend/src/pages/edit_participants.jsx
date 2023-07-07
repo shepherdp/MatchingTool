@@ -36,19 +36,21 @@ const EditParticipants =()=> {
         };
       }, []);
 
-      useEffect(()=>{
+      useEffect(() => {
         fetch('/member/getparticipants', {
-            method: "POST",
-            credentials: 'include',
-                headers: {
-                    'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-
-                    group_name:sessionStorage.getItem('groupName')})
-        }).then(response => response.json()).then(res => setMembers(res['participants']))
-      }, [])
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            group_name: sessionStorage.getItem('groupName'),
+          }),
+        })
+          .then((response) => response.json())
+          .then((res) => setMembers(res['participants']));
+      }, []);
 
   return (
     <>
@@ -140,7 +142,7 @@ const EditParticipants =()=> {
                     <div className=' flex w-full max-h-[20%] place-items-center justify-center'>
                     <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="button" 
                     onClick={
-                        ()=>{fetch('/member/createmember', {
+                        ()=>{fetch('/memeber/createmember', {
                             method: "POST",
                             credentials: 'include',
                                 headers: {
@@ -182,6 +184,8 @@ const EditParticipants =()=> {
 }
 
 export default EditParticipants;
+
+
 
 
 
