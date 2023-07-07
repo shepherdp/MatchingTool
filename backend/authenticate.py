@@ -48,11 +48,9 @@ def login():
     refresh_token = create_refresh_token(identity=user_email)
     groups = database['Users'].find_one({'email': user_email})['groups']
     resp = jsonify({'msg': 'logged in', 'groups': groups})
-    print(resp)
     resp.headers.add('Access-Control-Allow-Origin', 'https://10.16.1.91:3000')
-    set_access_cookies(resp, access_token)
-    set_refresh_cookies(resp, refresh_token)
-    print(resp.headers)
+    set_access_cookies(resp, access_token, max_age=7776000)
+    set_refresh_cookies(resp, refresh_token, max_age=7776000)
     return resp, 200, {'Access-Control-Allow-Credentials': 'true'}
 
 
@@ -76,7 +74,7 @@ def refresh():
     return jsonify({'msg': 'login required'}), 401
 
 
-@auth.route('/dashboard', methods=['GET', 'POST'])
+@auth.route('/dashboard', methods=['POST'])
 @jwt_required()
 def verify():
     current_user = get_jwt_identity()

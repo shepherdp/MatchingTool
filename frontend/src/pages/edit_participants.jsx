@@ -151,7 +151,6 @@ const EditParticipants =()=> {
  
                                     participants:members, group_name:sessionStorage.getItem('groupName')})
                         })
-                            // .then(response => response.json()).then(resp => console.log(resp))
                             .then(
                                 response => Promise.all([response.json(), response.status])
                             )
@@ -183,8 +182,6 @@ const EditParticipants =()=> {
 }
 
 export default EditParticipants;
-
-
 
 
 
