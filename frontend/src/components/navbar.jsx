@@ -51,7 +51,7 @@ export const NonLoggedNav = (props) => {
         <>
             <section>
                 <header className="justify-start">
-                    <div className="relative flex justify-between min-w-screen width-screen h-20 bg-transparent">
+                    <div className="relative flex justify-between min-w-screen width-screen h-20 bg-[#4169E1]">
                         <button type='button' onClick={()=>navigate('/dashboard')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-[#4169E1]'>
                             
                                 <div className='ml-8 mb-6 border-b-2 border-white'>
