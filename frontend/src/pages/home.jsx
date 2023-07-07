@@ -1,11 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import LoggedNav from '../components/navbar';
+import LoggedNav, { NonLoggedNav } from '../components/navbar';
 import Footer from '../components/footer';
 import {AiOutlineUser} from 'react-icons/ai';
 import {BiSolidUser, BiSolidUserCheck, BiAbacus} from 'react-icons/bi';
 import { FcGoogle } from 'react-icons/fc';
-
+import bg_img from '../images/bg_img.jpg'
 function Home() {
     let navigate = useNavigate();
     const team = ['Zaki', 'Dr. Shepherd', 'Silas', 'Tojo' ]
@@ -13,19 +13,18 @@ function Home() {
 
   return (
     <>
+    <div className='fixed w-full'>
+        <NonLoggedNav name='Login' direction='/login'/>
+        </div>
     <main className='w-screen h-screen bg-[#E6F3FE]'>
-        <LoggedNav/>
         <section className='flex w-full h-full justify-center place-items-center'>
-            <div className='relative w-[50%] h-[50%] bg-[#4169E1]'>
-                <div className=' flex flex-col justify-center place-items-center absolute gap-y-4 w-full h-full bg-white -top-[3%] -left-[3%] lg:-left-[1.5%] lg:-top-[2.5%]'>
-                    <AiOutlineUser/>
-                    <input type="text" name="login" placeholder='username' className='bg-[#E6F3FE] pl-2 border-b-2 border-[#4169E1] w-52 h-12' />
-                    <input type="password" name="passowrd" placeholder='password' className='bg-[#E6F3FE] pl-2 border-b-2 border-[#4169E1] w-52 h-12' />
-                </div>
-
+            <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip' />
+            <div>
+                <h1>TEAM MAKER</h1>
             </div>
 
         </section>
+        <section className='w-screen h-screen bg-[#E6F3FE]'></section>
         <Footer/>
     </main>
     
