@@ -44,8 +44,8 @@ const PrevTeams = () => {
             <div className="flex flex-col items-center justify-center">
               <div className="bg-[#4169E1] h-auto">
                 <div className="flex flex-col place-items-center pt-6 gap-y-8 bg-[#E6F3FE] p-4 lg:p-8">
-                  <h2>{groupName}</h2>
-                  <h3>Previous Teams:</h3>
+                  <h2 style={{ fontSize: '44px', fontWeight: 'active: bg inherit' }}>{groupName}</h2>
+                  <h3 style={{ fontSize: '24px', fontWeight: 'active: bg inherit' }}>Previous Teams</h3>
                   {prevTeams.length === 0 ? (
                     <p>No teams found.</p>
                   ) : (
@@ -61,7 +61,7 @@ const PrevTeams = () => {
                             </div>
                             {team.showPartnerships && (
                               <div>
-                                <strong className="text-white mt-4 flex justify-center">Partnerships:</strong>
+                                <strong className="text-white mt-4 flex justify-center">Teams</strong>
                                 <ul>
                                   {team[1].map((partnership, i) => (
                                     <li key={i} className="text-white flex justify-center">
@@ -88,40 +88,5 @@ const PrevTeams = () => {
 };
 
 export default PrevTeams;
-
-// import { useContext, useEffect, useState } from "react"
-// import { groupContext } from "../helper/group_context"
-// import { getCookie } from "../components/queries";
-
-// const PrevTeams = ()=>{
-//   const {groupName, setGroupName} = useContext(groupContext)
-//   const [prevTeams, setPrevTeams] = useState([])
-//   useEffect(()=>{
-//     const val = sessionStorage.getItem('groupName')
-//     setGroupName(val)
-//   }, []);
-
-//   return (
-//     <>
-//     <button type="button" className="w-20 h-20 bg-blue-400" onClick={
-//       ()=>{
-//         fetch(
-//           `/member/previousteams`, {
-//               method: 'POST',
-//               credentials: 'include',
-//               headers: {
-//                   'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-//                       'Content-Type': 'application/json'
-//               },
-//               body: JSON.stringify({group_name:groupName})
-//           }
-//       ).then(response => response.json()).then(resp => setPrevTeams(resp))
-//       }
-//     }>send</button>
-//     </>
-//   )
-// }
-
-// export default PrevTeams;
 
 
