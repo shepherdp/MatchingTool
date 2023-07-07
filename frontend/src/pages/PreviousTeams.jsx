@@ -36,11 +36,11 @@ const PrevTeams = () => {
   };
 
   return (
-    <>
-      <div className='flex flex-col min-h-screen'>
+    <div className='flex flex-col min-h-screen'>
+      <div className='flex-grow w-screen bg-[#E6F3FE]'>
         <LoggedNav />
-        <main className='flex-grow w-screen bg-[#E6F3FE]'>
-          <div>
+        <div className='flex flex-col items-center justify-center flex-grow'>
+          <div className="flex flex-col place-items-center gap-y-8 bg-white w-[60%] h-[70%] p-6">
             <h2>{groupName}</h2>
             <h3>Previous Teams:</h3>
             {prevTeams.length === 0 ? (
@@ -70,88 +70,14 @@ const PrevTeams = () => {
               </ul>
             )}
           </div>
-        </main>
-        <Footer />
+        </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 
 export default PrevTeams;
-
-// import { useContext, useEffect, useState } from "react";
-// import { groupContext } from "../helper/group_context";
-// import { getCookie } from "../components/queries";
-// import LoggedNav from "../components/navbar";
-// import Footer from "../components/footer";
-
-// const PrevTeams = () => {
-//   const { groupName, setGroupName } = useContext(groupContext);
-//   const [prevTeams, setPrevTeams] = useState([]);
-
-//   useEffect(() => {
-//     const val = sessionStorage.getItem('groupName');
-//     setGroupName(val);
-//     fetchTeams();
-//   }, []);
-
-//   const fetchTeams = () => {
-//     fetch(`/member/previousteams`, {
-//       method: 'POST',
-//       credentials: 'include',
-//       headers: {
-//         'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ group_name: groupName })
-//     })
-//       .then(response => response.json())
-//       .then(resp => setPrevTeams(resp.teams))
-//       .catch(error => console.error('Error:', error));
-//   };
-
-//   const handleActivityClick = (index) => {
-//     // Toggle partnerships visibility for the clicked activity
-//     const updatedPrevTeams = [...prevTeams];
-//     updatedPrevTeams[index].showPartnerships = !updatedPrevTeams[index].showPartnerships;
-//     setPrevTeams(updatedPrevTeams);
-//   };
-
-//   return (
-//     <>
-//       <main className='w-screen h-screen bg-[#E6F3FE]'>
-//         <LoggedNav />
-//         <div>
-//           <h2>Class Name: {groupName}</h2>
-//           <h3>Previous Teams:</h3>
-//           <ul>
-//             {prevTeams.map((team, index) => (
-//               <li key={index}>
-//                 <button type="button" onClick={() => handleActivityClick(index)}>
-//                   <strong>Activity Name:</strong> {team[0]}
-//                 </button>
-//                 {team.showPartnerships && (
-//                   <div>
-//                     <strong>Partnerships:</strong>
-//                     <ul>
-//                       {team[1].map((partnership, i) => (
-//                         <li key={i}>Team {i + 1}: {partnership}</li>
-//                       ))}
-//                     </ul>
-//                   </div>
-//                 )}
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//         <Footer />
-//       </main>
-//     </>
-//   );
-// };
-
-// export default PrevTeams;
-
 
 
 // import { useContext, useEffect, useState } from "react"

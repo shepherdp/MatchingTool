@@ -7,7 +7,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { GiPlayerPrevious } from "react-icons/gi";
 import { useState } from 'react';
 
-const TeamOptions = () => {
+const TeamOptions = ({ className }) => {
   const navigate = useNavigate();
   const [isHovered1, setIsHovered1] = useState(false);
   const [isHovered2, setIsHovered2] = useState(false);
@@ -36,58 +36,60 @@ const TeamOptions = () => {
   const handleMouseLeave3 = () => {
     setIsHovered3(false);
   };
-  // const handleEditButtonClick = () => {
-  //   navigate('/EditParticipants');
-  // };
+
   const handlePreviousTeamsButtonClick = () => {
     navigate('/PreviousTeams');
   };
+
   return (
     <>
       <main className='w-screen h-screen bg-[#99cefc]'>
         <LoggedNav />
         <section className="bg-[#E6F3FE] h-screen">
           <div className='relative w-[100%] h-[100%] bg-[#E6F3FE]'>
-            <div className='flex justify-center items-center h-full gap-4'>
-              <button type='button' onClick={()=>{navigate(`../maketeams/${sessionStorage.getItem('groupName')}`)}}>
-                <div
-                  className='w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]'
-                  onMouseEnter={handleMouseEnter1}
-                  onMouseLeave={handleMouseLeave1}
-                >
-                  {isHovered1 ? (
-                    <span className="text-[40px] font-bold overflow-hidden">Create Teams</span>
-                  ) : (
-                    <BiPlusMedical />
-                  )}
-                </div>
-              </button>
-              <button type="button" onClick={()=>{navigate(`/editparticipants/${sessionStorage.getItem('groupName')}`)}}>
-                <div
-                  className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]"
-                  onMouseEnter={handleMouseEnter2}
-                  onMouseLeave={handleMouseLeave2}
-                >
-                  {isHovered2 ? (
-                    <span className="text-[40px] font-bold overflow-hidden">Edit</span>
-                  ) : (
-                    <AiFillEdit />
-                  )}
-                </div>
-              </button>
-              <button type='button' onClick={handlePreviousTeamsButtonClick}>
-                <div
-                  className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]"
-                  onMouseEnter={handleMouseEnter3}
-                  onMouseLeave={handleMouseLeave3}
-                >
-                  {isHovered3 ? (
-                    <span className="text-[40px] font-bold overflow-hidden">Previous Teams</span>
-                  ) : (
-                    <GiPlayerPrevious />
-                  )}
-                </div>
-              </button>
+            <div className='flex flex-col justify-center items-center h-full'>
+              <span className="text-[20px] font-bold mb-4">{className}</span>
+              <div className='flex justify-center items-center gap-4'>
+                <button type='button' onClick={() => { navigate(`../maketeams/${sessionStorage.getItem('groupName')}`) }}>
+                  <div
+                    className='w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] hover:text-[100px]'
+                    onMouseEnter={handleMouseEnter1}
+                    onMouseLeave={handleMouseLeave1}
+                  >
+                    {isHovered1 ? (
+                      <span className="text-[40px] font-bold overflow-hidden">Create Teams</span>
+                    ) : (
+                      <BiPlusMedical className="text-[90px]" />
+                    )}
+                  </div>
+                </button>
+                <button type="button" onClick={() => { navigate(`/editparticipants/${sessionStorage.getItem('groupName')}`) }}>
+                  <div
+                    className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] hover:text-[100px]"
+                    onMouseEnter={handleMouseEnter2}
+                    onMouseLeave={handleMouseLeave2}
+                  >
+                    {isHovered2 ? (
+                      <span className="text-[40px] font-bold overflow-hidden">Edit</span>
+                    ) : (
+                      <AiFillEdit className="text-[90px]" />
+                    )}
+                  </div>
+                </button>
+                <button type='button' onClick={handlePreviousTeamsButtonClick}>
+                  <div
+                    className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] hover:text-[100px]"
+                    onMouseEnter={handleMouseEnter3}
+                    onMouseLeave={handleMouseLeave3}
+                  >
+                    {isHovered3 ? (
+                      <span className="text-[40px] font-bold overflow-hidden">Previous Teams</span>
+                    ) : (
+                      <GiPlayerPrevious className="text-[90px]" />
+                    )}
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
         </section>
