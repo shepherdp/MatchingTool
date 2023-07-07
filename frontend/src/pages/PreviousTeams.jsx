@@ -61,10 +61,10 @@ const PrevTeams = () => {
                             </div>
                             {team.showPartnerships && (
                               <div>
-                                <strong className="text-white mt-4 flex justify-center">Partnerships:</strong>
-                                <ul>
+                                <strong className="text-white mt-4 flex justify-center pb-4">Partnerships:</strong>
+                                <ul className="flex flex-col gap-y-4">
                                   {team[1].map((partnership, i) => (
-                                    <li key={i} className="text-white flex justify-center">
+                                    <li key={i} className="text-white">
                                       Team {i + 1}: {partnership.join(", ")}
                                     </li>
                                   ))}
