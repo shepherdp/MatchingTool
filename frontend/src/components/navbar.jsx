@@ -57,8 +57,8 @@ export const NonLoggedNav = (props) => {
                                 <div className='ml-8 mb-6 border-b-2 border-white'>
                                     <h1 className='font-bold'>TEA</h1>
                                 </div>
-                                <h1 className="text-5xl font-bold font-display bg-transparent">M</h1>
-                                <div className='mt-6 flex align-baseline border-t-2 border-white'>
+                                <h1 className="text-6xl font-bold font-display bg-transparent">M</h1>
+                                <div className='mt-8 flex align-baseline border-t-2 border-white'>
                                     <h1 className='font-bold'>AKER</h1>
                                 </div>
                                

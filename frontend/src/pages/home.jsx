@@ -13,14 +13,15 @@ function Home() {
 
   return (
     <>
-    <div className='fixed w-full'>
+    <div className='fixed w-full z-50'>
         <NonLoggedNav name='Login' direction='/login'/>
         </div>
     <main className='w-screen h-screen bg-[#E6F3FE]'>
         <section className='flex w-full h-full justify-center place-items-center'>
-            <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip' />
-            <div>
-                <h1>TEAM MAKER</h1>
+            <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip brightness-50' />
+            <div className='absolute w-full flex flex-row gap-x-[1%] justify-center place-items-center h-[30%] top-[40%]'>
+                <h1 className='text-[#E6F3FE] font-semibold text-[800%]'>TEAM</h1>
+                <h1 className='text-[#4169E1] font-semibold text-[800%]'>MAKER</h1>
             </div>
 
         </section>
