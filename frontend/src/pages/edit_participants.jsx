@@ -98,7 +98,11 @@ const EditParticipants =()=> {
                                     }
                                 </div>
                             </div>
-                            <button type='button' onClick={()=>{setMembers([...members,[newMember, selected]])}} className="w-[70%] bg-[#4169E1] text-center mb-2 h-11 text-white" >Add</button>
+                            <button type='button' onClick={()=>{
+                                setMembers([...members,[newMember, selected]]);
+                                setNewMember('')
+                                setSelected(ratings[2])
+                            }} className="w-[70%] bg-[#4169E1] text-center mb-2 h-11 text-white" >Add</button>
                         </div>
                         <div className="static w-[70%] max-h-[40%] overflow-y-scroll cursor-default lg:mt-6 mb-4 lg:w-[60%] lg:max-h-[50%] lg:mr-4">
                             {
@@ -142,7 +146,7 @@ const EditParticipants =()=> {
                     <div className=' flex w-full max-h-[20%] place-items-center justify-center'>
                     <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="button" 
                     onClick={
-                        ()=>{fetch('/memeber/createmember', {
+                        ()=>{fetch('/member/updateparticipants', {
                             method: "POST",
                             credentials: 'include',
                                 headers: {
@@ -160,7 +164,7 @@ const EditParticipants =()=> {
                                 ([resp, status]) => {
                                     if (status === 200){
                                         sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
-                                        navigate('../dashboard')
+                                        navigate('../teamoptions')
                                     }
                                     else{
                                         alert('a group of the same name already exists')

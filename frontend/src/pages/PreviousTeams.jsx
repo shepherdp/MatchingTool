@@ -57,7 +57,7 @@ const PrevTeams = () => {
                             onClick={() => handleActivityClick(index)}
                           >
                             <div className="text-white text-lg font-bold flex justify-center">
-                              Activity Name: {team[0]}
+                              {team[0]}
                             </div>
                             {team.showPartnerships && (
                               <div>

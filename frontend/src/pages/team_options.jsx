@@ -47,9 +47,9 @@ const TeamOptions = ({ className }) => {
         <LoggedNav />
         <section className="bg-[#E6F3FE] h-screen">
           <div className='relative w-[100%] h-[100%] bg-[#E6F3FE]'>
-            <div className='flex flex-col justify-center items-center h-full'>
+            <div className='flex justify-center items-center h-full'>
               <span className="text-[20px] font-bold mb-4">{className}</span>
-              <div className='flex justify-center items-center gap-4'>
+              <div className='flex flex-col lg:flex-row flex-wrap justify-center items-center gap-4'>
                 <button type='button' onClick={() => { navigate(`../maketeams/${sessionStorage.getItem('groupName')}`) }}>
                   <div
                     className='w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] hover:text-[100px]'

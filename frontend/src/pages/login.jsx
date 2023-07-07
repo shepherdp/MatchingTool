@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import { useContext } from 'react';
 import { groupContext } from '../helper/group_context';
 import { NonLoggedNav } from '../components/navbar';
+import { getCookie } from '../components/queries';
 
 
 function Login() {
@@ -15,8 +16,26 @@ function Login() {
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [status, setStatus] = useState(null)
+  const [jwt, setJwt] = useState(null) 
 
+  const options = {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+        'Content-Type': 'application/json'
+    }
+  }
 
+  useEffect(()=>{
+      fetch(`/user/dashboard`, options).then(response=> response)
+      .then(resp=> {
+          setJwt(resp.status)
+      })
+  }, [])
+  if(jwt != null && jwt===200){
+    navigate('/dashboard')
+  }
   return (
     <>
       
