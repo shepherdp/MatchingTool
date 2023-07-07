@@ -31,20 +31,21 @@ const SendWRes=async(path, data)=>{
 };
 
 // for Zaki
-export const GetGroups = fetch(
-    `/member/previousteams`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-                'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(sessionStorage.getItem('groupName'))
-    }
-).then(response => response.json()).then(resp => console.log(resp))
+// export const GetGroups = fetch(
+//     `/member/previousteams`, {
+//         method: 'POST',
+//         credentials: 'include',
+//         headers: {
+//             'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+//                 'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(sessionStorage.getItem('groupName'))
+//     }
+// ).then(response => response).then(resp => console.log(resp))
 
 
 
 
 
 export {Send, SendWRes, getCookie};
+

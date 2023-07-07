@@ -24,7 +24,8 @@ app.config['JWT_COOKIE_SAMESITE'] = 'None'
 app.config['JWT_SECRET_KEY'] = 'secretkey'  # to be changed
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
-app.config['JWT_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_TOKEN_EXPIRES'] = timedelta(days=10)
+app.config['JWT_SESSION_COOKIE'] = False
 jwt = JWTManager(app)
 
 # setting up the database (to be changed to MySQL later)

@@ -54,6 +54,7 @@ def create_teams():
     activity = request.json['activity_name']
     per_team = request.json['size']
     matching_option = request.json['matching_option']
+    restrictions = request.json['restrictions']
 
     owner = database['Users'].find_one({'email': current_user})['_id']
 
@@ -69,17 +70,18 @@ def create_teams():
         for key, value in in_previous_pairs['prev_ratings'].items():
             prev_pairs.append([key, list(value.keys())[0],
                               value[list(value.keys())[0]]])
+    if len(restrictions) > 0:
+        prev_pairs += restrictions
 
     teams, out_prev_matchings = makeTeams(participants=participants,
-                                          matching_option=matching_option, size=int(per_team))
+                                          matching_option=matching_option, size=int(per_team), previous_pairs=prev_pairs)
 
     updated_prev_matchings = {}
-
     for pairs in out_prev_matchings:
-        updated_prev_matchings[pairs[0].name] = {}
-        updated_prev_matchings[pairs[0].name][pairs[1].name] = pairs[-1]
-
-    print(group_name)
+        if type(pairs[0]) != str:
+            updated_prev_matchings[pairs[0].name] = {}
+            updated_prev_matchings[pairs[0].name][pairs[1].name] = pairs[-1]
+    print(updated_prev_matchings)
     database['Teams'].insert_one({
         activity: teams,
         'owner': owner,
@@ -125,7 +127,7 @@ def EditParticipants():
 
 @content.route('/previousteams', methods=['POST'])
 @jwt_required()
-def GetPresiousTeams():
+def GetPreviousTeams():
     current_user = get_jwt_identity()
     if not current_user:
         return jsonify({'msg': 'forbiden access'}), 401
@@ -140,6 +142,6 @@ def GetPresiousTeams():
     for team in raw_team_data:
         name = list(team.keys())[1]
         teams = team[name]
-        print([name, teams])
-        teams_list.append([name.upper(), teams])
+        teams_list.append([name, teams])
+
     return jsonify({'teams': teams_list}), 200
