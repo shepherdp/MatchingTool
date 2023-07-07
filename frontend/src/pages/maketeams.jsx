@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { getCookie } from "../components/queries";
 import { useNavigate } from "react-router-dom";
+import { FiDelete } from "react-icons/fi";
 const MakeTeams=()=> {
     let navigate = useNavigate()
     const {groupName, setGroupName} = useContext(groupContext)
@@ -44,7 +45,10 @@ const MakeTeams=()=> {
                 body: JSON.stringify({
 
                     group_name:sessionStorage.getItem('groupName')})
-        }).then(response => response.json()).then(res => setMembers(res['participants']))
+        }).then(response => response.json()).then(res => {
+            setMembers(res['participants']); 
+            setRestrictions(res['restrictions'])
+        })
     }, [])
 
     useEffect(() => {
@@ -179,10 +183,18 @@ const MakeTeams=()=> {
                                             <ul className="w-full h-full flex flex-col overflow-auto">
                                                 {
                                                     restrictions.map((r, i)=>(
-                                                        <li className="w-full flex flex-row gap-x-[5%] justify-center pt-2 pb-2 bg-[#E6F3FE] border-b-2 border-[#4169E1] overflow-auto">
+                                                        <li key={i} className="w-full flex flex-row gap-x-[5%] justify-center pt-2 pb-2 bg-[#E6F3FE] border-b-2 border-[#4169E1] overflow-auto">
+                                                            <div className="w-[80%] flex flex-row gap-x-[5%] pl-6">
                                                             <h1>{r[0]}</h1>
                                                             <h1> & </h1>
                                                             <h1>{r[1]}</h1>
+                                                            </div>
+                                                            <button type="button" className="flex justify-center w-[20%] h-auto text-red-600 place-content-end" onClick={()=>{
+                                                        
+                                                                setRestrictions(restrictions.filter((p)=>{
+                                                                    return p !== r;
+                                                                }));
+                                                            }}><FiDelete className='text-xl'/></button>
                                                         </li>
                                                     ))
                                                 }

@@ -81,12 +81,14 @@ def create_teams():
         if type(pairs[0]) != str:
             updated_prev_matchings[pairs[0].name] = {}
             updated_prev_matchings[pairs[0].name][pairs[1].name] = pairs[-1]
-    print(updated_prev_matchings)
+
     database['Teams'].insert_one({
         activity: teams,
         'owner': owner,
         'group_name': group_name
     })
+    database['Groups'].update_one({'owner': owner, 'group_name': group_name}, {
+                                  '$set': {'restrictions': restrictions}})
 
     database['Groups'].update_one({'owner': owner, 'group_name': group_name},
                                   {'$set': {'prev_ratings': updated_prev_matchings}})
@@ -108,7 +110,13 @@ def GetParticipants():
     owner = database['Users'].find_one({'email': current_user})['_id']
     participants = database['Groups'].find_one(
         {'owner': owner, 'group_name': group_name})['participants']
-    return jsonify({'participants': participants}), 200
+
+    try:
+        restrictions = database['Groups'].find_one(
+            {'owner': owner, 'group_name': group_name})['restrictions']
+    except Exception as e:
+        restrictions = []
+    return jsonify({'participants': participants, 'restrictions': restrictions}), 200
 
 
 @content.route('/editparticipants', methods=['POST'])
