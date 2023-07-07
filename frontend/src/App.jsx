@@ -13,6 +13,8 @@ import { groupContext } from './helper/group_context';
 import { useState } from 'react';
 import DisplayTeams from './pages/display_teams';
 import Home from './pages/home';
+import TeamOptions from './pages/team_options';
+import PrevTeams from './pages/PreviousTeams';
 import EditParticipants from './pages/edit_participants';
 
 const App =()=> {
@@ -35,7 +37,7 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/editparticipants' element={<PrivateRoute><EditParticipants/></PrivateRoute>} />
+          <Route path='/editparticipants/:groupName' element={<PrivateRoute><EditParticipants/></PrivateRoute>} />
           <Route path='/' element = {<Home/>} />
           <Route path='/dashboard' element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
           <Route path='/test' element={<Test />} />
@@ -44,6 +46,8 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
           <Route path='/maketeams/:groupName' element={<PrivateRoute><MakeTeams /> </PrivateRoute>} />
           <Route path='/create/addmember' element={<PrivateRoute><Members /> </PrivateRoute>} />
           <Route path='/teams' element={<PrivateRoute><DisplayTeams /></PrivateRoute> } />
+          <Route path='/teamoptions' element={<PrivateRoute><TeamOptions /></PrivateRoute> } />
+          <Route path='/PreviousTeams' element={<PrivateRoute><PrevTeams /></PrivateRoute>} />
         </Routes>
        </BrowserRouter>
        </groupContext.Provider>

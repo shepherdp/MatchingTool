@@ -107,6 +107,7 @@ def GetParticipants():
         return jsonify({'groups': groups}), 200
 
     group_name = request.json['group_name']
+    print(group_name)
     owner = database['Users'].find_one({'email': current_user})['_id']
     participants = database['Groups'].find_one(
         {'owner': owner, 'group_name': group_name})['participants']
@@ -132,7 +133,6 @@ def EditParticipants():
                                    'participants': updated_participants})
     return jsonify({'msg': 'update successful'}), 200
 
-
 @content.route('/previousteams', methods=['POST'])
 @jwt_required()
 def GetPreviousTeams():
@@ -144,12 +144,12 @@ def GetPreviousTeams():
     group_name = request.json['group_name']
     raw_team_data = database['Teams'].find(
         {'owner': owner, 'group_name': group_name})
-
+    
     teams_list = []
 
     for team in raw_team_data:
         name = list(team.keys())[1]
         teams = team[name]
-        teams_list.append([name.upper(), teams])
+        teams_list.append([name, teams])
 
     return jsonify({'teams': teams_list}), 200
