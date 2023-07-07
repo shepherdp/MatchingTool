@@ -44,6 +44,22 @@ def createMembers():
     return jsonify({'groups': groups}), 200
 
 
+@content.route('/updateparticipants', methods=['POST'])
+@jwt_required()
+def UpdateParticipants():
+    updated_participants = request.json['participants']
+    group_name = request.json['group_name']
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    database['Groups'].update_one({"owner": owner, 'group_name': group_name}, {
+                                  '$set': {'participants': updated_participants}})
+    groups = database['Users'].find_one({'_id': owner})['groups']
+    return jsonify({'groups': groups}), 200
+
+
 @content.route('/maketeams', methods=['POST'])
 @jwt_required()
 def create_teams():
@@ -133,6 +149,7 @@ def EditParticipants():
                                    'participants': updated_participants})
     return jsonify({'msg': 'update successful'}), 200
 
+
 @content.route('/previousteams', methods=['POST'])
 @jwt_required()
 def GetPreviousTeams():
@@ -144,7 +161,7 @@ def GetPreviousTeams():
     group_name = request.json['group_name']
     raw_team_data = database['Teams'].find(
         {'owner': owner, 'group_name': group_name})
-    
+
     teams_list = []
 
     for team in raw_team_data:
