@@ -10,10 +10,17 @@ const MakeTeams=()=> {
     let navigate = useNavigate()
     const {groupName, setGroupName} = useContext(groupContext)
     const options = ['random', 'equal ratings', 'balanced', 'teams with leaders']
+    const [restrictions, setRestrictions] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [selected, setSelected] = useState(options[0])
     const [name, setName] = useState('')
     const [size, setSize] = useState(null)
+    const [members, setMembers] = useState(null)
+    const [restrict1, setRestrict1] = useState('')
+    const [restrict2, setRestrict2] = useState('')
+    const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
+    const [addRestrictions, setAddRestrictions] = useState(false)
     const optionsRef = useRef(null)
 
     const handleClick =()=>{
@@ -26,18 +33,32 @@ const MakeTeams=()=> {
         }
     }
 
-
     useEffect(()=>{
-        const val = sessionStorage.getItem('groupName');
-        setGroupName(val)
+        fetch('/member/getparticipants', {
+            method: "POST",
+            credentials: 'include',
+                headers: {
+                    'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
 
+                    group_name:sessionStorage.getItem('groupName')})
+        }).then(response => response.json()).then(res => setMembers(res['participants']))
+    }, [])
+
+    useEffect(() => {
         document.addEventListener('mousedown', handleOutsideClick);
     
         return () => {
           document.removeEventListener('mousedown', handleOutsideClick);
         };
+      }, []);
+
+    useEffect(()=>{
+        const val = sessionStorage.getItem('groupName');
+        setGroupName(val)
     }, []);
-      
   return (
     <>
     <main className="h-screen">
@@ -55,39 +76,125 @@ const MakeTeams=()=> {
                                 <h1>Team Size</h1>
                                 <input onChange={(e)=> setSize(e.target.value)} className="bg-[#E6F3FE] text-gray-700 w-[70%] h-[100%] outline-none pl-2 border-b-2 border-[#4169E1] lg:w-[28%]" type="text" />
                             </div>
-                            <div ref={optionsRef} className="flex flex-col w-[100%] h-[40%] justify-center place-items-center">
+                            <div className="flex flex-col w-[100%] h-[40%] justify-center place-items-center">
                                 <h1 className="absolute top-[67%]">Matching Options</h1>
-                                <button type="button" onClick={()=>{
-                                    if(!isOpen){
-                                        handleClick()
-                                    }
-                                    else{
-                                        setIsOpen(false)
-                                    }
-                                }} className="absolute h-[20%] w-[70%] lg:w-[28%] flex justify-between pl-2 items-center bg-[#E6F3FE] border-b-2 border-[#4169E1]">
-                                    {selected}
-                                    {isOpen ? <IoMdArrowDropup className="text-2xl" /> : <IoMdArrowDropdown className="text-2xl" />}
-                                </button>
-                                {
+                                <div ref={optionsRef} className="w-[100%] flex justify-center place-items-center">
+                                    <button type="button" onClick={()=>{
+                                        if(!isOpen){
+                                            handleClick()
+                                        }
+                                        else{
+                                            setIsOpen(false)
+                                        }
+                                    }} className="absolute h-[20%] w-[70%] lg:w-[28%] flex justify-between pl-6 items-center bg-[#E6F3FE] border-b-2 border-[#4169E1]">
+                                        {selected}
+                                        {isOpen ? <IoMdArrowDropup className="text-2xl" /> : <IoMdArrowDropdown className="text-2xl" />}
+                                    </button>
+                                    {
                                     isOpen
                                         && 
-                                    <div className="absolute top-[95%] w-[28%] h-[50%] z-40 overflow-visible border-t-2 border-b-2 cursor-default border-[#4169E1] mb-4 lg:h-[200px]">
+                                    <div className="absolute top-[95%] w-[70%] lg:w-[28%] max-h-[50%] z-40 overflow-visible border-t-2 cursor-default border-[#4169E1] mb-4">
                                         <ul className=" text-black flex flex-col items-center mb-2">
-                                            {options.map((member, i) => (
+                                            {options.map((option, i) => (
+                                                option != selected &&
                                                 <button type="button" onClick={()=>{
-                                                    setSelected(member)
+                                                    setSelected(option)
                                                     setIsOpen((prev)=>!prev)
-                                                }} key={i}  className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2">
-                                                    <li className="text-center ">{member}</li>
+                                                }} key={i}  className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2 hover:text-white hover:bg-[#4169E1] hover:enl">
+                                                    <li className="text-center ">{option}</li>
                                                 </button>
                                             ))}
                                         </ul>
                                     </div>   
                                 }
+                                </div>
+                                
                             </div>
                         </div>
-                        <div className="w-[100%] h-[20%] flex justify-center place-items-center mt-[5%]">
-                            <h1>Matching Restrictions</h1>
+                        <div className="w-[100%] h-[20%] flex flex-col justify-center place-items-center mt-[5%]">
+                            <button onClick={()=>setAddRestrictions(true)} className="w-[60%] h-[25%] lg:w-[30%] text-white bg-[#4169E1]">Add Restrictions</button>
+                            <h1 className="text-xs text-center pl-6 pr-6 pt-2">This option prevents two participants from being put in the same team</h1>
+                            {
+                                addRestrictions &&
+                                <div className="absolute w-[100%] h-[100%] z-50 flex flex-row top-[0%]">
+                                <div className="relative w-full h-full flex flex-col bg-white">
+                                   <div className="h-[80%] w-full flex flex-col lg:flex-row">
+                                        <div className="h-[50%] w-full lg:h-full lg:w-[70%] flex flex-row">
+                                            <div className="w-[45%] h-full flex flex-col justify-center place-items-center gap-y-[4%] lg:gap-y-[1.5%]">
+                                                <input type="text" className="w-[80%] h-[15%] lg:h-[10%] bg-[#E6F3FE] text-sm pl-2 outline-none border-b-2 border-[#4169E1]" placeholder="participant's name" value={restrict1}
+                                                onChange={(e)=>{setRestrict1(e.target.value); setOpen1(true)}} />
+                                                <ul className="w-[80%] h-[70%]  z-40 overflow-auto flex flex-col justify-normal place-items-center">
+                                                    {
+                                                        members != null && open1 === true &&
+                                                        members.map((member, i)=>(
+                                                           ( restrict1.length === 0 ||
+                                                                (restrict1.length > 0 && member[0].search(RegExp(restrict1, 'i'))) != -1 ) &&
+                                                            <li key={i} className="w-full">
+                                                               <button type="button" onClick={()=>{
+                                                                    setRestrict1(member[0]);
+                                                                    setOpen1(false)
+                                                               }} className="w-full bg-[#E6F3FE] pb-2 border-b-2 border-[#4169E1] hover:text-white hover:bg-[#4169E1]">
+                                                                {member[0]}
+                                                                </button> 
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div className="w-[10%] h-[60%] flex flex-col justify-center place-items-center">
+                                                <div className="w-full h-[50%] flex justify-center place-items-center"></div>
+                                                <div className="w-full h-[50%]">
+                                                    <button type="button" onClick={()=>{
+                                                        setRestrictions([...restrictions, [restrict1, restrict2, -1]])
+                                                        setRestrict1('')
+                                                        setRestrict2('')
+                                                        setOpen1(false)
+                                                        setOpen2(false)
+                                                    }} className="w-full h-[30%] text-xs lg:text-sm lg:h-[20%] bg-[#4169E1] text-white">Add</button>
+                                                </div>
+
+                                                </div>
+
+                                            <div className="w-[45%] h-full flex flex-col justify-center place-items-center gap-y-[4%] lg:gap-y-[1.5%]">
+                                                <input type="text" className="w-[80%] h-[15%] lg:h-[10%] bg-[#E6F3FE] text-sm pl-2 outline-none border-b-2 border-[#4169E1]" placeholder="participant's name" value={restrict2}
+                                                onChange={(e)=>{setRestrict2(e.target.value); setOpen2(true)}} />
+                                                <ul className="w-[80%] h-[70%] z-40 overflow-auto flex flex-col place-items-center">
+                                                    {
+                                                        members != null && open2 === true &&
+                                                        members.map((member, i)=>(
+                                                            ( restrict2.length === 0 ||
+                                                                (restrict2.length > 0 && member[0].search(RegExp(restrict2, 'i'))) != -1 ) &&
+                                                            <button type="button" onClick={()=>{
+                                                                setRestrict2(member[0]);
+                                                                setOpen2(false)
+                                                            }} className="w-full bg-[#E6F3FE] pb-2 border-b-2 border-[#4169E1] hover:text-white hover:bg-[#4169E1]">
+                                                                {member[0]}
+                                                            </button> 
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div className="h-[50%] w-full lg:h-full lg:w-[30%] border-t-2 lg:border-t-0 pt-2 lg:border-l-2 border-[#4169E1]">
+                                            <ul className="w-full h-full flex flex-col overflow-auto">
+                                                {
+                                                    restrictions.map((r, i)=>(
+                                                        <li className="w-full flex flex-row gap-x-[5%] justify-center pt-2 pb-2 bg-[#E6F3FE] border-b-2 border-[#4169E1] overflow-auto">
+                                                            <h1>{r[0]}</h1>
+                                                            <h1> & </h1>
+                                                            <h1>{r[1]}</h1>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </div>
+                                   </div>
+                                   <div className="h-[20%] w-full flex justify-center place-items-center">
+                                        <button type="button" onClick={()=> setAddRestrictions(false)} className="w-[50%] h-[50%] bg-[#4169E1] text-white text-xl ">Confirm</button>
+                                   </div>
+                                </div>
+                            </div>
+                            }
                         </div>  
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center">
                             <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white" onClick={()=>{
@@ -102,7 +209,8 @@ const MakeTeams=()=> {
                                             'group_name':sessionStorage.getItem('groupName'),
                                             'activity_name': name,
                                             'size':size,
-                                            'matching_option':selected
+                                            'matching_option':selected,
+                                            'restrictions': restrictions
                                         })
                                 })
                                 .then(response => response.json()).
