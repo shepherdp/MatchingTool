@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { groupContext } from '../helper/group_context';
 import { NonLoggedNav } from '../components/navbar';
 import { getCookie } from '../components/queries';
-
+import bg_img from '../images/bg_img.jpg'
 
 function Login() {
 
@@ -40,14 +40,21 @@ function Login() {
     <>
       
       <main className="min-h-screen">
+        <div className='z-50 fixed w-full'>
         <NonLoggedNav name='Register' direction='/register'/>
-        <section className='bg-[#E6F3FE] min-h-screen'>
-          <div className='h-screen w-screen flex items-center justify-center -space-x-[308px] -space-y-[16px]'>
-          <div className='w-[300px] h-[450px] bg-[#4169E1]'></div>
-          <div className='flex flex-col gap-y-3 place-items-center justify-center w-[300px] h-[450px] bg-white'>
-            <input onChange={(e)=>setEmail(e.target.value)} className='border-b-2 w-52 h-12 border-b-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mt-12 mb-4 outline-none' type="email" placeholder='email address' />
-            <input onChange={(e)=>setPass(e.target.value)} className='border-b-2 w-52 h-12 border-[#4169E1] bg-[#E6F3FE] text-gray-700 text-sm p-2 mb-4 outline-none' type="password" placeholder='password' />
-            {/* changing the login button to link just for testing */}
+        </div>
+        <section className='relative flex h-screen w-screen justify-center place-items-center'>
+        <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip brightness-50' />
+          <div className='absolute flex flex-col justify-center place-items-center w-[40%] h-[40%] lg:w-[25%] lg:h-[55%] rounded-lg shadow-md z-50 bg-gray-700 bg-opacity-[24%] shadow-[#4169E1]'>
+          <div className='h-[10%] w-full gap-x-[2%] flex flex-row justify-center place-items-center font-bold text-2xl lg:text-4xl'>
+            <h1 className='text-[#E6F3FE]'>TEAM</h1>
+            <h1 className='text-[#4169E1]'>MAKER</h1>
+          </div>
+            <div className='w-full h-[70%] flex flex-col gap-y-[10%] justify-center place-items-center'>
+            <input onChange={(e)=>setEmail(e.target.value)} className='border-b-4 w-[60%] h-[15%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="email" placeholder='email address' />
+            <input onChange={(e)=>setPass(e.target.value)} className='border-b-4 w-[60%] h-[15%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="password" placeholder='password' />
+           
+            <div className='w-full h-[30%] flex flex-col justify-normal place-items-center'>
             <button type='button' onClick={async()=>{
               await fetch(`/user/login`, {
                 method: "POST",
@@ -67,19 +74,15 @@ function Login() {
           }   
         })
          
-            }} className='bg-[#4169E1] font-semibold w-52 h-12 mb-4 text-white'>Login</button>
-            <h3 className='text-gray-500 text-xs mb-4'>OR</h3>
-            <a href="#">
-              <div className='flex border-2 w-52 h-10 border-[#4169E1] rounded-2xl mb-4'>
-                <FcGoogle className='ml-2 mt-1.5  w-[24px] h-[24px]'/>
-                <h3 className=' text-gray-500 text-sm m-1 ml-6 mr-6 mt-2 font-thin'>Log in with Google</h3>
-              </div>
-            </a>
-            <div className='flex flex-col text-center mb-12'>
-              <h4 className='text-gray-500 text-xs'>Not a member yet?</h4>
-            <button type='button' onClick={()=>navigate('/register')} className='text-[#4169E1] text-sm font-bold'>Create An Account</button>
+            }} className='bg-[#4169E1] font-semibold w-[60%] h-[50%] lg:h-[50%] rounded-lg mb-4 text-white'>Login</button>
+            <a href='#' className='text-blue-300 text-xs'>Forgot password</a>
             </div>
-          </div>
+            </div>
+
+            <div className='flex flex-col w-full h-[20%] text-center mb-12'>
+              <h4 className='text-gray-200 text-sm'>Not a member yet?</h4>
+            <button type='button' onClick={()=>navigate('/register')} className='text-[#4169E1] text-lg font-bold'>Create An Account</button>
+            </div>
           </div>
         </section>
       </main>
