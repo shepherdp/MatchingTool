@@ -97,7 +97,7 @@ const MakeTeams=()=> {
                                     {
                                     isOpen
                                         && 
-                                    <div className="absolute top-[98%] w-[70%] lg:w-[28%] max-h-[50%] z-40 overflow-visible mb-4 rounded-b-lg">
+                                    <div className="absolute top-[98%] w-[70%] lg:w-[28%] max-h-[50%] z-40 overflow-visible mb-4 rounded-b-lg bg-white bg-opacity-[50%]">
                                         <ul className=" text-black flex flex-col items-center mb-2 gap-y-4">
                                             {options.map((option, i) => (
                                                 option != selected &&
