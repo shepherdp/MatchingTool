@@ -44,8 +44,7 @@ const PrevTeams = () => {
             <div className="flex flex-col items-center justify-center">
               <div className="bg-[#4169E1] h-auto">
                 <div className="flex flex-col place-items-center pt-6 gap-y-8 bg-[#E6F3FE] p-4 lg:p-8">
-                  <h2>{groupName}</h2>
-                  <h3>Previous Teams:</h3>
+                  <h2 className="bg-white rounded-lg p-4 text-center text-2xl font-bold">{groupName}</h2>
                   {prevTeams.length === 0 ? (
                     <p>No teams found.</p>
                   ) : (
@@ -53,7 +52,7 @@ const PrevTeams = () => {
                       {prevTeams.map((team, index) => (
                         <li key={index}>
                           <div
-                            className="w-[300px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer"
+                            className="w-[300px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
                             onClick={() => handleActivityClick(index)}
                           >
                             <div className="text-white text-lg font-bold flex justify-center">

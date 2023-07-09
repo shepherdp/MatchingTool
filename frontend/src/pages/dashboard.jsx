@@ -45,7 +45,7 @@ const Dashboard =()=>{
                     <ul className="min-w-full h-[90%] lg:overflow-x-hidden flex place-items-center flex-col justify-center lg:flex-wrap lg:flex-row md:flex-row md:flex-wrap md:gap-8 gap-4 lg:justify-start lg:pl-12 lg:pr-12 pb-6 lg:gap-8 lg:pt-24">
                     <li>
                         <button type="button" onClick={()=> navigate('/create/name')}>
-                            <div className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px]">
+                            <div className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px] rounded-lg shadow-lg shadow-[#4169E1]">
                                 <BiPlusMedical/>
                             </div>
                         </button>

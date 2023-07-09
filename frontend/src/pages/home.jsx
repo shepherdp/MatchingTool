@@ -28,7 +28,7 @@ function Home() {
                         {/* <p className="leading-[18px] mt-[21px] text-center text-xl font-bold font-display">ATCH <br/> AKER</p> */}
                     
                 </button>
-                <button className="mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white" onClick={
+                <button className="mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white rounded-lg" onClick={
                     ()=>{
                     navigate('/login')}
                 }>
@@ -51,7 +51,7 @@ function Home() {
             <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center top-[60%]'>
                 <button type='button' onClick={
                     ()=>navigate('/register')
-                } className='w-[20%] h-[30%] bg-[#4169E1] text-white text-4xl rounded-lg hover:bg-[#2847a4]'>Try Team Maker</button>
+                } className='w-[20%] h-[30%] bg-[#4169E1] text-white text-xl lg:text-4xl rounded-lg delay-75 hover:scale-[105%]'>Try Team Maker</button>
             </div>
         </section>
         <section className='w-screen h-screen bg-[#E6F3FE]'></section>
