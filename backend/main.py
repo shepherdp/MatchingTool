@@ -24,7 +24,7 @@ app.config['JWT_COOKIE_SAMESITE'] = 'None'
 app.config['JWT_SECRET_KEY'] = 'secretkey'  # to be changed
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
-app.config['JWT_TOKEN_EXPIRES'] = timedelta(days=10)
+app.config['JWT_TOKEN_EXPIRES'] = timedelta(minutes=30)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=90)
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=90)
 jwt = JWTManager(app)

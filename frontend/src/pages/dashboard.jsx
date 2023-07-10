@@ -14,8 +14,7 @@ const Dashboard =()=>{
 
 
     useEffect(()=>{
-        const val = JSON.parse(sessionStorage.getItem('groups'));
-        if (!val){
+
             fetch(
                 `/member/getparticipants`, {
                     method: 'GET',
@@ -27,11 +26,8 @@ const Dashboard =()=>{
                 }
             ).
             then(response => response.json()).
-            then(resp => setGroups(resp['groups']))
-        }
-        else{
-            setGroups(val)
-        }
+            then(resp => {sessionStorage.setItem('groups', JSON.stringify(resp['groups'])); 
+            setGroups(resp['groups'])})
         
     }, [])
     
@@ -51,8 +47,9 @@ const Dashboard =()=>{
                         </button>
                     </li>
                         {groups.map((group, i)=> (
-                            <li key={i}>
-                                <button type="button" className=" active:bg-inherit" onClick={()=>{
+                            <li key={i} className="relative">
+                                {/* <div className=" absolute w-[20%] top-[5%] bg-red-300 z-50 left-[70%]"><h1>delete</h1></div> */}
+                                <button type="button" className=" active:bg-inherit hover:scale-110" onClick={()=>{
                                     sessionStorage.setItem('groupName', group[0])
                                     navigate(`../teamoptions`)}}>
                                     {Display(group[0], group[1])}
