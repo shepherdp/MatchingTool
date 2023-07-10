@@ -57,8 +57,8 @@ const EditParticipants =()=> {
      <main className='min-w-screen min-h-screen bg-[#E6F3FE]'>
         <LoggedNav/>
         <section className='w-screen h-screen flex justify-center place-items-center'>
-            <div className='relative bg-[#4169E1] w-[80%] h-[60%]'>
-                <div className='absolute w-full h-full bg-white -top-[2%] -left-[2%] lg:-left-[1%]'>
+            <div className='relative bg-[#4169E1] w-[80%] h-[60%] rounded-lg'>
+                <div className='absolute w-full h-full bg-white -top-[2%] -left-[2%] lg:-left-[1%] rounded-lg shadow-lg shadow-[#4169E1]'>
                     <div className='relative w-full h-full'>
                     <div className="w-[100%] h-[80%] flex flex-col justify-center place-items-center lg:flex-row lg:justify-between">
                         <div className=" w-[70%] z-40 flex flex-col lg:w-[35%] lg:place-content-center lg:ml-4">
@@ -66,7 +66,7 @@ const EditParticipants =()=> {
                                 <label htmlFor="add">Add Participants</label>
                             </div>
                             <div className="h-12 flex flex-row">
-                                <input className="w-[70%] bg-[#E6F3FE] border-b-2  border-[#4169E1] text-gray-700 pl-2 lg:h-12 outline-none" type="text" name="add" placeholder="participant's name..." value={newMember} 
+                                <input className="w-[70%] bg-[#E6F3FE] border-b-2  border-[#4169E1] text-gray-700 pl-2 lg:h-12 outline-none rounded-tl-lg shadow-md shadow-[#4169E1]" type="text" name="add" placeholder="participant's name..." value={newMember} 
                                 onChange={(e) => setNewMember(e.target.value)}/>
                                 <div ref={componentRef}>
                                     <button type="button" onClick={()=>{
@@ -76,21 +76,21 @@ const EditParticipants =()=> {
                                         else{
                                             setIsOpen(false)
                                         }
-                                    }} className="h-12 flex justify-between overflow-visible pl-2 pr-2 items-center bg-[#E6F3FE] border-b-2 border-[#4169E1]">
+                                    }} className="h-12 flex justify-between overflow-visible pl-2 pr-2 items-center bg-[#E6F3FE] border-b-2 border-[#4169E1] rounded-tr-lg rounded-br-lg shadow-md shadow-[#4169E1]">
                                     {selected}
                                     {isOpen ? <IoMdArrowDropup className="text-2xl" /> : <IoMdArrowDropdown className="text-2xl" />}
                                     </button>
                                     {
                                         isOpen
                                         && 
-                                        <div className="w-12 h-32 z-40 overflow-visible border-t-2  border-b-2 cursor-default border-[#4169E1] mb-4">
+                                        <div className="w-12 h-32 z-40 overflow-visible mb-4 rounded-lg">
                                             <ul className="text-black flex flex-col items-center mb-2">
                                                 {ratings.map((rating, i) => (
                                                     <button type="button" onClick={()=>{
                                                         setSelected(rating)
                                                         setIsOpen((prev)=>!prev)
-                                                    }} key={i}  className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2">
-                                                        <li className="text-center ">{rating}</li>
+                                                    }} key={i}  className="w-full h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex delay-75 items-center justify-start pl-4 gap-2 rounded-lg shadow-md shadow-[#4169E1] mt-2 hover:bg-[#4169E1] hover:text-white hover:scale-110">
+                                                        <li className="text-center">{rating}</li>
                                                     </button>
                                                 ))}
                                             </ul>
@@ -98,25 +98,29 @@ const EditParticipants =()=> {
                                     }
                                 </div>
                             </div>
-                            <button type='button' onClick={()=>{setMembers([...members,[newMember, selected]])}} className="w-[70%] bg-[#4169E1] text-center mb-2 h-11 text-white" >Add</button>
+                            <button type='button' onClick={()=>{
+                                setMembers([...members,[newMember, selected]]);
+                                setNewMember('')
+                                setSelected(ratings[2])
+                            }} className="w-[70%] bg-[#4169E1] text-center mb-2 h-11 text-white rounded-b-lg" >Add</button>
                         </div>
                         <div className="static w-[70%] max-h-[40%] overflow-y-scroll cursor-default lg:mt-6 mb-4 lg:w-[60%] lg:max-h-[50%] lg:mr-4">
                             {
                                 members.length > 0 
                                 &&
-                                <ul className="text-black flex flex-col  mb-2 justify-start">
+                                <ul className="text-black flex flex-col  mb-2 justify-start gap-y-4">
                                     {members.map((member, i) => (
-                                        <div key={i} className="w-[70%] h-12 bg-[#E6F3FE] border-b-2 border-[#4169E1] flex items-center justify-start pl-4 gap-2 lg:w-full">
+                                        <div key={i} className="w-[70%] h-12 bg-[#E6F3FE] shadow-md shadow-[#4169E1] flex items-center justify-start pl-4 gap-2 lg:w-full rounded-lg">
                                             <FaRegUserCircle className="w-[24px] h-[24px] text-[#4169E1]"/>
                                             <li className="w-full text-center flex flex-row">
                                                 <h1 className="w-[40%] text-start">{member[0]}</h1>
                                                 <ul className="flex flex-row min-w-[20%] text-center gap-x-1">{
                                                     ratings.map((r, j)=> {
                                                         if(r === member[1]){
-                                                            return <li key={j} className='w-8 text-center text-white bg-[#4169E1] scale-110 cursor-pointer'>{r}</li>
+                                                            return <li key={j} className='w-8 text-center text-white bg-[#4169E1] scale-110 cursor-pointer rounded-md'>{r}</li>
                                                         }
                                                         else{
-                                                            return <button type='button' key={j} className='transition ease-in-out w-8 text-center delay-75 border border-[#4169E1] hover:scale-110 hover:text-white hover:bg-[#4169E1]' onClick={()=>{
+                                                            return <button type='button' key={j} className='transition ease-in-out w-8 text-center delay-75 border border-[#4169E1] hover:scale-110 hover:text-white hover:bg-[#4169E1] rounded-md' onClick={()=>{
                                                                 const temp = [...members]
                                                                 temp[i][1] = r
                                                                 setMembers(temp)
@@ -140,9 +144,9 @@ const EditParticipants =()=> {
                         </div>
                     </div>
                     <div className=' flex w-full max-h-[20%] place-items-center justify-center'>
-                    <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="button" 
+                    <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white rounded-lg" type="button" 
                     onClick={
-                        ()=>{fetch('/memeber/createmember', {
+                        ()=>{fetch('/member/updateparticipants', {
                             method: "POST",
                             credentials: 'include',
                                 headers: {
@@ -160,7 +164,7 @@ const EditParticipants =()=> {
                                 ([resp, status]) => {
                                     if (status === 200){
                                         sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
-                                        navigate('../dashboard')
+                                        navigate('../teamoptions')
                                     }
                                     else{
                                         alert('a group of the same name already exists')

@@ -44,8 +44,7 @@ const PrevTeams = () => {
             <div className="flex flex-col items-center justify-center">
               <div className="bg-[#4169E1] h-auto">
                 <div className="flex flex-col place-items-center pt-6 gap-y-8 bg-[#E6F3FE] p-4 lg:p-8">
-                  <h2 style={{ fontSize: '44px', fontWeight: 'active: bg inherit' }}>{groupName}</h2>
-                  <h3 style={{ fontSize: '24px', fontWeight: 'active: bg inherit' }}>Previous Teams</h3>
+                  <h2 className="bg-white rounded-lg p-4 text-center text-2xl font-bold">{groupName}</h2>
                   {prevTeams.length === 0 ? (
                     <p>No teams found.</p>
                   ) : (
@@ -53,18 +52,18 @@ const PrevTeams = () => {
                       {prevTeams.map((team, index) => (
                         <li key={index}>
                           <div
-                            className="w-[300px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer"
+                            className="w-[300px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
                             onClick={() => handleActivityClick(index)}
                           >
                             <div className="text-white text-lg font-bold flex justify-center">
-                              Activity Name: {team[0]}
+                              {team[0]}
                             </div>
                             {team.showPartnerships && (
                               <div>
-                                <strong className="text-white mt-4 flex justify-center">Teams</strong>
-                                <ul>
+                                <strong className="text-white mt-4 flex justify-center pb-4">Partnerships:</strong>
+                                <ul className="flex flex-col gap-y-4">
                                   {team[1].map((partnership, i) => (
-                                    <li key={i} className="text-white flex justify-center">
+                                    <li key={i} className="text-white">
                                       Team {i + 1}: {partnership.join(", ")}
                                     </li>
                                   ))}
