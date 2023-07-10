@@ -1,12 +1,14 @@
+import jwt
 from flask import Blueprint, jsonify, request, make_response
 from database import db, db_init
 import json
+import datetime
+from reset import SendEmail
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, create_refresh_token, unset_jwt_cookies)
 from flask_cors import CORS
 auth = Blueprint('auth', __name__)
-
 bcrypt = Bcrypt()
 
 database = db_init()
@@ -72,6 +74,33 @@ def refresh():
         set_access_cookies(resp, access_token)
         return resp, 200
     return jsonify({'msg': 'login required'}), 401
+
+
+@auth.route('/reset', methods=['POST'])
+def CheckValidity():
+    email = request.json['email']
+    is_member = database['Users'].find_one({'email': email})
+    if not is_member:
+        return jsonify({'msg': 'We could not locate any account linked to {}'.format(email)}), 404
+    reset_token = jwt.encode({'user_email': email, "exp": datetime.datetime.now(
+        tz=datetime.timezone.utc) + datetime.timedelta(minutes=30)}, 'secret', algorithm='HS256')
+    SendEmail(recipient=email, token=reset_token)
+    return jsonify({'msg': 'email sent successfully'}), 200
+
+
+@auth.route('/recover', methods=['POST'])
+def RecoverMember():
+    user_token = request.json['token']
+    new_pass = request.json['new_pass']
+    try:
+        user = jwt.decode(user_token, 'secret', algorithms=['HS256'])
+    except jwt.ExpiredSignatureError:
+        return jsonify({'msg': 'the link has expired, please request a new one'}), 401
+    print(user)
+    database['Users'].update_one({'email': user['user_email']}, {'$set': {'password': bcrypt.generate_password_hash(
+        new_pass).decode('utf-8')}})
+
+    return jsonify({'msg': 'password update successfully'}), 200
 
 
 @auth.route('/dashboard', methods=['POST'])

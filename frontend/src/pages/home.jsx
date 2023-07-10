@@ -54,7 +54,11 @@ function Home() {
                 } className='w-[20%] h-[30%] bg-[#4169E1] text-white text-xl lg:text-4xl rounded-lg delay-75 hover:scale-[105%]'>Try Team Maker</button>
             </div>
         </section>
-        <section className='w-screen h-screen bg-[#E6F3FE]'></section>
+        <section className='w-screen h-screen bg-[#E6F3FE]'>
+            <div className='w-full h-full bg-gray-400 relative flex flex-row justify-center place-items-center'>
+                <div className='w-[80%] h-[70%] bg-white'></div>
+            </div>
+        </section>
         <Footer/>
     </main>
     
