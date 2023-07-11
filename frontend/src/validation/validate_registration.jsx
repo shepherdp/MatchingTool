@@ -7,3 +7,9 @@ export const schema = yup.object().shape({
     passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 
     'Password must match!')
 });
+
+export const resetPassSchema = yup.object().shape({
+    password: yup.string().min(6).max(32).required('Password is required!'),
+    passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 
+    'Password must match!')
+});
