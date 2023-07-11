@@ -52,10 +52,10 @@ const PrevTeams = () => {
                       {prevTeams.map((team, index) => (
                         <li key={index}>
                           <div
-                            className="w-[300px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
+                            className=" whitespace-normal w-[400px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
                             onClick={() => handleActivityClick(index)}
                           >
-                            <div className="text-white text-lg font-bold flex justify-center">
+                            <div className=" text-white text-lg font-bold flex justify-center overflow-hidden">
                               {team[0]}
                             </div>
                             {team.showPartnerships && (

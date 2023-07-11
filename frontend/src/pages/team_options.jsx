@@ -5,9 +5,6 @@ import Footer from "../components/footer";
 import { BiPlusMedical } from "react-icons/bi";
 import { AiFillEdit } from "react-icons/ai";
 import { GiPlayerPrevious } from "react-icons/gi";
-import { useContext } from "react";
-import { groupContext } from "../helper/group_context";
-import { useEffect } from 'react';
 
 const TeamOptions = ({ className }) => {
   const navigate = useNavigate();
@@ -43,18 +40,11 @@ const TeamOptions = ({ className }) => {
     navigate('/PreviousTeams');
   };
 
-  const { groupName} = useContext(groupContext);
-
   return (
     <main className='relative w-screen'>
       <LoggedNav />
       <section className="bg-[#E6F3FE] min-h-screen relative">
-        <div className="flex justify-center items-center pt-[8%]">
-          <h2 className="bg-white rounded-lg p-4 text-center text-2xl font-bold inline-block py-2 px-4 relative">
-              {groupName}
-          </h2>
-        </div>
-        <div className='min-w-full max-h-screen overflow-x-hidden flex flex-wrap gap-4 justify-center items-center lg:pl-12 lg:pr-12 pb-6 pt-6 lg:gap-8 lg:pt-[2%]'>
+        <div className='min-w-full max-h-screen overflow-x-hidden flex flex-wrap gap-4 justify-center items-center lg:pl-12 lg:pr-12 pb-6 pt-6 lg:gap-8 lg:pt-[10%]'>
           <button type='button' onClick={() => navigate(`../maketeams/${sessionStorage.getItem('groupName')}`)}>
             <div
               className='w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] hover:text-[100px] rounded-lg shadow-lg shadow-[#4169E1]'
