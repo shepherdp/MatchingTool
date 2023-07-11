@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { groupContext } from "../helper/group_context"
 import LoggedNav from "../components/navbar";
 import Footer from "../components/footer";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle, FaSpinner } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { getCookie } from "../components/queries";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,7 @@ const MakeTeams=()=> {
     const [open1, setOpen1] = useState(false)
     const [open2, setOpen2] = useState(false)
     const [addRestrictions, setAddRestrictions] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const optionsRef = useRef(null)
 
     const handleClick =()=>{
@@ -209,7 +210,8 @@ const MakeTeams=()=> {
                             }
                         </div>  
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center">
-                            <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75" onClick={()=>{
+                            <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75 flex flex-row gap-x-3 justify-center place-items-center" onClick={()=>{
+                                setIsLoading(true)
                                 fetch(`/member/maketeams`, {
                                     method: "POST",
                                     credentials: 'include',
@@ -231,7 +233,7 @@ const MakeTeams=()=> {
                                     sessionStorage.setItem('activity', resp['activity'])
                                 })
                                 .then(()=> navigate('../../teams'))
-                            }}>Generate Teams</button>
+                            }}>{!isLoading ? <h1>Generate Teams</h1> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
                         </div>
 
                     </div>
