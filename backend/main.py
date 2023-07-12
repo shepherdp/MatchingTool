@@ -7,9 +7,15 @@ from database import db, db_init
 from authenticate import auth
 from flask_jwt_extended import JWTManager
 from contents import content
+from dotenv import load_dotenv, find_dotenv
+import os
+load_dotenv(find_dotenv())
 
 app = Flask(__name__)
+# flask blueprints
+# blueprint for authenticate.py
 app.register_blueprint(auth, url_prefix='/user')
+# blueprint for contents.py
 app.register_blueprint(content, url_prefix='/member')
 CORS(app, supports_credentials=True,  origins=[
      'http://10.16.3.216:3000', 'http://localhost:3000'])
@@ -21,7 +27,8 @@ app.config['SECRET_KEY'] = 'secret-key'
 app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
 app.config['JWT_COOKIE_SECURE'] = True
 app.config['JWT_COOKIE_SAMESITE'] = 'None'
-app.config['JWT_SECRET_KEY'] = 'secretkey'  # to be changed
+app.config['JWT_SECRET_KEY'] = os.environ.get(
+    'JWT_SECRET_KEY')  # to be changed
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_TOKEN_EXPIRES'] = timedelta(days=10)
