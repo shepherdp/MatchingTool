@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LoggedNav, { NonLoggedNav } from '../components/navbar';
 import Footer from '../components/footer';
@@ -6,16 +6,35 @@ import {AiOutlineUser} from 'react-icons/ai';
 import {BiSolidUser, BiSolidUserCheck, BiAbacus} from 'react-icons/bi';
 import { FcGoogle } from 'react-icons/fc';
 import bg_img from '../images/bg_img.jpg'
+import { getCookie } from '../components/queries';
 function Home() {
+    const [jwt, setJwt] = useState(null) 
     let navigate = useNavigate();
     const team = ['Zaki', 'Dr. Shepherd', 'Silas', 'Tojo' ]
 
+    const options = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+            'Content-Type': 'application/json'
+        }
+      }
 
+    useEffect(()=>{
+        fetch(`/user/dashboard`, options).then(response=> response)
+        .then(resp=> {
+            setJwt(resp.status)
+        })
+    }, [])
+    if(jwt != null && jwt===200){
+      navigate('/dashboard')
+    }
   return (
     <>
     <div className='fixed w-full z-50'>
     <div className="relative flex justify-between min-w-screen width-screen h-20 bg-transparent">
-                <button type='button' onClick={()=>navigate('/dashboard')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-[#4169E1]'>
+                <button type='button' onClick={()=>navigate('/')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-[#4169E1]'>
                     
                         <div className='ml-8 mb-6 border-b-2 border-white'>
                             <h1 className='font-bold'>TEA</h1>
@@ -25,7 +44,6 @@ function Home() {
                             <h1 className='font-bold'>AKER</h1>
                         </div>
                         
-                        {/* <p className="leading-[18px] mt-[21px] text-center text-xl font-bold font-display">ATCH <br/> AKER</p> */}
                     
                 </button>
                 <button className="mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white rounded-lg" onClick={
@@ -96,7 +114,7 @@ function Home() {
                 // onClick={
                 //         ()=>navigate('/register')
                 //     }
-                     className='relative mr-8 flex text-end text-white top-[15%]'>About Us</button>
+                     className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
             </div>
         </section>
     </main>
