@@ -114,7 +114,7 @@ function Home() {
                 // onClick={
                 //         ()=>navigate('/register')
                 //     }
-                     className='relative mr-8 flex text-end text-white top-[15%]'>About Us</button>
+                     className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
             </div>
         </section>
     </main>
