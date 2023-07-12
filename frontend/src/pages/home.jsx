@@ -69,9 +69,6 @@ function Home() {
             <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center top-[60%]'>
                 <button type='button' onClick={
                     ()=>navigate('/register')
-<<<<<<< HEAD
-                } className='w-[20%] h-[30%] bg-[#4169E1] text-white text-xl lg:text-4xl rounded-lg delay-75 hover:scale-[105%]'>Try Team Maker</button>
-=======
                 } className=' relative w-[25%] lg:w-[15%] h-[30%] bg-[#4169E1] text-white text-[80%] md:text-md lg:text-lg rounded-md delay-75 hover:scale-[105%]'>GET STARTED</button>
             </div>
         </section>
@@ -118,7 +115,6 @@ function Home() {
                 //         ()=>navigate('/register')
                 //     }
                      className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
->>>>>>> 5bf7c763fb8a880de90599d5fdc19f4d140bfeef
             </div>
         </section>
         <section className='w-screen h-screen bg-[#E6F3FE]'></section>
