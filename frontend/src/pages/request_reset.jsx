@@ -62,7 +62,7 @@ const RequestReset =()=> {
             <div className='w-full h-full bg-white absolute flex justify-center place-items-center flex-col gap-y-[5%]'>
             <div className='w-[80%] text-md text-gray-600 flex place-items-center justify-center'>
               <h1 className='text-center text-red-600'>We could not locate any account linked to {email}. 
-              Please veryfy your email address and try again.</h1>
+              Please verify your email address and try again.</h1>
             </div>
             <button className='w-[30%] h-[10%] bg-[#4169E1] shadow-md shadow-[#4169E1] rounded-lg text-white hover:scale-105 delay-75' onClick={
               ()=>{
