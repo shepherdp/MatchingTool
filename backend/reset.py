@@ -7,6 +7,11 @@ load_dotenv(find_dotenv())
 
 
 def SendEmail(recipient, token):
+    '''
+    sends emails to reset password (will have other uses later). We are using office365 as a server
+    inputs: recipient: str => email address to send the email to
+            token: str => the token used to reset the password
+    '''
     mail_subject = 'Reset your Teammaker account password'
     mail_body = '''
     Please click on the following link to reset your password https://localhost:3000/reset/{}
