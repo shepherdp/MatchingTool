@@ -1,6 +1,7 @@
+import jwt
 from flask import Blueprint, jsonify, request, make_response
 from database import db, db_init
-import json
+import datetime
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, create_refresh_token, unset_jwt_cookies)
@@ -110,8 +111,6 @@ def refresh():
     return jsonify({'msg': 'login required'}), 401
 
 
-<<<<<<< HEAD
-=======
 @auth.route('/reset', methods=['POST'])
 def CheckValidity():
     '''
@@ -155,7 +154,6 @@ def RecoverMember():
     return jsonify({'msg': 'password update successfully'}), 200
 
 
->>>>>>> 5bf7c763fb8a880de90599d5fdc19f4d140bfeef
 @auth.route('/dashboard', methods=['POST'])
 @jwt_required()
 def verify():

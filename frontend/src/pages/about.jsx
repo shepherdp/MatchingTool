@@ -25,7 +25,7 @@ const About =()=> {
     <>
     <section className='w-screen h-screen  flex flex-col justify-between place-items-center bg-[#E6F3FE]'>
         <div className='w-full bg-[#4169E1]'>
-            {jwt ? <LoggedNav/> : <NonLoggedNav name='Login' destination='/login' />}
+            {jwt === true ? <LoggedNav/> : <NonLoggedNav name='Login' destination='/login' />}
         </div>
             <div className='w-full h-[10%] flex place-items-center'><h1 className='text-[#4169E1] font-extrabold text-4xl w-full h text-center'>Meet The Team</h1></div>
         <div className='w-full h-full relative flex flex-wrap justify-center lg:flex-row place-items-center gap-x-[3%] lg:gap-x-[1%] overflow-hidden'>
