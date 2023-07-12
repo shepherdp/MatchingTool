@@ -57,18 +57,21 @@ function Home() {
     <main className='w-screen h-screen bg-[#E6F3FE]'>
         <section className='flex w-full h-full flex-row justify-center place-items-center'>
             <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip brightness-50' />
-            <div className='font-semibold text-[600%] md:[700] lg:text-[800%] absolute w-full flex flex-row gap-x-[1%] justify-center place-items-center h-[30%] top-[30%]'>
-                <h1 className='text-[#E6F3FE]'>TEAM</h1>
-                <h1 className='text-[#4169E1]'>MAKER</h1>
+            <div className='absolute w-full flex flex-row gap-x-[1%] justify-center place-items-center h-[30%] top-[30%]'>
+                <h1 className='text-[#E6F3FE] font-semibold text-[800%]'>TEAM</h1>
+                <h1 className='text-[#4169E1] font-semibold text-[800%]'>MAKER</h1>
             </div>
-            <div className='absolute w-full flex justify-center place-items-center z-50 pt-[15%]'>
+            <div className='absolute w-full flex justify-center place-items-center z-50 pt-[10%]'>
                 <div className='w-[60%] text-center'>
-                    <p className='text-white text:xl md:text-2xl lg:text-3xl'>Simplify the teammate pairing process and build fresh and well balenced teams.</p>
+                    <p className='text-white text-3xl'>Manage and create teams with pairings of individuals who have not worked together before</p>
                 </div> 
             </div>
-            <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center lg:top-[75%] top-[70%]'>
+            <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center top-[60%]'>
                 <button type='button' onClick={
                     ()=>navigate('/register')
+<<<<<<< HEAD
+                } className='w-[20%] h-[30%] bg-[#4169E1] text-white text-xl lg:text-4xl rounded-lg delay-75 hover:scale-[105%]'>Try Team Maker</button>
+=======
                 } className=' relative w-[25%] lg:w-[15%] h-[30%] bg-[#4169E1] text-white text-[80%] md:text-md lg:text-lg rounded-md delay-75 hover:scale-[105%]'>GET STARTED</button>
             </div>
         </section>
@@ -115,8 +118,11 @@ function Home() {
                 //         ()=>navigate('/register')
                 //     }
                      className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
+>>>>>>> 5bf7c763fb8a880de90599d5fdc19f4d140bfeef
             </div>
         </section>
+        <section className='w-screen h-screen bg-[#E6F3FE]'></section>
+        <Footer/>
     </main>
     
     
