@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -35,4 +33,3 @@ def SendEmail(recipient, token):
                      os.environ.get('SUPPORT_PASS'))
     connection.send_message(mimemsg)
     connection.quit()
->>>>>>> 5bf7c763fb8a880de90599d5fdc19f4d140bfeef
