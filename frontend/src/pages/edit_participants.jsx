@@ -131,10 +131,10 @@ const EditParticipants =()=> {
                                                 }</ul>
                                                 
                                                 <button type="button" className="flex justify-center w-[30%] h-auto text-red-600 place-items-center" onClick={()=>{
-                                                    members.filter((p)=>{
-                                                        return p !== member;
-                                                    })
-                                                    sessionStorage.setItem('members' ,JSON.stringify(members));
+                                                   setMembers(members.filter((p)=>{
+                                                    return p !== member;
+                                                }))
+                                                sessionStorage.setItem('members' ,JSON.stringify(members));
                                                 }}><FiDelete className='text-xl'/></button>
                                             </li>
                                         </div>
