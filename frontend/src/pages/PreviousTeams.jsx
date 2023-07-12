@@ -52,10 +52,10 @@ const PrevTeams = () => {
                       {prevTeams.map((team, index) => (
                         <li key={index}>
                           <div
-                            className="w-[300px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
+                            className=" whitespace-normal w-[400px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
                             onClick={() => handleActivityClick(index)}
                           >
-                            <div className="text-white text-lg font-bold flex justify-center">
+                            <div className=" text-white text-lg font-bold flex justify-center overflow-hidden">
                               {team[0]}
                             </div>
                             {team.showPartnerships && (
@@ -87,40 +87,5 @@ const PrevTeams = () => {
 };
 
 export default PrevTeams;
-
-// import { useContext, useEffect, useState } from "react"
-// import { groupContext } from "../helper/group_context"
-// import { getCookie } from "../components/queries";
-
-// const PrevTeams = ()=>{
-//   const {groupName, setGroupName} = useContext(groupContext)
-//   const [prevTeams, setPrevTeams] = useState([])
-//   useEffect(()=>{
-//     const val = sessionStorage.getItem('groupName')
-//     setGroupName(val)
-//   }, []);
-
-//   return (
-//     <>
-//     <button type="button" className="w-20 h-20 bg-blue-400" onClick={
-//       ()=>{
-//         fetch(
-//           `/member/previousteams`, {
-//               method: 'POST',
-//               credentials: 'include',
-//               headers: {
-//                   'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-//                       'Content-Type': 'application/json'
-//               },
-//               body: JSON.stringify({group_name:groupName})
-//           }
-//       ).then(response => response.json()).then(resp => setPrevTeams(resp))
-//       }
-//     }>send</button>
-//     </>
-//   )
-// }
-
-// export default PrevTeams;
 
 

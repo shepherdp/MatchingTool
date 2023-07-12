@@ -75,7 +75,7 @@ function Login() {
         })
          
             }} className='bg-[#4169E1] font-semibold w-[60%] h-[50%] lg:h-[50%] rounded-lg mb-4 text-white'>Login</button>
-            <button type='button' onClick={()=> navigate('/reset')} className='text-blue-300 text-xs'>Forgot password ?</button>
+            <a href='#' className='text-blue-300 text-xs'>Forgot password</a>
             </div>
             </div>
 
