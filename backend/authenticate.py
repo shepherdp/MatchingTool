@@ -7,7 +7,7 @@ from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_ident
                                 set_access_cookies, set_refresh_cookies, create_refresh_token, unset_jwt_cookies)
 from flask_cors import CORS
 auth = Blueprint('auth', __name__)
-
+from reset import SendEmail
 bcrypt = Bcrypt()
 
 database = db_init()
