@@ -1,3 +1,4 @@
+import jwt
 from flask import Blueprint, jsonify, request, make_response
 from database import db, db_init
 import datetime
