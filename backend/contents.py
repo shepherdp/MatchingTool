@@ -189,6 +189,6 @@ def DeleteGroups():
             groups.remove(group)
 
     database['Users'].update_one({'_id':owner}, {'$set':{'groups':groups}})
-    database['groups'].delete_one({'owner':owner, 'group_name': name})
+    database['Groups'].delete_one({'owner':owner, 'group_name': name})
 
     return jsonify({'msg': 'group deleted successfully'}), 200
