@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from database import db_init
 from teams import makeTeams
+from reset import SendEmail
 content = Blueprint('content', __name__)
 
 database = db_init()
