@@ -117,8 +117,6 @@ function Home() {
                      className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
             </div>
         </section>
-        <section className='w-screen h-screen bg-[#E6F3FE]'></section>
-        <Footer/>
     </main>
     
     
