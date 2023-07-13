@@ -52,8 +52,13 @@ const PrevTeams = () => {
                       {prevTeams.map((team, index) => (
                         <li key={index}>
                           <div
-                            className=" whitespace-normal w-[400px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
+                            className="overflow-x-scroll whitespace-normal w-[400px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
                             onClick={() => handleActivityClick(index)}
+                            style={{
+                              maxWidth: '400px',
+                              overflowX: 'auto',
+                              WebkitOverflowScrolling: 'touch',
+                            }}
                           >
                             <div className=" text-white text-lg font-bold flex justify-center overflow-hidden">
                               {team[0]}
