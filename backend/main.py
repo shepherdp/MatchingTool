@@ -18,7 +18,7 @@ def create_app():
     # blueprint for contents.py
     app.register_blueprint(content, url_prefix='/member')
     CORS(app, supports_credentials=True,  origins=[
-        'http://10.16.3.216:3000', 'http://localhost:3000'])
+        'http://10.16.3.216:3000'])
 
     # config up flask_wtf
     app.config['SECRET_KEY'] = 'secret-key'

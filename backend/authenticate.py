@@ -13,7 +13,7 @@ bcrypt = Bcrypt()
 database = db_init()
 
 CORS(auth, supports_credentials=True,  origins=[
-     'https://10.16.1.91:3000', 'https://localhost:3000'])
+     'https://10.16.1.91:3000'])
 
 
 @auth.route('/register', methods=['POST', 'GET'])
