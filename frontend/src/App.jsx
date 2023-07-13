@@ -16,6 +16,10 @@ import Home from './pages/home';
 import TeamOptions from './pages/team_options';
 import PrevTeams from './pages/PreviousTeams';
 import EditParticipants from './pages/edit_participants';
+import RequestReset from './pages/request_reset';
+import SetNewPass from './pages/set_new_pass';
+import NotFound from './pages/not_found';
+import About from './pages/about';
 
 const App =()=> {
 const [groups, setGroups] = useState(JSON.parse(sessionStorage.getItem('groups')))
@@ -36,6 +40,10 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<Login />} />
+          <Route path='/*' element={<NotFound />} />
+          <Route path='/aboutteam' element={<About />} />
+          <Route path='/reset' element={<RequestReset />} />
+          <Route path='/reset/:token' element={<SetNewPass />} />
           <Route path='/register' element={<Register />} />
           <Route path='/editparticipants/:groupName' element={<PrivateRoute><EditParticipants/></PrivateRoute>} />
           <Route path='/' element = {<Home/>} />

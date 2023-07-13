@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from database import db_init
 from teams import makeTeams
+
 content = Blueprint('content', __name__)
 
 database = db_init()
@@ -40,6 +41,22 @@ def createMembers():
     database['Groups'].insert_one(new_group)
     database['Users'].update_one({'email': current_user}, {
                                  '$push': {'groups': [new_name, new_type]}})
+    groups = database['Users'].find_one({'_id': owner})['groups']
+    return jsonify({'groups': groups}), 200
+
+
+@content.route('/updateparticipants', methods=['POST'])
+@jwt_required()
+def UpdateParticipants():
+    updated_participants = request.json['participants']
+    group_name = request.json['group_name']
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    database['Groups'].update_one({"owner": owner, 'group_name': group_name}, {
+                                  '$set': {'participants': updated_participants}})
     groups = database['Users'].find_one({'_id': owner})['groups']
     return jsonify({'groups': groups}), 200
 
@@ -133,6 +150,7 @@ def EditParticipants():
                                    'participants': updated_participants})
     return jsonify({'msg': 'update successful'}), 200
 
+
 @content.route('/previousteams', methods=['POST'])
 @jwt_required()
 def GetPreviousTeams():
@@ -144,7 +162,7 @@ def GetPreviousTeams():
     group_name = request.json['group_name']
     raw_team_data = database['Teams'].find(
         {'owner': owner, 'group_name': group_name})
-    
+
     teams_list = []
 
     for team in raw_team_data:
@@ -153,3 +171,25 @@ def GetPreviousTeams():
         teams_list.append([name, teams])
 
     return jsonify({'teams': teams_list}), 200
+
+@content.route('/deletegroups', methods=['POST'])
+@jwt_required()
+def DeleteGroups():
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+    
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    name = request.json['groupName']
+
+    database['Teams'].delete_many({'owner':owner, 'group_name': name})
+    groups = database['Users'].find_one({'_id':owner})['groups']
+    groups = list(groups)
+    for group in groups:
+        if group[0] == name:
+            groups.remove(group)
+
+    database['Users'].update_one({'_id':owner}, {'$set':{'groups':groups}})
+    database['Groups'].delete_one({'owner':owner, 'group_name': name})
+
+    return jsonify({'msg': 'group deleted successfully'}), 200

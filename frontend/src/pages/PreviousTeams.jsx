@@ -44,8 +44,7 @@ const PrevTeams = () => {
             <div className="flex flex-col items-center justify-center">
               <div className="bg-[#4169E1] h-auto">
                 <div className="flex flex-col place-items-center pt-6 gap-y-8 bg-[#E6F3FE] p-4 lg:p-8">
-                  <h2>{groupName}</h2>
-                  <h3>Previous Teams:</h3>
+                  <h2 className="bg-white rounded-lg p-4 text-center text-2xl font-bold">{groupName}</h2>
                   {prevTeams.length === 0 ? (
                     <p>No teams found.</p>
                   ) : (
@@ -53,18 +52,23 @@ const PrevTeams = () => {
                       {prevTeams.map((team, index) => (
                         <li key={index}>
                           <div
-                            className="w-[300px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer"
+                            className="overflow-x-scroll whitespace-normal w-[400px] bg-[#4169E1] p-4 mb-4 rounded-lg cursor-pointer shadow-lg shadow-[#4169E1] hover:scale-[105%] delay-75"
                             onClick={() => handleActivityClick(index)}
+                            style={{
+                              maxWidth: '400px',
+                              overflowX: 'auto',
+                              WebkitOverflowScrolling: 'touch',
+                            }}
                           >
-                            <div className="text-white text-lg font-bold flex justify-center">
-                              Activity Name: {team[0]}
+                            <div className=" text-white text-lg font-bold flex justify-center overflow-hidden">
+                              {team[0]}
                             </div>
                             {team.showPartnerships && (
                               <div>
-                                <strong className="text-white mt-4 flex justify-center">Partnerships:</strong>
-                                <ul>
+                                <strong className="text-white mt-4 flex justify-center pb-4">Partnerships:</strong>
+                                <ul className="flex flex-col gap-y-4">
                                   {team[1].map((partnership, i) => (
-                                    <li key={i} className="text-white flex justify-center">
+                                    <li key={i} className="text-white">
                                       Team {i + 1}: {partnership.join(", ")}
                                     </li>
                                   ))}
@@ -88,40 +92,5 @@ const PrevTeams = () => {
 };
 
 export default PrevTeams;
-
-// import { useContext, useEffect, useState } from "react"
-// import { groupContext } from "../helper/group_context"
-// import { getCookie } from "../components/queries";
-
-// const PrevTeams = ()=>{
-//   const {groupName, setGroupName} = useContext(groupContext)
-//   const [prevTeams, setPrevTeams] = useState([])
-//   useEffect(()=>{
-//     const val = sessionStorage.getItem('groupName')
-//     setGroupName(val)
-//   }, []);
-
-//   return (
-//     <>
-//     <button type="button" className="w-20 h-20 bg-blue-400" onClick={
-//       ()=>{
-//         fetch(
-//           `/member/previousteams`, {
-//               method: 'POST',
-//               credentials: 'include',
-//               headers: {
-//                   'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-//                       'Content-Type': 'application/json'
-//               },
-//               body: JSON.stringify({group_name:groupName})
-//           }
-//       ).then(response => response.json()).then(resp => setPrevTeams(resp))
-//       }
-//     }>send</button>
-//     </>
-//   )
-// }
-
-// export default PrevTeams;
 
 
