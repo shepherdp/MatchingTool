@@ -10,6 +10,13 @@ class Student:
     def __init__(self, name, rating=3):
         self.name = name
         self.rating = rating
+    def __eq__(self, other):
+        return self.name == other.name
+    def __hash__(self):
+        h_num = 0
+        for i in self.name:
+            h_num += ord(i)
+        return h_num
 
 class Graph:
     def __init__(self):
@@ -144,7 +151,7 @@ class Graph:
                 # Update previous pairs
                 need_new_pairing = True
                 for pp in previous_pairs:
-                    if v1 in pp and v2 in pp:
+                    if (v2 == pp[0] and v2 == pp[1]) or (v2 == pp[1] and v2 == pp[0]):
                         pp[2] += 1
                         need_new_pairing = False
                 if need_new_pairing:
@@ -374,6 +381,40 @@ def draw_previous_pairs_graph(previous_pairs):
     plt.show()
 
 
+def test_random_groups(graph, students):
+    previous_pairs = []
+    d = {}
+    for s in students:
+        d[s.name] = 0
+    counter = 0
+    flag = False
+    while not flag:
+        paired_students = make_random_groups(graph, students, previous_pairs, 1, 2)
+        print(previous_pairs)
+        # loop and make new teams and record the average after everyone is paired once
+        for group in paired_students:
+            for p in previous_pairs:
+                if group[0] in p and group[1] in p and p[2] > 1:
+
+                    if d[group[0].name] == 0:
+                        d[group[0].name]= counter
+                    if d[group[1].name] == 0:
+                        d[group[1].name] = counter
+        if all([k>0 for k in d.values()]):
+            flag = True
+        counter +=1
+    print(list(d.values()))
+
+
+
+
+
+
+        #check if all have been paired twice // check if all are != 0 in d
+
+
+
+
 
 
 def main():
@@ -396,75 +437,6 @@ def main():
         Student("Samuel", 3),
         Student("Grace", 1),
         # Student("Benjamin", 3),
-        # Student("Mia", 2),
-        # Student("William", 4),
-        # Student("Isabella", 1),
-        # Student("Michael", 2),
-        # Student("Ella", 3),
-        # Student("Jacob", 4),
-        # Student("Abigail", 2),
-        # Student("Alexander", 3),
-        # Student("Sofia", 5),
-        # Student("Matthew", 2),
-        # Student("Victoria", 1),
-        # Student("Ryan", 4),
-        # Student("Madison", 3),
-        # Student("Joshua", 5),
-        # Student("Lily", 5),
-        # Student("Nathan", 4),
-        # Student("Grace", 5),
-        # Student("Christopher", 5),
-        # Student("Zoe", 1),
-        # Student("Hannah", 5),
-        # Student("Anthony", 5),
-        # Student("Natalie", 5),
-        # Student("William", 1),
-        # Student("Elizabeth", 4),
-        # Student("David", 3),
-        # Student("Samantha", 2),
-        # Student("Joseph", 1),
-        # Student("Addison", 4),
-        # Student("Andrew", 3),
-        # Student("Avery", 2),
-        # Student("Nicholas", 1),
-        # Student("Evelyn", 4),
-        # Student("Tyler", 3),
-        # Student("Aria", 2),
-        # Student("Benjamin", 1),
-        # Student("Grace", 5),
-        # Student("Christian", 5),
-        # Student("Charlotte", 5),
-        # Student("Jonathan", 5),
-        # Student("Chloe", 5),
-        # Student("Julian", 3),
-        # Student("Sofia", 2),
-        # Student("Daniel", 1),
-        # Student("Ella", 4),
-        # Student("Samuel", 3),
-        # Student("Avery", 5),
-        # Student("Liam", 1),
-        # Student("Evelyn", 4),
-        # Student("Caleb", 3),
-        # Student("Scarlett", 5),
-        # Student("Elijah", 1),
-        # Student("Audrey", 4),
-        # Student("Gabriel", 3),
-        # Student("Hazel", 2),
-        # Student("Jackson", 1),
-        # Student("Brooklyn", 4),
-        # Student("Benjamin", 3),
-        # Student("Layla", 2),
-        # Student("Mason", 1),
-        # Student("Paisley", 4),
-        # Student("Samuel", 3),
-        # Student("Nora", 5),
-        # Student("Logan", 1),
-        # Student("Ellie", 4),
-        # Student("Daniel", 3),
-        # Student("Zoey", 2),
-        # Student("Christopher", 1),
-        # Student("Lucy", 4),
-        # Student("Jacob", 3),
         # ...
     ]
 
@@ -484,7 +456,7 @@ def main():
 
     #Group sizes - how many students should be in each group
     global group_size
-    group_size = 8
+    group_size = 2
     graph = Graph()
 
     #draw_previous_pairs_graph(previous_pairs)
@@ -500,52 +472,54 @@ def main():
 
     while choice.lower() == 'y':
         # get initial grouping
-
-        paired_students = make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
-        iterations += 1
-
-
-        ################################ GET STANDARD DEVIATION
-        std_dev = 0
-        total_sum = 0
-
-        for group in paired_students:
-            for student in group:
-                total_sum += student.rating
-
-        total_avg = total_sum / len(students)
-
-        sum_squared_diff = 0
-        for group in paired_students:
-            for student in group:
-                diff = student.rating - total_avg
-                sum_squared_diff += diff ** 2
-
-        variance = sum_squared_diff / len(students)
-
-        std_deviation = math.sqrt(variance)
-
-        for group in paired_students:
-            for prev in previous_pairs:
-                for stud1 in group:
-                    for stud2 in group:
-                        if stud1 in prev and stud2 in prev and prev[2] > 1:
-                            print("iterations: "+str(iterations-1))
-                            return
-            #get standard deviation
-            group_sum = 0
-            for student in group:
-                group_sum += student.rating
-            group_avg = group_sum/len(group)
-            std_dev += abs(total_avg-group_avg)
-            print("\n ")
-            group_str = ""
-            for student in group:
-                group_str += student.name+", "
-            print("["+group_str + "]")
-        print("The std dev is: "+ str(std_deviation))
+        test_random_groups(graph, students)
+        # paired_students = make_random_groups(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
+        # iterations += 1
+        #
+        #
+        # ################################ GET STANDARD DEVIATION
+        # std_dev = 0
+        # total_sum = 0
+        #
+        # for group in paired_students:
+        #     for student in group:
+        #         total_sum += student.rating
+        #
+        # total_avg = total_sum / len(students)
+        #
+        # sum_squared_diff = 0
+        # for group in paired_students:
+        #     for student in group:
+        #         diff = student.rating - total_avg
+        #         sum_squared_diff += diff ** 2
+        #
+        # variance = sum_squared_diff / len(students)
+        #
+        # std_deviation = math.sqrt(variance)
+        # ################################################
+        # for group in paired_students:
+        #     for prev in previous_pairs:
+        #         for stud1 in group:
+        #             for stud2 in group:
+        #                 if stud1 in prev and stud2 in prev and prev[2] > 1:
+        #                     print("iterations: "+str(iterations-1))
+        #                     return
+        #     group_sum = 0
+        #     for student in group:
+        #         group_sum += student.rating
+        #     group_avg = group_sum/len(group)
+        #     std_dev += abs(total_avg-group_avg)
+        #     print("g_avg: "+str(group_avg))
+        #     print("\n ")
+        #
+        #     group_str = ""
+        #     for student in group:
+        #         group_str += student.name+", "
+        #     print("["+group_str + "]")
+        # print("The std dev is: "+ str(std_deviation))
+        # print("ttl_avg: " + str(total_avg))
         # Ask the user if they want to generate another pairing
-        choice = input("\n\n\nGenerate another pairing? (y/n): \n")
+        #choice = input("\n\n\nGenerate another pairing? (y/n): \n")
 
 
 
