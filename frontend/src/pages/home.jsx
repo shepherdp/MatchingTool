@@ -32,9 +32,11 @@ function Home() {
     }
   return (
     <>
+    
+    <main className='w-screen min-h-screen h-screen bg-[#E6F3FE]'>
     <div className='fixed w-full z-50'>
     <div className="relative flex justify-between min-w-screen width-screen h-20 bg-transparent">
-                <button type='button' onClick={()=>navigate('/')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-[#4169E1]'>
+                <button type='button' onClick={()=>navigate('/')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-transparent'>
                     
                         <div className='ml-8 mb-6 border-b-2 border-white'>
                             <h1 className='font-bold'>TEA</h1>
@@ -54,7 +56,6 @@ function Home() {
                 </button>
             </div>   
         </div>
-    <main className='w-screen h-screen bg-[#E6F3FE]'>
         <section className='flex w-full h-full flex-row justify-center place-items-center'>
             <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip brightness-50' />
             <div className='absolute w-full flex flex-row gap-x-[1%] justify-center place-items-center h-[30%] top-[30%]'>
@@ -107,14 +108,12 @@ function Home() {
                 </div>
         </section>
 
-        <section className="bg-[#002147] h-[120px] w-screen">
-            <div className="w-[99%] h-full flex justify-center place-items-end flex-col">
-                <h1 className="relative mr-8 flex text-end text-white" >copyright 2023</h1>
+        <section className="bg-[#002147] h-[20%] w-screen">
+            <div className="w-[99%] h-full flex justify-center place-items-end flex-col gap-y-[50%]">
+               
                 <button type='button' 
-                // onClick={
-                //         ()=>navigate('/register')
-                //     }
                      className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
+                 <h1 className="relative mr-8 flex text-end text-white" >copyright 2023</h1>
             </div>
         </section>
     </main>
