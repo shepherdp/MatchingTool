@@ -1,7 +1,7 @@
 import random
 import itertools
-import tkinter as tk
-from tkinter import font
+# import tkinter as tk
+# from tkinter import font
 import networkx as nx
 import matplotlib.pyplot as plt
 
