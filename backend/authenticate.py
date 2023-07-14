@@ -12,9 +12,6 @@ bcrypt = Bcrypt()
 
 database = db_init()
 
-CORS(auth, supports_credentials=True,  origins=[
-     'https://www.teammakeronline.com'])
-
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
@@ -73,10 +70,9 @@ def login():
     resp = jsonify({'msg': 'logged in', 'groups': groups})
 
     # adds the token to response header (the token will be set as cookie in the browser)
-    resp.headers.add('Access-Control-Allow-Origin', 'https://www.teammakeronline.com')
     set_access_cookies(resp, access_token, max_age=7776000, domain='.teammakeronline.com')
     set_refresh_cookies(resp, refresh_token, max_age=7776000, domain='.teammakeronline.com')
-    return resp, 200, {'Access-Control-Allow-Credentials': 'true'}
+    return resp, 200
 
 
 @auth.route("/logout", methods=["POST"])
