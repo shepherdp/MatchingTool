@@ -56,7 +56,7 @@ function Login() {
            
             <div className='w-full h-[30%] flex flex-col justify-normal place-items-center'>
             <button type='button' onClick={async()=>{
-              await fetch(`/user/login`, {
+              await fetch(`https://teammaker.onrender.com/user/login`, {
                 method: "POST",
                 credentials: 'include',
                     headers: {
