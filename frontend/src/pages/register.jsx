@@ -1,10 +1,8 @@
-import {FcGoogle} from 'react-icons/fc';
-import {SendWRes} from '../components/queries';
+import {server_domain} from '../components/queries';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {schema} from '../validation/validate_registration';
 import {useNavigate} from "react-router-dom";
-import SetNavigate from '../components/set_navigate';
 import { NonLoggedNav } from '../components/navbar';
 import bg_img from '../images/bg_img.jpg'
 
@@ -35,7 +33,7 @@ const Register=()=> {
               <form onSubmit={handleSubmit(
                   async(data)=>{  
 
-                    await fetch(`https://teammaker.onrender.com/user/register`, {
+                    await fetch(`${server_domain}/user/register`, {
                       method: "POST",
                           headers: {
                               'Content-Type': 'application/json'
@@ -48,7 +46,7 @@ const Register=()=> {
                   }).then(response => response)
                     .then(resp=>{
                       if (resp.status===200){
-                        fetch(`https://teammaker.onrender.com/user/login`, {
+                        fetch(`${server_domain}/user/login`, {
                           method: "POST",
                           credentials: 'include',
                               headers: {

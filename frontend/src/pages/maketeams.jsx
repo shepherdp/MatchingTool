@@ -4,7 +4,7 @@ import LoggedNav from "../components/navbar";
 import Footer from "../components/footer";
 import { FaRegUserCircle, FaSpinner } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import { getCookie } from "../components/queries";
+import { getCookie, server_domain } from "../components/queries";
 import { useNavigate } from "react-router-dom";
 import { FiDelete } from "react-icons/fi";
 const MakeTeams=()=> {
@@ -36,7 +36,7 @@ const MakeTeams=()=> {
     }
 
     useEffect(()=>{
-        fetch('https://teammaker.onrender.com/member/getparticipants', {
+        fetch(`${server_domain}/member/getparticipants`, {
             method: "POST",
             credentials: 'include',
                 headers: {
@@ -212,7 +212,7 @@ const MakeTeams=()=> {
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center">
                             <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75 flex flex-row gap-x-3 justify-center place-items-center" onClick={()=>{
                                 setIsLoading(true)
-                                fetch(`https://teammaker.onrender.com/member/maketeams`, {
+                                fetch(`${server_domain}/member/maketeams`, {
                                     method: "POST",
                                     credentials: 'include',
                                         headers: {

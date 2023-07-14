@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { getCookie } from './queries';
+import { getCookie, server_domain } from './queries';
 import Cookies from 'universal-cookie';
 
 export const DeleteAcc =()=> {
@@ -11,7 +11,7 @@ export const DeleteAcc =()=> {
     <button type='button' onClick={
             ()=> {
                 fetch(
-                    `https://teammaker.onrender.com/user/delete`, {
+                    `${server_domain}/user/delete`, {
                         method: 'GET',
                         credentials: 'include',
                         headers: {

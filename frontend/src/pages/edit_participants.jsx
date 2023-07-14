@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 import {FiDelete} from 'react-icons/fi'
 import { useContext } from 'react';
 import { groupContext } from '../helper/group_context';
-import { getCookie } from '../components/queries';
+import { getCookie, server_domain } from '../components/queries';
 
 const EditParticipants =()=> {
     const [members, setMembers] = useState([])
@@ -37,7 +37,7 @@ const EditParticipants =()=> {
       }, []);
 
       useEffect(() => {
-        fetch('/member/getparticipants', {
+        fetch(`${server_domain}/member/getparticipants`, {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -146,7 +146,7 @@ const EditParticipants =()=> {
                     <div className=' flex w-full max-h-[20%] place-items-center justify-center'>
                     <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white rounded-lg" type="button" 
                     onClick={
-                        ()=>{fetch('https://teammaker.onrender.com/member/updateparticipants', {
+                        ()=>{fetch(`${server_domain}/member/updateparticipants`, {
                             method: "POST",
                             credentials: 'include',
                                 headers: {
