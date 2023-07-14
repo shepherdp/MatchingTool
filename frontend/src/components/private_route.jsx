@@ -22,17 +22,8 @@ const PrivateRoute=({children})=>{
         }
     }
 
-    // fetch(`/user/refresh`, {
-    //     method: 'POST',
-    //     credentials: 'include',
-    //     headers: {
-    //         'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
-    //         'Content-Type': 'application/json'
-    //     }
-    // }).then(response => response)
-    // .then(resp => setRefreshed(resp.ok))
     useEffect(()=>{
-        fetch(`/user/dashboard`, options).then(response=> response)
+        fetch(`https://teammaker.onrender.com/user/dashboard`, options).then(response=> response)
         .then(resp=> {
             setJwt(resp.status)
         })

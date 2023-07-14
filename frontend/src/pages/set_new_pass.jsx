@@ -24,7 +24,7 @@ const SetNewPass =()=> {
         <div className='w-[50%] h-[50%] bg-[#4169E1] relative'>
           {expired === null && <form onSubmit={handleSubmit(
             (data)=>{
-                fetch(`/user/recover`, {
+                fetch(`https://teammaker.onrender.com/user/recover`, {
                     method: "POST",
                     credentials: 'include',
                         headers: {

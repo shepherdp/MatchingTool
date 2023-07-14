@@ -15,7 +15,7 @@ const PrevTeams = () => {
   }, [groupName]);
 
   const fetchTeams = () => {
-    fetch(`/member/previousteams`, {
+    fetch(`https://teammaker.onrender.com/member/previousteams`, {
       method: 'POST',
       credentials: 'include',
       headers: {

@@ -43,7 +43,7 @@ const LoggedNav = () => {
                                 <button className="w-[60%] h-[25%] lg:h-[30%] bg-[#002147] font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
                                     ()=>{
                                         console.log('clicked')
-                                        fetch(`/user/logout`, {
+                                        fetch(`https://teammaker.onrender.com/user/logout`, {
                                         method: "POST",
                                         credentials: 'include',
                                             headers: {
@@ -131,8 +131,6 @@ export const NonLoggedNav = (props) => {
                                 <div className='mt-8 flex align-baseline border-t-2 border-white'>
                                     <h1 className='font-bold'>AKER</h1>
                                 </div>
-                               
-                                {/* <p className="leading-[18px] mt-[21px] text-center text-xl font-bold font-display">ATCH <br/> AKER</p> */}
                          
                         </button>
                         <button className="mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white rounded-lg hover:scale-[105%]" onClick={

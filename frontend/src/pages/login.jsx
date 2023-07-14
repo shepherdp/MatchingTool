@@ -28,7 +28,7 @@ function Login() {
   }
 
   useEffect(()=>{
-      fetch(`/user/dashboard`, options).then(response=> response)
+      fetch(`https://teammaker.onrender.com/user/dashboard`, options).then(response=> response)
       .then(resp=> {
           setJwt(resp.status)
       })

@@ -11,7 +11,7 @@ export const DeleteAcc =()=> {
     <button type='button' onClick={
             ()=> {
                 fetch(
-                    `user/delete`, {
+                    `https://teammaker.onrender.com/user/delete`, {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
