@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getCookie, server_domain } from './queries';
 import { DeleteAcc } from './delete';
-import About from '../pages/about';
 import { AiOutlineMenu} from 'react-icons/ai';
 import { useEffect, useRef, useState } from 'react';
 
@@ -51,7 +50,7 @@ const LoggedNav = () => {
                                                 'Content-Type': 'application/json'
                                             },
                                     })
-                                .then(sessionStorage.clear()).then(navigate('/login'))}
+                                .then(sessionStorage.clear()).then(navigate('/'))}
                                 }>
                                     Logout
                                 </button>
