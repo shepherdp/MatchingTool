@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import {FcGoogle} from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useContext } from 'react';
@@ -76,7 +75,7 @@ function Login() {
           }   
         })
          
-            }} className='bg-[#4169E1] font-semibold w-[60%] h-[50%] lg:h-[50%] rounded-lg mb-4 text-white'>{!clicked ? <>Login</> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
+            }} className='bg-[#4169E1] font-semibold w-[60%] h-[50%] lg:h-[50%] rounded-lg mb-4 text-white flex flex-row gap-x-3 justify-center place-items-center'>{!clicked ? <>Login</> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
             <button type='button' onClick={()=>navigate('/reset')} className='text-blue-300 text-xs'>Forgot password</button>
             </div>
             </div>
