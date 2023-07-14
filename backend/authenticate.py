@@ -163,7 +163,7 @@ def verify():
     current_user = get_jwt_identity()
     if not current_user:
         return jsonify({'msg': 'forbiden access'}), 401
-    return jsonify(logged_in_as=current_user), 200, {'Access-Control-Allow-Credentials': 'true'}
+    return jsonify(logged_in_as=current_user), 200
 
 
 @auth.route('/delete', methods=['GET'])

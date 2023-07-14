@@ -12,12 +12,12 @@ import os
 load_dotenv(find_dotenv())
 def create_app():
     app = Flask(__name__)
+    CORS(app, origins='https://www.teammakeronline.com', supports_credentials=True)
     # flask blueprints
     # blueprint for authenticate.py
     app.register_blueprint(auth, url_prefix='/user')
     # blueprint for contents.py
     app.register_blueprint(content, url_prefix='/member')
-    CORS(app, origins='https://www.teammakeronline.com', supports_credentials=True)
     
     # config up flask_wtf
     app.config['SECRET_KEY'] = 'secret-key'
