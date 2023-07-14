@@ -48,7 +48,23 @@ const Register=()=> {
                   }).then(response => response)
                     .then(resp=>{
                       if (resp.status===200){
-                        navigate('/login');
+                        fetch(`/user/login`, {
+                          method: "POST",
+                          credentials: 'include',
+                              headers: {
+                                  'Content-Type': 'application/json'
+                              },
+                              body: JSON.stringify({email:data.email, pass:data.password})
+                  }).then(response => Promise.all([response.json(), response.status]))
+                  .then(([resp, status]) => {
+                    if (status === 200){
+                      sessionStorage.setItem('groups', JSON.stringify(resp['groups']))
+                      navigate('/dashboard')
+                    }
+                    else{
+                      alert('login failed! incorrect email address or password')
+                    }   
+                  })
                       }
                       else{
                         alert(`An account is already linked to ${data.email}. Please log in or use a different email address`)

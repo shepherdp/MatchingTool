@@ -2,14 +2,85 @@ import {RiUserSettingsLine} from 'react-icons/ri'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from './queries';
+import { DeleteAcc } from './delete';
+import About from '../pages/about';
+import { AiOutlineMenu} from 'react-icons/ai';
+import { useEffect, useRef, useState } from 'react';
 
 
 const LoggedNav = () => {
+
     const navigate = useNavigate()
+    const [isOpen, setIsOpen] = useState(false)
+    const [deleteAcc, setDeleteAcc] = useState(false)
+    const componentRef = useRef(null)
+    const windowRef = useRef(null)
+    const handleClick =()=>{
+        setIsOpen(true)
+    }
+
+    const handleOutsideClick = (event) => {
+        if ((componentRef.current && !componentRef.current.contains(event.target) ) && (windowRef.current && !windowRef.current.contains(event.target))) {
+          setIsOpen(false);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleOutsideClick);
+    
+        return () => {
+          document.removeEventListener('mousedown', handleOutsideClick);
+        };
+      }, []);
+
     return (
         <>
             <section>
                 <header className="justify-start">
+                    {isOpen && 
+                        <div ref={windowRef} className='absolute z-50 bg-white w-[30%] lg:w-[20%] h-[30%] lg:h-[40%] lg:left-[78.5%] left-[65%] top-[4%] lg:top-[6%] rounded-lg overflow-hidden shadow-lg shadow-[#4169E1] flex flex-col justify-center place-items-center'>
+                            <div className='w-full h-[30%] flex justify-center place-items-center'>
+                                <button className="w-[60%] h-[25%] lg:h-[30%] bg-[#002147] font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
+                                    ()=>{
+                                        console.log('clicked')
+                                        fetch(`/user/logout`, {
+                                        method: "POST",
+                                        credentials: 'include',
+                                            headers: {
+                                                'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                                                'Content-Type': 'application/json'
+                                            },
+                                    })
+                                .then(sessionStorage.clear()).then(navigate('/login'))}
+                                }>
+                                    Logout
+                                </button>
+                            </div>
+                                    <div className='w-full h-[30%] flex justify-center place-items-center text-white'>
+                                        <button type='button' className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75' onClick={()=>navigate('/aboutteam')}>About Us</button>
+                                    </div>
+                                    <div className='w-full h-[40%] flex flex-col justify-center place-items-center gap-y-[10%] text-white'>
+                                        <button onClick={()=>navigate('/privacy')} className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75'>
+                                            Privacy Policy
+                                        </button>
+                                        <button onClick={()=>{setDeleteAcc(true)}} className='w-[60%] h-[20%] bg-red-400 rounded-lg font-semibold hover:scale-105 delay-75'>
+                                            Delete Account
+                                        </button>
+                                </div>
+                        </div> 
+                     }
+                    {deleteAcc && <div className='w-screen h-screen bg-[#E6F3FE] bg-opacity-[70%] z-50 absolute flex justify-center place-items-center'>
+                        <div className='w-[60%] h-[20%] lg:w-[30%] lg:h-[30%] bg-white rounded-lg overflow-hidden shadow-lg shadow-[#4169E1]'>
+                            <div className='w-full h-[50%] text-center flex flex-col justify-center place-items-center text-lg font-semibold'>
+                                <p>Are you sure you would like to delete your profile?</p>
+                                <p>Please note this action is irreversible.</p>
+                            </div>
+                            <div className='w-full h-[50%] flex flex-row justify-center place-items-center gap-x-[10%]'>
+                                <button type='button' onClick={()=>setDeleteAcc(false)} className='w-[35%] h-[50%] bg-[#4169E1] text-white font-semibold rounded-lg hover:scale-105 delay-75'>Cancel</button>
+                                <DeleteAcc />
+                            </div>
+                        </div>
+                    </div>}
                     <div className="relative flex justify-between min-w-screen width-screen h-20 bg-[#4169E1]">
                         <button type='button' onClick={()=>navigate('/dashboard')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-[#4169E1]'>
                             
@@ -21,23 +92,22 @@ const LoggedNav = () => {
                                     <h1 className='font-bold'>AKER</h1>
                                 </div>
                                
-                                {/* <p className="leading-[18px] mt-[21px] text-center text-xl font-bold font-display">ATCH <br/> AKER</p> */}
                          
                         </button>
-                        <button className="mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
-                            ()=>{fetch(`/user/logout`, {
-                                method: "POST",
-                                credentials: 'include',
-                                    headers: {
-                                        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-                                        'Content-Type': 'application/json'
-                                    },
-                            })
-                        .then(sessionStorage.clear()).then(navigate('/login'))}
-                        }>
-                            Logout
+                        <div ref={componentRef} className='h-full flex justify-center'>
+                        <button className='text-white text-4xl mr-12 active:bg-inherit' onClick={()=>{
+                            if(!isOpen){
+                                handleClick();
+                            }
+                            else{
+                                setIsOpen(false)
+                            }
+                        }}>
+                            <AiOutlineMenu />
                         </button>
-                    </div>   
+                        </div>
+                        
+                    </div> 
                 </header>
             </section>
         </>
