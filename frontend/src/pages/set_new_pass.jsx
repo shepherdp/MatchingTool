@@ -13,7 +13,7 @@ const SetNewPass =()=> {
     const navigate = useNavigate()
     const [password, setPassword] = useState(null)
     const path = window.location.href
-    const token = path.slice(('https://10.16.0.197:3000/reset/'.length))
+    const token = path.slice(('https://www.teammakeronline.com/reset/'.length))
   return (
     <>
     <section className='w-screen h-screen bg-[#E6F3FE]'>

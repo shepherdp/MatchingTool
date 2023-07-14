@@ -18,7 +18,7 @@ def create_app():
     # blueprint for contents.py
     app.register_blueprint(content, url_prefix='/member')
     CORS(app, supports_credentials=True,  origins=[
-        'http://10.16.3.216:3000'])
+        'https://www.teammakeronline.com'])
 
     # config up flask_wtf
     app.config['SECRET_KEY'] = 'secret-key'
@@ -35,11 +35,6 @@ def create_app():
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=90)
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=90)
     jwt = JWTManager(app)
-
-    # setting up the database (to be changed to MySQL later)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 
     db.init_app(app)
     bcrypt.init_app(app)
