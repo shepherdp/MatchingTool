@@ -17,8 +17,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/user')
     # blueprint for contents.py
     app.register_blueprint(content, url_prefix='/member')
-    CORS(app, supports_credentials=True,  origins=[
-        'https://www.teammakeronline.com', 'https://10.16.0.197:3000'])
+    CORS(app, origins='https://www.teammakeronline.com', supports_credentials=True)
 
     # config up flask_wtf
     app.config['SECRET_KEY'] = 'secret-key'
