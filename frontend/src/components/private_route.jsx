@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import {  useNavigate } from 'react-router-dom';
 import { server_domain } from './queries';
+import Cookies from 'universal-cookie';
 
 function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+    // const value = `; ${document.cookie}`;
+    // const parts = value.split(`; ${name}=`);
+    // if (parts.length === 2) return parts.pop().split(';').shift();
+    const cookie = new Cookies()
+    return cookie.get(name)
   }
 
 
