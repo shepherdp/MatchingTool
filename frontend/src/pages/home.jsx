@@ -6,7 +6,7 @@ import {AiOutlineUser} from 'react-icons/ai';
 import {BiSolidUser, BiSolidUserCheck, BiAbacus} from 'react-icons/bi';
 import { FcGoogle } from 'react-icons/fc';
 import bg_img from '../images/bg_img.jpg'
-import { getCookie } from '../components/queries';
+import { getCookie, server_domain } from '../components/queries';
 function Home() {
     const [jwt, setJwt] = useState(null) 
     let navigate = useNavigate();
@@ -22,19 +22,21 @@ function Home() {
       }
 
     useEffect(()=>{
-        fetch(`/user/dashboard`, options).then(response=> response)
+        fetch(`${server_domain}/user/dashboard`, options).then(response=> response)
         .then(resp=> {
             setJwt(resp.status)
         })
     }, [])
-    if(jwt != null && jwt===200){
-      navigate('/dashboard')
+    if(jwt===200){
+      navigate('/login')
     }
   return (
     <>
+    
+    <main className='w-screen min-h-screen h-screen bg-[#E6F3FE]'>
     <div className='fixed w-full z-50'>
     <div className="relative flex justify-between min-w-screen width-screen h-20 bg-transparent">
-                <button type='button' onClick={()=>navigate('/')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-[#4169E1]'>
+                <button type='button' onClick={()=>navigate('/')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-transparent'>
                     
                         <div className='ml-8 mb-6 border-b-2 border-white'>
                             <h1 className='font-bold'>TEA</h1>
@@ -54,7 +56,6 @@ function Home() {
                 </button>
             </div>   
         </div>
-    <main className='w-screen h-screen bg-[#E6F3FE]'>
         <section className='flex w-full h-full flex-row justify-center place-items-center'>
             <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip brightness-50' />
             <div className='absolute w-full flex flex-row gap-x-[1%] justify-center place-items-center h-[30%] top-[30%]'>
@@ -66,7 +67,7 @@ function Home() {
                     <p className='text-white text-3xl'>Manage and create teams with pairings of individuals who have not worked together before</p>
                 </div> 
             </div>
-            <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center top-[60%]'>
+            <div className='absolute w-full h-[30%] z-40 flex justify-center place-items-center top-[60%]'>
                 <button type='button' onClick={
                     ()=>navigate('/register')
                 } className=' relative w-[25%] lg:w-[15%] h-[30%] bg-[#4169E1] text-white text-[80%] md:text-md lg:text-lg rounded-md delay-75 hover:scale-[105%]'>GET STARTED</button>
@@ -107,14 +108,12 @@ function Home() {
                 </div>
         </section>
 
-        <section className="bg-[#002147] h-[120px] w-screen">
-            <div className="w-[99%] h-full flex justify-center place-items-end flex-col">
-                <h1 className="relative mr-8 flex text-end text-white" >copyright 2023</h1>
+        <section className="bg-[#002147] h-[20%] w-screen">
+            <div className="w-[99%] h-full flex justify-center place-items-end flex-col gap-y-[50%]">
+               
                 <button type='button' 
-                // onClick={
-                //         ()=>navigate('/register')
-                //     }
                      className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
+                 <h1 className="relative mr-8 flex text-end text-white" >copyright 2023</h1>
             </div>
         </section>
     </main>

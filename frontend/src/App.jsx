@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, json} from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
 import Test from './pages/test';
@@ -20,11 +20,16 @@ import RequestReset from './pages/request_reset';
 import SetNewPass from './pages/set_new_pass';
 import NotFound from './pages/not_found';
 import About from './pages/about';
+import CookieNotice from './components/cookie_notice';
+import Cookies from 'universal-cookie';
+import Privacy from './pages/privacy';
 
 const App =()=> {
-const [groups, setGroups] = useState(JSON.parse(sessionStorage.getItem('groups')))
-const [groupName, setGroupName] = useState(sessionStorage.getItem('groupName'))
-const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
+  const cookie = new Cookies();
+  const [cookies_accepted, setCookiesAccepted] = useState(cookie.get('accept_teammaker_cookies'))
+  const [groups, setGroups] = useState(JSON.parse(sessionStorage.getItem('groups')))
+  const [groupName, setGroupName] = useState(sessionStorage.getItem('groupName'))
+  const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
   return (
     
     <>
@@ -38,10 +43,12 @@ const [teams, setTeams] = useState(JSON.parse(sessionStorage.getItem('teams')))
     </header>
     <groupContext.Provider value={{groups, setGroups, groupName, setGroupName, teams, setTeams}}>
       <BrowserRouter>
+      {!cookies_accepted && <CookieNotice />}
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/*' element={<NotFound />} />
           <Route path='/aboutteam' element={<About />} />
+          <Route path='/privacy' element={<Privacy />} />
           <Route path='/reset' element={<RequestReset />} />
           <Route path='/reset/:token' element={<SetNewPass />} />
           <Route path='/register' element={<Register />} />

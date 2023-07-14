@@ -14,7 +14,7 @@ def SendEmail(recipient, token):
     '''
     mail_subject = 'Reset your Teammaker account password'
     mail_body = '''
-    Please click on the following link to reset your password https://10.16.0.197:3000/reset/{}
+    Please click on the following link to reset your password https://www.teammakeronline.com/reset/{}
     If you did not request to reset your password, please disregard this email.
     
     
