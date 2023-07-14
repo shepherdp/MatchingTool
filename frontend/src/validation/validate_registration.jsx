@@ -13,3 +13,8 @@ export const resetPassSchema = yup.object().shape({
     passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 
     'Password must match!')
 });
+
+export const validateTeamInfo = yup.object.shape({
+    activity_name : yup.string().required('Please provide activity name'),
+    team_size : yup.string().required('please provide team size')
+})

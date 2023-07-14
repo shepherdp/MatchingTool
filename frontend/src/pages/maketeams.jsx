@@ -2,20 +2,26 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { groupContext } from "../helper/group_context"
 import LoggedNav from "../components/navbar";
 import Footer from "../components/footer";
-import { FaRegUserCircle, FaSpinner } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { getCookie, server_domain } from "../components/queries";
 import { useNavigate } from "react-router-dom";
 import { FiDelete } from "react-icons/fi";
+import { useForm } from "react-hook-form";
+import { validateTeamInfo } from "../validation/validate_registration";
+import { yupResolver } from "@hookform/resolvers/yup";
 const MakeTeams=()=> {
     let navigate = useNavigate()
+
+    const {register, handleSubmit, formState: {errors}, reset} = useForm({
+        resolver: yupResolver(validateTeamInfo),
+      });
+
     const {groupName, setGroupName} = useContext(groupContext)
     const options = ['random', 'equal ratings', 'balanced', 'teams with leaders']
     const [restrictions, setRestrictions] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [selected, setSelected] = useState(options[0])
-    const [name, setName] = useState('')
-    const [size, setSize] = useState(null)
     const [members, setMembers] = useState(null)
     const [restrict1, setRestrict1] = useState('')
     const [restrict2, setRestrict2] = useState('')
@@ -71,15 +77,44 @@ const MakeTeams=()=> {
         <section className="relative bg-[#E6F3FE] min-h-screen">
             <div className="absolute bg-[#4169E1] w-[60%] h-[70%] top-[16%] left-[22%] rounded-lg">
                 <div className="absolute flex flex-col place-items-center pt-6 gap-y-8 bg-white w-full h-full -top-[1%] -left-[2%] lg:-top-[2%] lg:-left-[1.5%] rounded-lg shadow-lg shadow-[#4169E1]">
-                    <div className="relative w-full h-full flex flex-col">
+                    <form onSubmit={
+                        handleSubmit(
+                            async(data)=>{
+                                setIsLoading(true)
+                                await fetch(`${server_domain}/member/maketeams`, {
+                                    method: "POST",
+                                    credentials: 'include',
+                                        headers: {
+                                            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            'group_name':sessionStorage.getItem('groupName'),
+                                            'activity_name': data.activity_name,
+                                            'size':data.team_size,
+                                            'matching_option':selected,
+                                            'restrictions': restrictions
+                                        })
+                                })
+                                .then(response => response.json()).
+                                then(resp => {
+                                    sessionStorage.setItem('teams', JSON.stringify(resp['teams']))
+                                    sessionStorage.setItem('activity', resp['activity'])
+                                })
+                                .then(()=> navigate('../../teams'))
+                            }
+                        )
+                    } className="relative w-full h-full flex flex-col">
                         <div className="relative flex flex-col h-[50%] w-[100%] place-items-center pt-6 gap-y-8">
                             <div className="flex flex-col w-[100%] h-[30%] justify-center place-items-center">
                                 <h1>Activity Name</h1>
-                                <input onChange={(e) => setName(e.target.value)} className="bg-[#E6F3FE] text-gray-700 w-[70%] h-[100%] outline-none pl-2 border-b-2 border-[#4169E1] lg:w-[28%] rounded-lg shadow-md shadow-[#4169E1]" type="text" />
+                                <input {...register('activity_name')} name="activity_name" className="bg-[#E6F3FE] text-gray-700 w-[70%] h-[100%] outline-none pl-2 border-b-2 border-[#4169E1] lg:w-[28%] rounded-lg shadow-md shadow-[#4169E1]" type="text" />
+                                <p className='text-xs text-[#EE4B2B]'>{errors.activity_name?.message}</p>
                             </div>
                             <div className="flex flex-col w-[100%] h-[30%] justify-center place-items-center">
                                 <h1>Team Size</h1>
-                                <input onChange={(e)=> setSize(e.target.value)} className="bg-[#E6F3FE] text-gray-700 w-[70%] h-[100%] outline-none pl-2 border-b-2 border-[#4169E1] lg:w-[28%] rounded-lg shadow-md shadow-[#4169E1]" type="text" />
+                                <input {...register('team_size')} name="team_size" className="bg-[#E6F3FE] text-gray-700 w-[70%] h-[100%] outline-none pl-2 border-b-2 border-[#4169E1] lg:w-[28%] rounded-lg shadow-md shadow-[#4169E1]" type="text" />
+                                <p className='text-xs text-[#EE4B2B]'>{errors.team_size?.message}</p>
                             </div>
                             <div className="flex flex-col w-[100%] h-[40%] justify-center place-items-center">
                                 <h1 className="absolute top-[67%]">Matching Options</h1>
@@ -210,34 +245,10 @@ const MakeTeams=()=> {
                             }
                         </div>  
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center">
-                            <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75 flex flex-row gap-x-3 justify-center place-items-center" disabled={isLoading} onClick={()=>{
-                                setIsLoading(true)
-                                fetch(`${server_domain}/member/maketeams`, {
-                                    method: "POST",
-                                    credentials: 'include',
-                                        headers: {
-                                            'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            'group_name':sessionStorage.getItem('groupName'),
-                                            'activity_name': name,
-                                            'size':size,
-                                            'matching_option':selected,
-                                            'restrictions': restrictions
-                                        })
-                                })
-                                .then(response => response.json()).
-                                then(resp => {
-                                    sessionStorage.setItem('teams', JSON.stringify(resp['teams']))
-                                    sessionStorage.setItem('activity', resp['activity'])
-                                })
-                                .then(()=> navigate('../../teams'))
-                                // made change here
-                            }}>{!isLoading ? <h1>Generate Teams</h1> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
+                            <button type="submit" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75 flex flex-row gap-x-3 justify-center place-items-center" disabled={isLoading}>{!isLoading ? <h1>Generate Teams</h1> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
                         </div>
 
-                    </div>
+                    </form>
                    
                 </div>
                 
