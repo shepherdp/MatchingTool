@@ -27,7 +27,7 @@ function Home() {
             setJwt(resp.status)
         })
     }, [])
-    if(jwt != null && jwt===200){
+    if(jwt===200){
       navigate('/dashboard')
     }
   return (
