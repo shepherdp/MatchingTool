@@ -42,7 +42,7 @@ const About =()=> {
                         
                     </p>   
                 </div>
-                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[150%] lg:text-[200%]'>
+                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[80%] lg:text-[120%]'>
                     <FaLinkedinIn/>
                     <FaGithub/>
                 </div> 
@@ -59,7 +59,7 @@ const About =()=> {
                         I recently grew interest in webapp development. I am the web developer of this project.
                     </p>   
                 </div>
-                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[150%] lg:text-[200%]'>
+                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[80%] lg:text-[120%]'>
                     <button type='button' className='text-[#0A66C2]' onClick={()=>window.open('https://www.linkedin.com/in/tojo-tsimalay/', '_blank', 'rel=noopener noreferrer')}><FaLinkedinIn/></button>
                     <button type='button' onClick={()=>window.open('https://github.com/Tojo07', '_blank', 'rel=noopener noreferrer')}><FaGithub/></button>
                 </div> 
@@ -75,7 +75,7 @@ const About =()=> {
 
                     </p>   
                 </div>
-                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[150%] lg:text-[200%]'>
+                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[80%] lg:text-[120%]'>
                     <FaLinkedinIn/>
                     <FaGithub/>
                 </div> 
@@ -91,7 +91,7 @@ const About =()=> {
                         
                     </p>   
                 </div>
-                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[150%] lg:text-[200%]'>
+                <div className='w-full h-[10%] flex flex-row justify-center place-items-center gap-x-[5%] text-[80%] lg:text-[120%]'>
                     <FaLinkedinIn/>
                     <FaGithub/>
                 </div> 
