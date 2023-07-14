@@ -5,7 +5,7 @@ from teams import makeTeams
 from flask_cors import CORS
 content = Blueprint('content', __name__)
 
-CORS(content, origins='https://www.teammakeronline.com', supports_credentials=True)
+CORS(content, origins=["http://10.16.3.216:3000", "https://localhost:3000/"], supports_credentials=True)
 database = db_init()
 
 

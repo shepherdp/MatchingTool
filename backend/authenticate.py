@@ -11,7 +11,7 @@ from reset import SendEmail
 bcrypt = Bcrypt()
 
 database = db_init()
-CORS(auth, origins='https://www.teammakeronline.com', supports_credentials=True)
+CORS(auth, origins=["http://10.16.3.216:3000", "https://localhost:3000/"], supports_credentials=True)
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
@@ -68,10 +68,11 @@ def login():
     refresh_token = create_refresh_token(identity=user_email)
     groups = database['Users'].find_one({'email': user_email})['groups']
     resp = jsonify({'msg': 'logged in', 'groups': groups})
+    resp.headers.add('Access-Control-Allow-rigin', 'https://localhost:3000/')
 
     # adds the token to response header (the token will be set as cookie in the browser)
-    set_access_cookies(resp, access_token, max_age=7776000, domain='.teammakeronline.com')
-    set_refresh_cookies(resp, refresh_token, max_age=7776000, domain='.teammakeronline.com')
+    set_access_cookies(resp, access_token, max_age=7776000)
+    set_refresh_cookies(resp, refresh_token, max_age=7776000)
     return resp, 200
 
 
@@ -85,7 +86,7 @@ def logout_with_cookies():
              status(int) => status code based on server response
     '''
     response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response, domain='.teammakeronline.com')
+    unset_jwt_cookies(response)
     return response
 
 
@@ -183,5 +184,5 @@ def DeleteAcc():
     database['Groups'].delete_many({'owner': owner})
     database['Users'].delete_many({'_id': owner})
     response = jsonify({"msg": "account deleted successfully"})
-    unset_jwt_cookies(response, domain='.teammakeronline.com')
+    unset_jwt_cookies(response)
     return response, 200

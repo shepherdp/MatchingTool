@@ -7,7 +7,7 @@ function getCookie(name) {
   export const server_domain = ''
 
 const Send = async(path, data) =>{
-    fetch(`https://server.teammakeronline.com${path}`, {
+    fetch(`${path}`, {
         method: "POST",
         credentials: 'include',
             headers: {
@@ -20,7 +20,7 @@ const Send = async(path, data) =>{
 
 
 const SendWRes=async(path, data)=>{
-    fetch(`https://server.teammakeronline.com${path}`, {
+    fetch(`${path}`, {
         method: "POST",
         credentials: 'include',
             headers: {
