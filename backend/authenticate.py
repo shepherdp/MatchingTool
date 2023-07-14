@@ -85,7 +85,7 @@ def logout_with_cookies():
              status(int) => status code based on server response
     '''
     response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
+    unset_jwt_cookies(response, domain='.teammakeronline.com')
     return response
 
 
@@ -183,5 +183,5 @@ def DeleteAcc():
     database['Groups'].delete_many({'owner': owner})
     database['Users'].delete_many({'_id': owner})
     response = jsonify({"msg": "account deleted successfully"})
-    unset_jwt_cookies(response)
+    unset_jwt_cookies(response, domain='.teammakeronline.com')
     return response, 200
