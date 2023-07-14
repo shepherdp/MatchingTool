@@ -74,8 +74,8 @@ def login():
 
     # adds the token to response header (the token will be set as cookie in the browser)
     resp.headers.add('Access-Control-Allow-Origin', 'https://www.teammakeronline.com')
-    set_access_cookies(resp, access_token, max_age=7776000)
-    set_refresh_cookies(resp, refresh_token, max_age=7776000)
+    set_access_cookies(resp, access_token, max_age=7776000, domain='https://www.teammakeronline.com')
+    set_refresh_cookies(resp, refresh_token, max_age=7776000, domain='https://www.teammakeronline.com')
     return resp, 200, {'Access-Control-Allow-Credentials': 'true'}
 
 
