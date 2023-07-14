@@ -31,9 +31,10 @@ const Dashboard = () => {
       body: JSON.stringify({ groupName: groupToDelete[0] })
     })
       .then(response => response.json())
-      .then(
-        window.location.reload(true)
-      );
+      .then(resp => {
+        console.log(resp);
+        window.location.reload(true);
+      });
   };
 
   useEffect(() => {
