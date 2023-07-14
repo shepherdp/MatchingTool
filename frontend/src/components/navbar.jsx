@@ -57,7 +57,7 @@ const LoggedNav = () => {
                                 </button>
                             </div>
                                     <div className='w-full h-[30%] flex justify-center place-items-center text-white'>
-                                        <button type='button' className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75' onClick={()=>navigate('/aboutteam')}>About Us</button>
+                                        <button type='button' className='w-[60%] h-[25%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75' onClick={()=>navigate('/aboutteam')}>About Us</button>
                                     </div>
                                     <div className='w-full h-[40%] flex flex-col justify-center place-items-center gap-y-[10%] text-white'>
                                         <button onClick={()=>navigate('/privacy')} className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75'>
