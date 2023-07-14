@@ -3,7 +3,7 @@ from authenticate import bcrypt
 from flask_cors import CORS
 from datetime import datetime, timedelta, timezone
 import json
-from database import db, db_init
+from database import db_init
 from authenticate import auth
 from flask_jwt_extended import JWTManager
 from contents import content

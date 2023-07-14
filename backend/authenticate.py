@@ -1,6 +1,6 @@
 import jwt
 from flask import Blueprint, jsonify, request, make_response
-from database import db, db_init
+from database import db_init
 import datetime
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
