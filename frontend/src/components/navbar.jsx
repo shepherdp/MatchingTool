@@ -1,7 +1,7 @@
 import {RiUserSettingsLine} from 'react-icons/ri'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { getCookie } from './queries';
+import { getCookie, server_domain } from './queries';
 import { DeleteAcc } from './delete';
 import About from '../pages/about';
 import { AiOutlineMenu} from 'react-icons/ai';
@@ -43,7 +43,7 @@ const LoggedNav = () => {
                                 <button className="w-[60%] h-[25%] lg:h-[30%] bg-[#002147] font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
                                     ()=>{
                                         console.log('clicked')
-                                        fetch(`https://teammaker.onrender.com/user/logout`, {
+                                        fetch(`${server_domain}/user/logout`, {
                                         method: "POST",
                                         credentials: 'include',
                                             headers: {

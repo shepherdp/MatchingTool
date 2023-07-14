@@ -4,8 +4,10 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
 
+  export const server_domain = 'https://server.teammakeronline.com'
+
 const Send = async(path, data) =>{
-    fetch(`https://teammaker.onrender.com${path}`, {
+    fetch(`https://server.teammakeronline.com${path}`, {
         method: "POST",
         credentials: 'include',
             headers: {
@@ -18,7 +20,7 @@ const Send = async(path, data) =>{
 
 
 const SendWRes=async(path, data)=>{
-    fetch(`https://teammaker.onrender.com${path}`, {
+    fetch(`https://server.teammakeronline.com${path}`, {
         method: "POST",
         credentials: 'include',
             headers: {

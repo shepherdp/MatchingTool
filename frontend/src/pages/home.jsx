@@ -6,7 +6,7 @@ import {AiOutlineUser} from 'react-icons/ai';
 import {BiSolidUser, BiSolidUserCheck, BiAbacus} from 'react-icons/bi';
 import { FcGoogle } from 'react-icons/fc';
 import bg_img from '../images/bg_img.jpg'
-import { getCookie } from '../components/queries';
+import { getCookie, server_domain } from '../components/queries';
 function Home() {
     const [jwt, setJwt] = useState(null) 
     let navigate = useNavigate();
@@ -22,7 +22,7 @@ function Home() {
       }
 
     useEffect(()=>{
-        fetch(`https://teammaker.onrender.com/user/dashboard`, options).then(response=> response)
+        fetch(`${server_domain}/user/dashboard`, options).then(response=> response)
         .then(resp=> {
             setJwt(resp.status)
         })

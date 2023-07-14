@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { groupContext } from "../helper/group_context";
-import { getCookie } from "../components/queries";
+import { getCookie, server_domain } from "../components/queries";
 import LoggedNav from "../components/navbar";
 import Footer from "../components/footer";
 
@@ -15,7 +15,7 @@ const PrevTeams = () => {
   }, [groupName]);
 
   const fetchTeams = () => {
-    fetch(`https://teammaker.onrender.com/member/previousteams`, {
+    fetch(`${server_domain}/member/previousteams`, {
       method: 'POST',
       credentials: 'include',
       headers: {

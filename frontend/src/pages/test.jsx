@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom';
+import { server_domain } from '../components/queries';
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -27,7 +28,7 @@ const getData=async()=>{
         //     'Access_Token_Cookie': getCookie('access_token_cookie')
          }
     }
-    await fetch(`https://teammaker.onrender.com/user/dashboard`, options).then(response=> response.json())
+    await fetch(`${server_domain}/user/dashboard`, options).then(response=> response.json())
         .then(resp=> {
             console.log(resp)
         })

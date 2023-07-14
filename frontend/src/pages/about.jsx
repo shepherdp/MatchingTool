@@ -4,7 +4,7 @@ import Footer from '../components/footer'
 import tojo from '../images/tojo.JPG'
 import alt from '../images/alt.png'
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa'
-import { getCookie } from '../components/queries'
+import { getCookie, server_domain } from '../components/queries'
 
 const About =()=> {
     const [jwt, setJwt] = useState(null) 
@@ -18,7 +18,7 @@ const About =()=> {
       }
 
     useEffect(()=>{
-        fetch(`https://teammaker.onrender.com/user/dashboard`, options).then(response=> response)
+        fetch(`${server_domain}/user/dashboard`, options).then(response=> response)
         .then(resp=> {
             setJwt(resp.ok)
         })

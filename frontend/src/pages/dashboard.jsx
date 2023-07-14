@@ -6,7 +6,7 @@ import Display from "../components/displays";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { groupContext } from "../helper/group_context";
-import { getCookie } from "../components/queries";
+import { getCookie, server_domain } from "../components/queries";
 
 const Dashboard = () => {
   const { groups, setGroups } = useContext(groupContext);
@@ -39,7 +39,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetch(
-      `https://teammaker.onrender.com/member/getparticipants`, {
+      `${server_domain}/member/getparticipants`, {
         method: 'GET',
         credentials: 'include',
         headers: {

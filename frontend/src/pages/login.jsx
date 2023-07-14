@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import { useContext } from 'react';
 import { groupContext } from '../helper/group_context';
 import { NonLoggedNav } from '../components/navbar';
-import { getCookie } from '../components/queries';
+import { getCookie, server_domain } from '../components/queries';
 import bg_img from '../images/bg_img.jpg'
 
 function Login() {
@@ -15,7 +15,6 @@ function Login() {
   const cookies = new Cookies()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
-  const [status, setStatus] = useState(null)
   const [jwt, setJwt] = useState(null) 
 
   const options = {
@@ -28,7 +27,7 @@ function Login() {
   }
 
   useEffect(()=>{
-      fetch(`https://teammaker.onrender.com/user/dashboard`, options).then(response=> response)
+      fetch(`${server_domain}/user/dashboard`, options).then(response=> response)
       .then(resp=> {
           setJwt(resp.status)
       })
@@ -56,7 +55,7 @@ function Login() {
            
             <div className='w-full h-[30%] flex flex-col justify-normal place-items-center'>
             <button type='button' onClick={async()=>{
-              await fetch(`https://teammaker.onrender.com/user/login`, {
+              await fetch(`${server_domain}/user/login`, {
                 method: "POST",
                 credentials: 'include',
                     headers: {

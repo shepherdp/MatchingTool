@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { NonLoggedNav } from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
-import { resetPassSchema, schema } from '../validation/validate_registration';
+import { resetPassSchema} from '../validation/validate_registration';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { server_domain } from '../components/queries';
 
 const SetNewPass =()=> {
     const {register, handleSubmit, formState: {errors}, reset} = useForm({
@@ -11,7 +12,6 @@ const SetNewPass =()=> {
       });
     const [expired, setExpired] = useState(null)
     const navigate = useNavigate()
-    const [password, setPassword] = useState(null)
     const path = window.location.href
     const token = path.slice(('https://www.teammakeronline.com/reset/'.length))
   return (
@@ -24,7 +24,7 @@ const SetNewPass =()=> {
         <div className='w-[50%] h-[50%] bg-[#4169E1] relative'>
           {expired === null && <form onSubmit={handleSubmit(
             (data)=>{
-                fetch(`https://teammaker.onrender.com/user/recover`, {
+                fetch(`${server_domain}/user/recover`, {
                     method: "POST",
                     credentials: 'include',
                         headers: {
