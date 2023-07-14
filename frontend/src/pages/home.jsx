@@ -67,7 +67,7 @@ function Home() {
                     <p className='text-white text-3xl'>Manage and create teams with pairings of individuals who have not worked together before</p>
                 </div> 
             </div>
-            <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center top-[60%]'>
+            <div className='absolute w-full h-[30%] z-40 flex justify-center place-items-center top-[60%]'>
                 <button type='button' onClick={
                     ()=>navigate('/register')
                 } className=' relative w-[25%] lg:w-[15%] h-[30%] bg-[#4169E1] text-white text-[80%] md:text-md lg:text-lg rounded-md delay-75 hover:scale-[105%]'>GET STARTED</button>
