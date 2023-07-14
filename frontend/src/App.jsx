@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, json} from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
 import Test from './pages/test';
@@ -42,8 +42,8 @@ const App =()=> {
         <link href="https://fonts.googleapis.com/css2?family=Changa:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     </header>
     <groupContext.Provider value={{groups, setGroups, groupName, setGroupName, teams, setTeams}}>
-      {!cookies_accepted && <CookieNotice />}
       <BrowserRouter>
+      {!cookies_accepted && <CookieNotice />}
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/*' element={<NotFound />} />

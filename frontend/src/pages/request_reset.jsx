@@ -27,7 +27,7 @@ const RequestReset =()=> {
             <button className='w-[30%] h-[10%] bg-[#4169E1] shadow-md shadow-[#4169E1] rounded-lg text-white hover:scale-105 delay-75 flex justify-center place-items-center gap-x-2 disabled:hover:scale-100' disabled={!email} onClick={
               ()=>{
                 setIsLoading(true)
-                fetch(`/user/reset`, {
+                fetch(`https://teammaker.onrender.com/user/reset`, {
                   method: "POST",
                   credentials: 'include',
                       headers: {

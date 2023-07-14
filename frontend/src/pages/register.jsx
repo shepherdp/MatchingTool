@@ -35,7 +35,7 @@ const Register=()=> {
               <form onSubmit={handleSubmit(
                   async(data)=>{  
 
-                    await fetch(`/user/register`, {
+                    await fetch(`https://teammaker.onrender.com/user/register`, {
                       method: "POST",
                           headers: {
                               'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ const Register=()=> {
                   }).then(response => response)
                     .then(resp=>{
                       if (resp.status===200){
-                        fetch(`/user/login`, {
+                        fetch(`https://teammaker.onrender.com/user/login`, {
                           method: "POST",
                           credentials: 'include',
                               headers: {

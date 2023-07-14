@@ -8,8 +8,8 @@ const Privacy=()=> {
         <div className='bg-[#4169E1]'>
         <NonLoggedNav name='Login' destination='/login' />
         </div>
-        <div className='w-[90%] h-[80%] overflow-y-auto ml-12 mt-12'>
-        <h1 className='w-full text-center text-2xl font-bold fixed bg-white'>Privacy and Cookies Policy</h1>
+        <div className='w-full h-[84%] overflow-y-auto pr-12 pl-12'>
+        <div className='w-full h-[10%] text-center text-2xl font-bold fixed bg-white flex justify-center place-items-center'><h1>Privacy and Cookies Policy</h1></div>
         <br /> <br />
 
         <h1 className='font-bold'>Effective Date: July, 13th 2023</h1> 

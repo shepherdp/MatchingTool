@@ -1,6 +1,6 @@
 import jwt
 from flask import Blueprint, jsonify, request, make_response
-from database import db, db_init
+from database import db_init
 import datetime
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
@@ -13,7 +13,7 @@ bcrypt = Bcrypt()
 database = db_init()
 
 CORS(auth, supports_credentials=True,  origins=[
-     'https://10.16.1.91:3000'])
+     'https://www.teammakeronline.com'])
 
 
 @auth.route('/register', methods=['POST', 'GET'])
@@ -73,7 +73,7 @@ def login():
     resp = jsonify({'msg': 'logged in', 'groups': groups})
 
     # adds the token to response header (the token will be set as cookie in the browser)
-    resp.headers.add('Access-Control-Allow-Origin', 'https://10.16.1.91:3000')
+    resp.headers.add('Access-Control-Allow-Origin', 'https://www.teammakeronline.com')
     set_access_cookies(resp, access_token, max_age=7776000)
     set_refresh_cookies(resp, refresh_token, max_age=7776000)
     return resp, 200, {'Access-Control-Allow-Credentials': 'true'}

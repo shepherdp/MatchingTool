@@ -36,7 +36,7 @@ const MakeTeams=()=> {
     }
 
     useEffect(()=>{
-        fetch('/member/getparticipants', {
+        fetch('https://teammaker.onrender.com/member/getparticipants', {
             method: "POST",
             credentials: 'include',
                 headers: {
@@ -212,7 +212,7 @@ const MakeTeams=()=> {
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center">
                             <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75 flex flex-row gap-x-3 justify-center place-items-center" onClick={()=>{
                                 setIsLoading(true)
-                                fetch(`/member/maketeams`, {
+                                fetch(`https://teammaker.onrender.com/member/maketeams`, {
                                     method: "POST",
                                     credentials: 'include',
                                         headers: {

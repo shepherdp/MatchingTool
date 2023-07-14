@@ -27,7 +27,7 @@ const getData=async()=>{
         //     'Access_Token_Cookie': getCookie('access_token_cookie')
          }
     }
-    await fetch(`/user/dashboard`, options).then(response=> response.json())
+    await fetch(`https://teammaker.onrender.com/user/dashboard`, options).then(response=> response.json())
         .then(resp=> {
             console.log(resp)
         })

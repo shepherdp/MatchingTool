@@ -13,7 +13,7 @@ const SetNewPass =()=> {
     const navigate = useNavigate()
     const [password, setPassword] = useState(null)
     const path = window.location.href
-    const token = path.slice(('https://10.16.0.197:3000/reset/'.length))
+    const token = path.slice(('https://www.teammakeronline.com/reset/'.length))
   return (
     <>
     <section className='w-screen h-screen bg-[#E6F3FE]'>
@@ -24,7 +24,7 @@ const SetNewPass =()=> {
         <div className='w-[50%] h-[50%] bg-[#4169E1] relative'>
           {expired === null && <form onSubmit={handleSubmit(
             (data)=>{
-                fetch(`/user/recover`, {
+                fetch(`https://teammaker.onrender.com/user/recover`, {
                     method: "POST",
                     credentials: 'include',
                         headers: {
