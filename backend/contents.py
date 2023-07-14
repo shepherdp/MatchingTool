@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from database import db_init
 from teams import makeTeams
+
 content = Blueprint('content', __name__)
 
 database = db_init()
@@ -171,16 +172,24 @@ def GetPreviousTeams():
 
     return jsonify({'teams': teams_list}), 200
 
+@content.route('/deletegroups', methods=['POST'])
+@jwt_required()
+def DeleteGroups():
+    current_user = get_jwt_identity()
+    if not current_user:
+        return jsonify({'msg': 'forbiden access'}), 401
+    
+    owner = database['Users'].find_one({'email': current_user})['_id']
+    name = request.json['groupName']
 
-# database['Teams'].delete_many({'owner':owner, 'group_name':name})
-# groups = database['Users'].find_one({'_id': owner})['groups']
+    database['Teams'].delete_many({'owner':owner, 'group_name': name})
+    groups = database['Users'].find_one({'_id':owner})['groups']
+    groups = list(groups)
+    for group in groups:
+        if group[0] == name:
+            groups.remove(group)
 
-# groups = list(groups)
-# for group in groups:
-#     if group[0] == name:
-#         groups.remove(group)
+    database['Users'].update_one({'_id':owner}, {'$set':{'groups':groups}})
+    database['Groups'].delete_one({'owner':owner, 'group_name': name})
 
-# database['Users'].update_one({'_id': owner}, {'$set':{'groups': groups}})
-# database['Groups'].delete_one({'owner':owner, 'group_name':name})
-
-# return jsonify({'msg': 'group deleted successfully'}), 200
+    return jsonify({'msg': 'group deleted successfully'}), 200

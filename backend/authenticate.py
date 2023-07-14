@@ -1,20 +1,19 @@
 import jwt
 from flask import Blueprint, jsonify, request, make_response
 from database import db, db_init
-import json
 import datetime
-from reset import SendEmail
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, create_refresh_token, unset_jwt_cookies)
 from flask_cors import CORS
 auth = Blueprint('auth', __name__)
+from reset import SendEmail
 bcrypt = Bcrypt()
 
 database = db_init()
 
 CORS(auth, supports_credentials=True,  origins=[
-     'https://10.16.1.91:3000', 'https://localhost:3000'])
+     'https://10.16.1.91:3000'])
 
 
 @auth.route('/register', methods=['POST', 'GET'])

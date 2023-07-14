@@ -32,9 +32,11 @@ function Home() {
     }
   return (
     <>
+    
+    <main className='w-screen min-h-screen h-screen bg-[#E6F3FE]'>
     <div className='fixed w-full z-50'>
     <div className="relative flex justify-between min-w-screen width-screen h-20 bg-transparent">
-                <button type='button' onClick={()=>navigate('/')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-[#4169E1]'>
+                <button type='button' onClick={()=>navigate('/')} className='flex flex-row justify-center place-items-center h-full text-white focus:bg-transparent'>
                     
                         <div className='ml-8 mb-6 border-b-2 border-white'>
                             <h1 className='font-bold'>TEA</h1>
@@ -54,19 +56,18 @@ function Home() {
                 </button>
             </div>   
         </div>
-    <main className='w-screen h-screen bg-[#E6F3FE]'>
         <section className='flex w-full h-full flex-row justify-center place-items-center'>
             <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip brightness-50' />
-            <div className='font-semibold text-[600%] md:[700] lg:text-[800%] absolute w-full flex flex-row gap-x-[1%] justify-center place-items-center h-[30%] top-[30%]'>
-                <h1 className='text-[#E6F3FE]'>TEAM</h1>
-                <h1 className='text-[#4169E1]'>MAKER</h1>
+            <div className='absolute w-full flex flex-row gap-x-[1%] justify-center place-items-center h-[30%] top-[30%]'>
+                <h1 className='text-[#E6F3FE] font-semibold text-[800%]'>TEAM</h1>
+                <h1 className='text-[#4169E1] font-semibold text-[800%]'>MAKER</h1>
             </div>
-            <div className='absolute w-full flex justify-center place-items-center z-50 pt-[15%]'>
+            <div className='absolute w-full flex justify-center place-items-center z-50 pt-[10%]'>
                 <div className='w-[60%] text-center'>
-                    <p className='text-white text:xl md:text-2xl lg:text-3xl'>Simplify the teammate pairing process and build fresh and well balenced teams.</p>
+                    <p className='text-white text-3xl'>Manage and create teams with pairings of individuals who have not worked together before</p>
                 </div> 
             </div>
-            <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center lg:top-[75%] top-[70%]'>
+            <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center top-[60%]'>
                 <button type='button' onClick={
                     ()=>navigate('/register')
                 } className=' relative w-[25%] lg:w-[15%] h-[30%] bg-[#4169E1] text-white text-[80%] md:text-md lg:text-lg rounded-md delay-75 hover:scale-[105%]'>GET STARTED</button>
@@ -107,14 +108,12 @@ function Home() {
                 </div>
         </section>
 
-        <section className="bg-[#002147] h-[120px] w-screen">
-            <div className="w-[99%] h-full flex justify-center place-items-end flex-col">
-                <h1 className="relative mr-8 flex text-end text-white" >copyright 2023</h1>
+        <section className="bg-[#002147] h-[20%] w-screen">
+            <div className="w-[99%] h-full flex justify-center place-items-end flex-col gap-y-[50%]">
+               
                 <button type='button' 
-                // onClick={
-                //         ()=>navigate('/register')
-                //     }
                      className='relative mr-8 flex text-end text-white top-[15%]' onClick={()=>navigate('/aboutteam')}>About Us</button>
+                 <h1 className="relative mr-8 flex text-end text-white" >copyright 2023</h1>
             </div>
         </section>
     </main>
