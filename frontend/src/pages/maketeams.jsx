@@ -210,7 +210,7 @@ const MakeTeams=()=> {
                             }
                         </div>  
                         <div className="w-[100%] h-[20%] flex justify-center place-items-center">
-                            <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75 flex flex-row gap-x-3 justify-center place-items-center" onClick={()=>{
+                            <button type="button" className=" h-[50%] w-[50%] bg-[#4169E1] text-white rounded-lg hover:scale-[105%] delay-75 flex flex-row gap-x-3 justify-center place-items-center" disabled={isLoading} onClick={()=>{
                                 setIsLoading(true)
                                 fetch(`${server_domain}/member/maketeams`, {
                                     method: "POST",
