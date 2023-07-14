@@ -2,9 +2,10 @@ from flask import Flask, Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from database import db_init
 from teams import makeTeams
-
+from flask_cors import CORS
 content = Blueprint('content', __name__)
 
+CORS(content, origins='https://www.teammakeronline.com', supports_credentials=True)
 database = db_init()
 
 
