@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import LoggedNav, { NonLoggedNav } from '../components/navbar';
-import Footer from '../components/footer';
-import {AiOutlineUser} from 'react-icons/ai';
-import {BiSolidUser, BiSolidUserCheck, BiAbacus} from 'react-icons/bi';
-import { FcGoogle } from 'react-icons/fc';
 import bg_img from '../images/bg_img.jpg'
 import { getCookie, server_domain } from '../components/queries';
 function Home() {
