@@ -28,7 +28,7 @@ function Home() {
         })
     }, [])
     if(jwt===200){
-      navigate('/dashboard')
+      navigate('/login')
     }
   return (
     <>
