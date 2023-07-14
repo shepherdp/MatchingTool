@@ -4,7 +4,6 @@ import { server_domain } from './queries';
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
-    console.log(value)
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
@@ -13,7 +12,6 @@ function getCookie(name) {
 const PrivateRoute=({children})=>{
     const navigate = useNavigate()
     const [jwt, setJwt] = useState(null) 
-    console.log(getCookie('csrf_access_token'))
     const options = {
         method: 'POST',
         credentials: 'include',
