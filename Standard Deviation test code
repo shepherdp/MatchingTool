@@ -77,39 +77,40 @@ class Graph:
         plt.show()
 
     def swap_students(self, groups):
-        for g in groups:
-            random.shuffle(g)
-        random.shuffle(groups)
-        group_weights = [self.measure_group_weight(group) for group in groups]
+            for g in groups:
+                random.shuffle(g)
+            random.shuffle(groups)
+            group_weights = [self.measure_group_weight(group) for group in groups]
 
-        for i, group1 in enumerate(groups[:-1]):
-            weight1 = group_weights[i]
-            for j, group2 in enumerate(groups[i + 1:], start=i + 1):
-                weight2 = group_weights[j]
+            for i, group1 in enumerate(groups[:-1]):
+                weight1 = group_weights[i]
+                for j, group2 in enumerate(groups[i + 1:], start=i + 1):
+                    weight2 = group_weights[j]
 
-                for pair in itertools.product(range(len(group1)), range(len(group2))):
-                    k, l = pair
+                    for pair in itertools.product(range(len(group1)), range(len(group2))):
+                        k, l = pair
 
-                    if k == l:
-                        continue
+                        if k == l:
+                            continue
 
-                    # Perform the swap
-                    group1[k], group2[l] = group2[l], group1[k]
+                        # Perform the swap
+                        group1[k], group2[l] = group2[l], group1[k]
 
-                    # Calculate the weight differences
-                    delta1 = self.measure_group_weight(group1) - weight1
-                    delta2 = self.measure_group_weight(group2) - weight2
+                        # Calculate the weight differences
+                        delta1 = self.measure_group_weight(group1) - weight1
+                        delta2 = self.measure_group_weight(group2) - weight2
 
-                    # Compare the weight differences
-                    if delta1 + delta2 > 0:
-                        # Swap back if the rating is not improved
-                        group2[l], group1[k] = group1[k], group2[l]
-                    else:
-                        # Update the group weights and running totals
-                        weight1 += delta1
-                        weight2 += delta2
-                        group_weights[i] += delta1
-                        group_weights[j] += delta2
+                        # Compare the weight differences
+                        if delta1 + delta2 > 0:
+                            # Swap back if the rating is not improved
+                            group2[l], group1[k] = group1[k], group2[l]
+                        else:
+                            # Update the group weights and running totals
+                            weight1 += delta1
+                            weight2 += delta2
+                            group_weights[i] += delta1
+                            group_weights[j] += delta2
+
 
     def get_lowest_weight_group(self, previous_pairs, group_size=2):
         group_size = int(group_size)
@@ -179,36 +180,33 @@ def make_groups_with_equal_teammates(graph, students, previous_pairs, emphasis_o
             student1 = students[i]
             student2 = students[j]
 
-
-
             # Calculate the edge weight based on ratings
-            edge_weight = abs((student1.rating + student2.rating)/2 - average_rating)
+            edge_weight = abs(student1.rating - student2.rating)
 
             # Check the number of occurrences in previous pairings and increase the edge weight
             pair_count = 0
             is_forbidden = False
             for p in previous_pairs:
                 if (student1 in p and student2 in p):
-                    pair_count = p[2] # data should look like this: (student1, student2, pair_count)
+                    pair_count = p[2]  # data should look like this: (student1, student2, pair_count)
                     if pair_count == -1:
                         is_forbidden = True
             edge_weight += pair_count * emphasis_on_new_teams
-
 
             # Add weighted edge to the graph
             if pair_count != -1:
                 graph.add_edge(student1, student2, edge_weight)
 
-
     # Find min weight matching
     matching = graph.get_lowest_weight_group(previous_pairs, group_size)
     for i in range(3):
         graph.swap_students(matching)
+    update_previous_pairs(matching, previous_pairs)
     return matching
+
 
 def make_balanced_groups(graph, students, previous_pairs, emphasis_on_new_teams, group_size):
     group_size = int(group_size)
-
 
     for student in students:
         graph.add_vertex(student)
@@ -229,7 +227,7 @@ def make_balanced_groups(graph, students, previous_pairs, emphasis_on_new_teams,
             student2 = students[j]
 
             # Calculate the edge weight based on ratings
-            edge_weight = abs(student1.rating - student2.rating)
+            edge_weight = abs((student1.rating + student2.rating)/2 - average_rating)
 
             # Check the number of occurrences in previous pairings and increase the edge weight
             pair_count = sum(1 for p in previous_pairs_set if student1 in p and student2 in p)
@@ -240,11 +238,11 @@ def make_balanced_groups(graph, students, previous_pairs, emphasis_on_new_teams,
             if not is_forbidden:
                 graph.add_edge(student1, student2, edge_weight)
 
-
     # Find min weight matching
     matching = graph.get_lowest_weight_group(previous_pairs, group_size)
     for i in range(3):
         graph.swap_students(matching)
+    update_previous_pairs(matching, previous_pairs)
     return matching
 
 def make_random_groups(graph, students, previous_pairs, emphasis_on_new_teams, group_size):
@@ -295,46 +293,47 @@ def make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_te
     leader_count = len(students) // group_size
     leaders = students[:leader_count]
 
-    # Add each student as a node to the graph
     for student in students:
         graph.add_vertex(student)
 
+        # Get the overall average rating
+        average_rating = sum(student.rating for student in students) / len(students)
+
+    # Convert previous_pairs to a set of tuples for pair count calculation
+    previous_pairs_set = set((p[0], p[1]) for p in previous_pairs)
+
     # Assign weights to edges between students
-    pair_counts = {}
-    forbidden_pairs = set()
     for i in range(len(students)):
         student1 = students[i]
         for j in range(i + 1, len(students)):
             student2 = students[j]
-            # Calculate the length of students list
-            num_students = len(students)
 
-            # Get the overall average rating
-            average_rating = sum(student.rating for student in students) / num_students
-            edge_weight = average_rating
+            # make edges for balenced teams
+            edge_weight = abs((student1.rating + student2.rating) / 2 - average_rating)
 
-            # Calculate the edge weight based on ratings
+            # make edge between leaders greater
             if student1 in leaders and student2 in leaders:
-                edge_weight += 5
+                edge_weight += 10
 
-
+            pair_count = 0
+            for p in previous_pairs:
+                if student1 in p and student2 in p:
+                    pair_count = p[2]
             # Check the number of occurrences in previous pairings and increase the edge weight
-            if (student1, student2) in pair_counts:
-                pair_count = pair_counts[(student1, student2)]
-                if pair_count == -1:
-                    forbidden_pairs.add((student1, student2))
-                edge_weight += pair_count * emphasis_on_new_teams
+            is_forbidden = (edge_weight == -1)
+            edge_weight += pair_count * emphasis_on_new_teams
 
             # Add weighted edge to the graph
-            if (student1, student2) not in forbidden_pairs:
+            if not is_forbidden:
                 graph.add_edge(student1, student2, edge_weight)
+    graph.draw_graph()
 
     # Find min weight matching
     matching = graph.get_lowest_weight_group(previous_pairs, group_size)
-    # swap students to make better groups
     for i in range(3):
         graph.swap_students(matching)
 
+    previous_pairs = update_previous_pairs(matching, previous_pairs)
     return matching
 
 
@@ -394,7 +393,7 @@ def main():
         # ...
     ]
 
-    students = make_students(4)
+    students = make_students(16)
 
     previous_pairs = [
         # ...
@@ -403,7 +402,7 @@ def main():
     emphasis_on_new_teams = 1
 
     global group_size
-    group_size = 2
+    group_size = 3
     graph = Graph()
 
 
@@ -415,16 +414,20 @@ def main():
 
     while choice.lower() == 'y':
         # get initial grouping
-        # iter = 0
-        # flag = False
-        # while flag == False:
-        #     for p in previous_pairs:
-        #         if p[2] >1:
-        #             flag = True
-        paired_students = make_random_groups(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
+        iter = 0
+        flag = False
+        while flag == False:
+            for p in previous_pairs:
+                if p[2] >1:
+                    flag = True
+            paired_students = make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
+        for p in paired_students:
+            print("   ")
+            for i in p:
+                print(i.name+ "              "+str(i.rating))
         #     iter += 1
         # print(str(iter)+" times before fail")
-        #draw_previous_pairs_graph(previous_pairs)
+        draw_previous_pairs_graph(previous_pairs)
         #draw_previous_pairs_graph(previous_pairs)
         #for p in previous_pairs:
             #print(p[0].name + " " + p[1].name + "   "+ str(p[2]))
