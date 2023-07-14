@@ -12,7 +12,7 @@ function getCookie(name) {
 const PrivateRoute=({children})=>{
     const navigate = useNavigate()
     const [jwt, setJwt] = useState(null) 
-
+    console.log(getCookie('csrf_access_token'))
     const options = {
         method: 'POST',
         credentials: 'include',
