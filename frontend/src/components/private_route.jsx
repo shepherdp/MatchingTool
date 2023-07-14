@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import {  useNavigate } from 'react-router-dom';
 import { server_domain } from './queries';
 
 function getCookie(name) {

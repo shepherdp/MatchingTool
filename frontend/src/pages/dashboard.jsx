@@ -21,7 +21,7 @@ const Dashboard = () => {
 
   const confirmDeleteGroup = () => {
     // Perform the delete operation
-    fetch(`https://teammaker.onrender.com/member/deletegroups`, {
+    fetch(`${server_domain}/member/deletegroups`, {
       method: "POST",
       credentials: 'include',
       headers: {
