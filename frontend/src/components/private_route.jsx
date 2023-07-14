@@ -3,11 +3,10 @@ import {  useNavigate } from 'react-router-dom';
 import { server_domain } from './queries';
 
 function getCookie(name) {
-    // const value = `; ${document.cookie}`;
-    // const parts = value.split(`; ${name}=`);
-    // if (parts.length === 2) return parts.pop().split(';').shift();
-    const access_token = document.cookie.match(name)
-    return access_token
+    const value = `; ${document.cookie}`;
+    console.log(value)
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
   }
 
 
