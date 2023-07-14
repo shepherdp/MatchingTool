@@ -42,6 +42,4 @@ def create_app():
 
     
     db_init()
-    with app.app_context():
-        db.create_all()
     return app
