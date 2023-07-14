@@ -11,7 +11,7 @@ from reset import SendEmail
 bcrypt = Bcrypt()
 
 database = db_init()
-
+CORS(auth, origins='https://www.teammakeronline.com', supports_credentials=True)
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
