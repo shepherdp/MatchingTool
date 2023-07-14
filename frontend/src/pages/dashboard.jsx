@@ -98,7 +98,7 @@ const Dashboard = () => {
                   )}
                   <button
                     type='button'
-                    className="absolute w-[15%] z-50 top-[5%] left-[77%] hover:scale-105 flex justify-center place-items-center text-white bg-[#4169E1] rounded-full delay-75"
+                    className="absolute w-[15%] z-40 top-[5%] left-[77%] hover:scale-105 flex justify-center place-items-center text-white bg-[#4169E1] rounded-full delay-75"
                     onClick={() => handleDeleteGroup(group)}
                   >
                     <BiTrash className=" text-[200%] text-center" />
