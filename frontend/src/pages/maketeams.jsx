@@ -233,6 +233,7 @@ const MakeTeams=()=> {
                                     sessionStorage.setItem('activity', resp['activity'])
                                 })
                                 .then(()=> navigate('../../teams'))
+                                // made change here
                             }}>{!isLoading ? <h1>Generate Teams</h1> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
                         </div>
 
