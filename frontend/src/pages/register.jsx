@@ -34,7 +34,7 @@ const Register=()=> {
           </div>
               <form onSubmit={handleSubmit(
                   async(data)=>{  
-                    navigate('/login')
+                    setSubmitted(true)
                     await fetch(`${server_domain}/user/register`, {
                       method: "POST",
                           headers: {
