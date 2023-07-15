@@ -10,34 +10,35 @@ from contents import content
 from dotenv import load_dotenv, find_dotenv
 import os
 load_dotenv(find_dotenv())
-def create_app():
-    app = Flask(__name__)
-    CORS(app, origins='https://www.teammakeronline.com', supports_credentials=True)
-    # flask blueprints
-    # blueprint for authenticate.py
-    app.register_blueprint(auth, url_prefix='/user')
-    # blueprint for contents.py
-    app.register_blueprint(content, url_prefix='/member')
+app = Flask(__name__)
+CORS(app, origins=["http://10.16.3.216:3000", "https://localhost:3000/"], supports_credentials=True)
+# flask blueprints
+# blueprint for authenticate.py
+app.register_blueprint(auth, url_prefix='/user')
+# blueprint for contents.py
+app.register_blueprint(content, url_prefix='/member')
+
+# config up flask_wtf
+app.config['SECRET_KEY'] = 'secret-key'
+
+# setting up flask-jwt for authentification
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
+app.config['JWT_COOKIE_SECURE'] = True
+app.config['JWT_COOKIE_SAMESITE'] = 'None'
+app.config['JWT_SECRET_KEY'] = os.environ.get(
+    'JWT_SECRET_KEY')  # to be changed
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+app.config['JWT_TOKEN_EXPIRES'] = timedelta(minutes=30)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=90)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=90)
+jwt = JWTManager(app)
+
+bcrypt.init_app(app)
+
+
     
-    # config up flask_wtf
-    app.config['SECRET_KEY'] = 'secret-key'
+db_init()
 
-    # setting up flask-jwt for authentification
-    app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
-    app.config['JWT_COOKIE_SECURE'] = True
-    app.config['JWT_COOKIE_SAMESITE'] = 'None'
-    app.config['JWT_SECRET_KEY'] = os.environ.get(
-        'JWT_SECRET_KEY')  # to be changed
-    app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-    app.config['JWT_COOKIE_CSRF_PROTECT'] = True
-    app.config['JWT_TOKEN_EXPIRES'] = timedelta(minutes=30)
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=90)
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=90)
-    jwt = JWTManager(app)
-
-    bcrypt.init_app(app)
-
-
-    
-    db_init()
-    return app
+if __name__ == '__main__':
+    app.run(ssl_context='adhoc')
