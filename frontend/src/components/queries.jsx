@@ -4,7 +4,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
 
-  export const server_domain = 'https://server.teammakeronline.com'
+  export const server_domain = 'https://server.teammakeronline.com/'
 
 const Send = async(path, data) =>{
     fetch(`https://server.teammakeronline.com${path}`, {
