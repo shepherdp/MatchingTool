@@ -68,7 +68,7 @@ const Dashboard = () => {
                   onClick={() => navigate("/create/name")}
                   className="relative"
                 >
-                  <div className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px] rounded-lg shadow-lg shadow-[#999ca8]">
+                  <div className="w-[250px] h-[250px] bg-white border-4 border-[#4169E1] flex justify-center items-center text-[#4169E1] text-[90px] hover:text-[100px] rounded-lg shadow-lg shadow-[#a1a2a7]">
                     <BiPlusMedical />
                   </div>
                 </button>

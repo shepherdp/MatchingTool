@@ -1,5 +1,9 @@
 import random
 import itertools
+import tkinter as tk
+from tkinter import font
+import networkx as nx
+import matplotlib.pyplot as plt
 import math
 
 class Student:
@@ -38,6 +42,39 @@ class Graph:
         for v1, v2 in itertools.combinations(group, 2):
             total_weight += self.get_edge_weight(v1, v2)
         return total_weight
+
+    def draw_graph(self):
+        # Create an empty graph
+        G = nx.Graph()
+        # Clear the graph window
+        plt.clf()
+        # Add edges with pair counts as edge attributes
+        for v1 in self.vertices:
+            for v2 in self.vertices:
+                if v1 != v2:
+                    edge = self.get_edge_weight(v1, v2)
+                    G.add_edge(v1.name, v2.name, weight=edge)
+
+        # Extract edge weights
+        weights = [G[u][v]['weight'] for u, v in G.edges()]
+
+        # Normalize the edge weights
+        normalized_weights = [(weight - min(weights)) / (max(weights) - min(weights) + 0.001) for weight in weights]
+
+        # Define a colormap based on the pair counts
+        cmap = plt.cm.get_cmap('YlGnBu')
+
+        # Draw the graph
+        pos = nx.spring_layout(G)
+        nx.draw_networkx_nodes(G, pos, node_color='lightgray', node_size=200)
+        nx.draw_networkx_edges(G, pos, width=weights, edge_color='lightblue', edge_cmap=cmap)
+
+        # Add labels to the nodes
+        nx.draw_networkx_labels(G, pos)
+
+        # Show the graph
+        plt.axis('off')
+        plt.show()
 
     def swap_students(self, groups):
             for g in groups:
@@ -238,6 +275,7 @@ def make_random_groups(graph, students, previous_pairs, emphasis_on_new_teams, g
             # Add weighted edge to the graph
             if not is_forbidden:
                 graph.add_edge(student1, student2, edge_weight)
+    graph.draw_graph()
 
     # Find min weight matching
     matching = graph.get_lowest_weight_group(previous_pairs, group_size)
@@ -288,6 +326,7 @@ def make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_te
             # Add weighted edge to the graph
             if not is_forbidden:
                 graph.add_edge(student1, student2, edge_weight)
+    graph.draw_graph()
 
     # Find min weight matching
     matching = graph.get_lowest_weight_group(previous_pairs, group_size)
@@ -297,3 +336,145 @@ def make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_te
     previous_pairs = update_previous_pairs(matching, previous_pairs)
     return matching
 
+
+
+
+def make_students(how_many_students):
+    students = []
+    for i in range(how_many_students):
+        students.append(Student("student"+ str(i), random.randint(1, 5)))
+    return students
+
+
+def draw_previous_pairs_graph(previous_pairs):
+    # Create an empty graph
+    G = nx.Graph()
+
+    # Add edges with pair counts as edge attributes
+    for edge in previous_pairs:
+        student1, student2, pair_count = edge
+        G.add_edge(student1.name, student2.name, weight=pair_count)
+
+    # Extract edge weights
+    weights = [G[u][v]['weight'] for u, v in G.edges()]
+
+    # Normalize the edge weights
+    normalized_weights = [(weight - min(weights)) / (max(weights) - min(weights)+0.2) for weight in weights]
+
+    # Define a colormap based on the pair counts
+    cmap = plt.cm.get_cmap('YlGnBu')
+
+    # Draw the graph
+    pos = nx.spring_layout(G)
+    nx.draw_networkx_nodes(G, pos, node_color='lightgray', node_size=200)
+    nx.draw_networkx_edges(G, pos, width=weights, edge_color='lightblue', edge_cmap=cmap)
+
+    # Add labels to the nodes
+    nx.draw_networkx_labels(G, pos)
+
+    # Draw the edges with the normalized weights
+    nx.draw_networkx_edges(G, pos, width=normalized_weights, edge_color='lightblue', edge_cmap=cmap)
+
+    # Show the graph
+    plt.axis('off')
+    plt.show()
+
+
+
+
+def main():
+    students = [
+        Student("Daniel", 1),
+        Student("Baniel", 1),
+        Student("Shaniel", 2),
+        Student("Maniel", 2),
+        Student("Sydney", 3),
+        Student("Bidney", 4)
+        # ...
+    ]
+
+    students = make_students(16)
+
+    previous_pairs = [
+        # ...
+    ]
+
+    emphasis_on_new_teams = 1
+
+    global group_size
+    group_size = 3
+    graph = Graph()
+
+
+    choice = 'y'
+    graph = Graph()
+
+
+
+
+    while choice.lower() == 'y':
+        # get initial grouping
+        iter = 0
+        flag = False
+        while flag == False:
+            for p in previous_pairs:
+                if p[2] >1:
+                    flag = True
+            paired_students = make_groups_with_leaders(graph, students, previous_pairs, emphasis_on_new_teams, group_size)
+        for p in paired_students:
+            print("   ")
+            for i in p:
+                print(i.name+ "              "+str(i.rating))
+        #     iter += 1
+        # print(str(iter)+" times before fail")
+        draw_previous_pairs_graph(previous_pairs)
+        #draw_previous_pairs_graph(previous_pairs)
+        #for p in previous_pairs:
+            #print(p[0].name + " " + p[1].name + "   "+ str(p[2]))
+
+        # GET STANDARD DEVIATION
+        # std_dev = 0
+        # total_sum = 0
+        #
+        # for group in paired_students:
+        #     for student in group:
+        #         total_sum += student.rating
+        #
+        # total_avg = total_sum / len(students)
+        #
+        # sum_squared_diff = 0
+        # for group in paired_students:
+        #     for student in group:
+        #         diff = student.rating - total_avg
+        #         sum_squared_diff += diff ** 2
+        #
+        # variance = sum_squared_diff / len(students)
+        #
+        # std_deviation = math.sqrt(variance)
+        #
+        # for group in paired_students:
+        #     for prev in previous_pairs:
+        #         for stud1 in group:
+        #             for stud2 in group:
+        #                 if stud1 in prev and stud2 in prev and prev[2] > 1:
+        #                     print("iterations: "+str(iterations-1))
+        #                     return
+        #     #get standard deviation
+        #     group_sum = 0
+        #     for student in group:
+        #         group_sum += student.rating
+        #     group_avg = group_sum/len(group)
+        #     std_dev += abs(total_avg-group_avg)
+        #     print("\n ")
+        #     group_str = ""
+        #     for student in group:
+        #         group_str += student.name+", "
+        #     print("["+group_str + "]")
+        # print("The std dev is: "+ str(std_deviation))
+        # # Ask the user if they want to generate another pairing
+        choice = input("\n\n\nGenerate another pairing? (y/n): \n")
+
+
+
+if __name__ == "__main__":
+    main()

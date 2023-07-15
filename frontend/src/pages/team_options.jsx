@@ -65,7 +65,7 @@ const TeamOptions = ({ className }) => {
               onMouseLeave={handleMouseLeave2}
             >
               {isHovered2 ? (
-                <span className="text-[40px] font-bold overflow-hidden">Edit Teams</span>
+                <span className="text-[40px] font-bold overflow-hidden">Edit Participants</span>
               ) : (
                 <AiFillEdit className="text-[90px]" />
               )}
