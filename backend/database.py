@@ -1,4 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
 import os
@@ -11,4 +10,3 @@ def db_init():
     return database
 
 
-db = SQLAlchemy()
