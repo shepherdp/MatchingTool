@@ -6,7 +6,7 @@ const CookieNotice=()=> {
     const navigate = useNavigate();
     const cookie = new Cookies();
   return (
-    <section className='fixed w-[60%] h-[20%] lg:w-[30%] lg:h-[20%] z-50 bg-black top-[75%] left-[1%] opacity-[60%] flex flex-col justify-center place-items-center text-center text-white rounded-lg'>
+    <section className='fixed w-[60%] h-[20%] lg:w-[30%] lg:h-[20%] z-50 bg-black top-[75%] left-[1%] bg-opacity-[75%] flex flex-col justify-center place-items-center text-center text-white rounded-lg text-xs lg:text-md'>
        <div className='w-full h-[70%] flex justify-center place-items-center'>
         <p className='pl-4 pr-4'>By using this website, you automatically accept that we use cookies. Learn more about our <button onClick={()=>navigate('/privacy')} className=' underline'>privacy and cookies policy</button>.</p>
        </div>
