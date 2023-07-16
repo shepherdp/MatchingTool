@@ -72,10 +72,10 @@ const MakeTeams=()=> {
     }, []);
   return (
     <>
-    <main className="h-screen">
+    <main className="relative h-screen">
         <LoggedNav/>
         <section className="relative bg-[#E6F3FE] min-h-screen">
-            <div className="absolute bg-[#4169E1] w-[60%] h-[70%] top-[16%] left-[22%] rounded-lg">
+            <div className="absolute bg-[#4169E1] w-[80%] left-[11%] lg:w-[60%] h-[70%] top-[16%] lg:left-[22%] rounded-lg">
                 <div className="absolute flex flex-col place-items-center pt-6 gap-y-8 bg-white w-full h-full -top-[1%] -left-[2%] lg:-top-[2%] lg:-left-[1.5%] rounded-lg shadow-lg shadow-[#4169E1]">
                     <form onSubmit={
                         handleSubmit(
