@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import {  useNavigate } from 'react-router-dom';
+import { server_domain } from './queries';
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -11,8 +12,6 @@ function getCookie(name) {
 const PrivateRoute=({children})=>{
     const navigate = useNavigate()
     const [jwt, setJwt] = useState(null) 
-    const [refreshed, setRefreshed] = useState(null)
-
     const options = {
         method: 'POST',
         credentials: 'include',
@@ -22,17 +21,8 @@ const PrivateRoute=({children})=>{
         }
     }
 
-    // fetch(`/user/refresh`, {
-    //     method: 'POST',
-    //     credentials: 'include',
-    //     headers: {
-    //         'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
-    //         'Content-Type': 'application/json'
-    //     }
-    // }).then(response => response)
-    // .then(resp => setRefreshed(resp.ok))
     useEffect(()=>{
-        fetch(`/user/dashboard`, options).then(response=> response)
+        fetch(`${server_domain}/user/dashboard`, options).then(response=> response)
         .then(resp=> {
             setJwt(resp.status)
         })

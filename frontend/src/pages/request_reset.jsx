@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { NonLoggedNav } from '../components/navbar';
 import { useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
+import { server_domain } from '../components/queries';
 
 const RequestReset =()=> {
   const navigate = useNavigate()
@@ -27,7 +28,7 @@ const RequestReset =()=> {
             <button className='w-[30%] h-[10%] bg-[#4169E1] shadow-md shadow-[#4169E1] rounded-lg text-white hover:scale-105 delay-75 flex justify-center place-items-center gap-x-2 disabled:hover:scale-100' disabled={!email} onClick={
               ()=>{
                 setIsLoading(true)
-                fetch(`/user/reset`, {
+                fetch(`${server_domain}/user/reset`, {
                   method: "POST",
                   credentials: 'include',
                       headers: {

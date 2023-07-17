@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import LoggedNav, { NonLoggedNav } from '../components/navbar';
-import Footer from '../components/footer';
-import {AiOutlineUser} from 'react-icons/ai';
-import {BiSolidUser, BiSolidUserCheck, BiAbacus} from 'react-icons/bi';
-import { FcGoogle } from 'react-icons/fc';
 import bg_img from '../images/bg_img.jpg'
-import { getCookie } from '../components/queries';
+import { getCookie, server_domain } from '../components/queries';
 function Home() {
     const [jwt, setJwt] = useState(null) 
     let navigate = useNavigate();
@@ -22,13 +17,13 @@ function Home() {
       }
 
     useEffect(()=>{
-        fetch(`/user/dashboard`, options).then(response=> response)
+        fetch(`${server_domain}/user/dashboard`, options).then(response=> response)
         .then(resp=> {
             setJwt(resp.status)
         })
     }, [])
-    if(jwt != null && jwt===200){
-      navigate('/dashboard')
+    if(jwt===200){
+      navigate('/login')
     }
   return (
     <>
@@ -67,7 +62,7 @@ function Home() {
                     <p className='text-white text-3xl'>Manage and create teams with pairings of individuals who have not worked together before</p>
                 </div> 
             </div>
-            <div className='absolute w-full h-[30%] z-50 flex justify-center place-items-center top-[60%]'>
+            <div className='absolute w-full h-[30%] z-40 flex justify-center place-items-center top-[60%]'>
                 <button type='button' onClick={
                     ()=>navigate('/register')
                 } className=' relative w-[25%] lg:w-[15%] h-[30%] bg-[#4169E1] text-white text-[80%] md:text-md lg:text-lg rounded-md delay-75 hover:scale-[105%]'>GET STARTED</button>

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import {FcGoogle} from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useContext } from 'react';
 import { groupContext } from '../helper/group_context';
 import { NonLoggedNav } from '../components/navbar';
-import { getCookie } from '../components/queries';
+import { getCookie, server_domain } from '../components/queries';
 import bg_img from '../images/bg_img.jpg'
+import { FaSpinner } from 'react-icons/fa';
 
 function Login() {
 
@@ -15,8 +15,8 @@ function Login() {
   const cookies = new Cookies()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
-  const [status, setStatus] = useState(null)
   const [jwt, setJwt] = useState(null) 
+  const [clicked, setClicked] = useState(false)
 
   const options = {
     method: 'POST',
@@ -28,7 +28,7 @@ function Login() {
   }
 
   useEffect(()=>{
-      fetch(`/user/dashboard`, options).then(response=> response)
+      fetch(`${server_domain}/user/dashboard`, options).then(response=> response)
       .then(resp=> {
           setJwt(resp.status)
       })
@@ -55,8 +55,9 @@ function Login() {
             <input onChange={(e)=>setPass(e.target.value)} className='border-b-4 w-[60%] h-[15%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="password" placeholder='password' />
            
             <div className='w-full h-[30%] flex flex-col justify-normal place-items-center'>
-            <button type='button' onClick={async()=>{
-              await fetch(`/user/login`, {
+            <button type='button' disabled={clicked} onClick={async()=>{
+              setClicked(true)
+              await fetch(`${server_domain}/user/login`, {
                 method: "POST",
                 credentials: 'include',
                     headers: {
@@ -74,7 +75,7 @@ function Login() {
           }   
         })
          
-            }} className='bg-[#4169E1] font-semibold w-[60%] h-[50%] lg:h-[50%] rounded-lg mb-4 text-white'>Login</button>
+            }} className='bg-[#4169E1] font-semibold w-[60%] h-[50%] lg:h-[50%] rounded-lg mb-4 text-white flex flex-row gap-x-3 justify-center place-items-center'>{!clicked ? <>Login</> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
             <button type='button' onClick={()=>navigate('/reset')} className='text-blue-300 text-xs'>Forgot password</button>
             </div>
             </div>

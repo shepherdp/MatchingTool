@@ -2,7 +2,7 @@ import { FaRegUserCircle } from "react-icons/fa"
 import Footer from "../components/footer"
 import LoggedNav from "../components/navbar"
 import { useEffect, useState } from "react";
-import {Send, getCookie} from '../components/queries';
+import {Send, getCookie, server_domain} from '../components/queries';
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { groupContext } from "../helper/group_context";
@@ -101,7 +101,7 @@ const Members = () => {
                                         </div>
                                     </div>
                                     <button className="w-[60%] m-2 ml-2 mr-2 h-12 mb-6 bg-[#4169E1] text-white" type="button" onClick={
-                                        ()=>{fetch('/member/createmember', {
+                                        ()=>{fetch(`${server_domain}/member/createmember`, {
                                             method: "POST",
                                             credentials: 'include',
                                                 headers: {

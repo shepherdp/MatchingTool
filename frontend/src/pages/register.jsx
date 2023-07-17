@@ -1,15 +1,16 @@
-import {FcGoogle} from 'react-icons/fc';
-import {SendWRes} from '../components/queries';
+import {server_domain} from '../components/queries';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {schema} from '../validation/validate_registration';
 import {useNavigate} from "react-router-dom";
-import SetNavigate from '../components/set_navigate';
 import { NonLoggedNav } from '../components/navbar';
 import bg_img from '../images/bg_img.jpg'
+import { useState } from 'react';
+import { FaSpinner } from 'react-icons/fa';
 
 const Register=()=> {
   const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false)
   const {register, handleSubmit, formState: {errors}, reset} = useForm({
     resolver: yupResolver(schema),
   });
@@ -34,8 +35,8 @@ const Register=()=> {
           </div>
               <form onSubmit={handleSubmit(
                   async(data)=>{  
-
-                    await fetch(`/user/register`, {
+                    setSubmitted(true)
+                    await fetch(`${server_domain}/user/register`, {
                       method: "POST",
                           headers: {
                               'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ const Register=()=> {
                   }).then(response => response)
                     .then(resp=>{
                       if (resp.status===200){
-                        fetch(`/user/login`, {
+                        fetch(`${server_domain}/user/login`, {
                           method: "POST",
                           credentials: 'include',
                               headers: {
@@ -84,7 +85,7 @@ const Register=()=> {
               <p className='text-xs text-[#EE4B2B]'>{errors.password?.message}</p>
               <input {...register('passwordConfirmation')} className='border-b-4 w-[60%] h-[10%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="password" placeholder='confirm password' required/>
               <p className='text-xs text-[#EE4B2B]'>{errors.passwordConfirmation?.message}</p>
-              <button type='submit' className='bg-[#4169E1] font-semibold w-[60%] h-[10%] lg:h-[13%] text-white rounded-lg'>Register</button>
+              <button type='submit' disabled={submitted} className='bg-[#4169E1] font-semibold w-[60%] h-[10%] lg:h-[13%] text-white rounded-lg flex flex-row gap-x-3 justify-center place-items-center'>{!submitted ? <>Register</> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
             </form>
             
             <div className='flex flex-col text-center w-full h-[20%] gap-y-[1%]'>

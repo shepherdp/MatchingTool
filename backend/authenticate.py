@@ -1,6 +1,6 @@
 import jwt
 from flask import Blueprint, jsonify, request, make_response
-from database import db, db_init
+from database import db_init
 import datetime
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_jwt_identity,
@@ -11,10 +11,7 @@ from reset import SendEmail
 bcrypt = Bcrypt()
 
 database = db_init()
-
-CORS(auth, supports_credentials=True,  origins=[
-     'https://10.16.1.91:3000'])
-
+CORS(auth, origins='https://www.teammakeronline.com', supports_credentials=True)
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
@@ -73,10 +70,9 @@ def login():
     resp = jsonify({'msg': 'logged in', 'groups': groups})
 
     # adds the token to response header (the token will be set as cookie in the browser)
-    resp.headers.add('Access-Control-Allow-Origin', 'https://10.16.1.91:3000')
-    set_access_cookies(resp, access_token, max_age=7776000)
-    set_refresh_cookies(resp, refresh_token, max_age=7776000)
-    return resp, 200, {'Access-Control-Allow-Credentials': 'true'}
+    set_access_cookies(resp, access_token, max_age=7776000, domain='.teammakeronline.com')
+    set_refresh_cookies(resp, refresh_token, max_age=7776000, domain='.teammakeronline.com')
+    return resp, 200
 
 
 @auth.route("/logout", methods=["POST"])
@@ -89,7 +85,7 @@ def logout_with_cookies():
              status(int) => status code based on server response
     '''
     response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
+    unset_jwt_cookies(response, domain='.teammakeronline.com')
     return response
 
 
@@ -167,7 +163,7 @@ def verify():
     current_user = get_jwt_identity()
     if not current_user:
         return jsonify({'msg': 'forbiden access'}), 401
-    return jsonify(logged_in_as=current_user), 200, {'Access-Control-Allow-Credentials': 'true'}
+    return jsonify(logged_in_as=current_user), 200
 
 
 @auth.route('/delete', methods=['GET'])
@@ -187,5 +183,5 @@ def DeleteAcc():
     database['Groups'].delete_many({'owner': owner})
     database['Users'].delete_many({'_id': owner})
     response = jsonify({"msg": "account deleted successfully"})
-    unset_jwt_cookies(response)
+    unset_jwt_cookies(response, domain='.teammakeronline.com')
     return response, 200

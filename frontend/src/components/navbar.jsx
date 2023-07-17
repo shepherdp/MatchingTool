@@ -1,9 +1,8 @@
 import {RiUserSettingsLine} from 'react-icons/ri'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { getCookie } from './queries';
+import { getCookie, server_domain } from './queries';
 import { DeleteAcc } from './delete';
-import About from '../pages/about';
 import { AiOutlineMenu} from 'react-icons/ai';
 import { useEffect, useRef, useState } from 'react';
 
@@ -43,7 +42,7 @@ const LoggedNav = () => {
                                 <button className="w-[60%] h-[25%] lg:h-[30%] bg-[#002147] font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
                                     ()=>{
                                         console.log('clicked')
-                                        fetch(`/user/logout`, {
+                                        fetch(`${server_domain}/user/logout`, {
                                         method: "POST",
                                         credentials: 'include',
                                             headers: {
@@ -51,16 +50,16 @@ const LoggedNav = () => {
                                                 'Content-Type': 'application/json'
                                             },
                                     })
-                                .then(sessionStorage.clear()).then(navigate('/login'))}
+                                .then(sessionStorage.clear()).then(navigate('/'))}
                                 }>
                                     Logout
                                 </button>
                             </div>
                                     <div className='w-full h-[30%] flex justify-center place-items-center text-white'>
-                                        <button type='button' className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75' onClick={()=>navigate('/aboutteam')}>About Us</button>
+                                        <button type='button' className='w-[60%] h-[25%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75' onClick={()=>navigate('/aboutteam')}>About Us</button>
                                     </div>
                                     <div className='w-full h-[40%] flex flex-col justify-center place-items-center gap-y-[10%] text-white'>
-                                        <button onClick={()=>navigate('/privacy')} className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75'>
+                                        <button onClick={()=>navigate('/privacy')} className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg text-xs font-semibold hover:scale-105 delay-75'>
                                             Privacy Policy
                                         </button>
                                         <button onClick={()=>{setDeleteAcc(true)}} className='w-[60%] h-[20%] bg-red-400 rounded-lg font-semibold hover:scale-105 delay-75'>
@@ -131,8 +130,6 @@ export const NonLoggedNav = (props) => {
                                 <div className='mt-8 flex align-baseline border-t-2 border-white'>
                                     <h1 className='font-bold'>AKER</h1>
                                 </div>
-                               
-                                {/* <p className="leading-[18px] mt-[21px] text-center text-xl font-bold font-display">ATCH <br/> AKER</p> */}
                          
                         </button>
                         <button className="mr-12 mt-4 align-middle bg-[#002147] mb-6 p-2 pt-1 font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
