@@ -11,7 +11,7 @@ from dotenv import load_dotenv, find_dotenv
 import os
 load_dotenv(find_dotenv())
 app = Flask(__name__)
-CORS(app, origins=["http://10.16.3.216:3000", "https://localhost:3000/"], supports_credentials=True)
+CORS(app, origins=["http://10.16.3.216:3000", "https://localhost:3000/", 'https://10.16.1.11:3000'], supports_credentials=True)
 # flask blueprints
 # blueprint for authenticate.py
 app.register_blueprint(auth, url_prefix='/user')
