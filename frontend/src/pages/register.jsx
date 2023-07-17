@@ -26,7 +26,7 @@ const Register=()=> {
         </div>
         <section className=' h-screen w-screen flex justify-center place-items-center '>
         <img src={bg_img} alt="#" className=' object-cover min-w-screen min-h-screen overflow-clip brightness-[50%]' /> 
-        <div className='absolute w-[50%] h-[60%] z-50 lg:w-[30%] lg:h-[60%] rounded-lg shadow-md shadow-[#4169E1] bg-gray-700 bg-opacity-[23%]'>
+        <div className='absolute w-[80%] h-[80%] z-50 lg:w-[30%] lg:h-[60%] rounded-lg shadow-md shadow-[#4169E1] bg-gray-700 bg-opacity-[23%]'>
         <div className='relative w-full h-full rounded-lg shadow-2xl'>
               <div className='relative w-full h-full'>
               <div className='h-[10%] w-full gap-x-[2%] flex flex-row justify-center place-items-center font-bold text-2xl lg:text-4xl'>
@@ -77,15 +77,15 @@ const Register=()=> {
                   
                     }
                 )} className='relative flex flex-col place-items-center justify-center w-full h-[70%] gap-y-[3%]'>
-              <input {...register('name')} className='border-b-4 w-[60%] h-[10%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="text" placeholder='name'  required/>
+              <input {...register('name')} className='border-b-4 w-[80%] h-[13%] lg:h-[13%] lg:w-[60%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="text" placeholder='name'  required/>
               <p className='text-xs text-[#EE4B2B]'>{errors.name?.message}</p>
-              <input {...register('email')} className='border-b-4 w-[60%] h-[10%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="email" placeholder='email address' required />
+              <input {...register('email')} className='border-b-4 w-[80%] h-[13%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%] lg:w-[60%]' type="email" placeholder='email address' required />
               <p className='text-xs text-[#EE4B2B]'>{errors.email?.message}</p>
-              <input {...register('password')} className='border-b-4 w-[60%] h-[10%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="password" placeholder='password (6 - 32 characters)' required/>
+              <input {...register('password')} className='border-b-4 w-[80%] h-[13%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%] lg:w-[60%]' type="password" placeholder='password (6 - 32 characters)' required/>
               <p className='text-xs text-[#EE4B2B]'>{errors.password?.message}</p>
-              <input {...register('passwordConfirmation')} className='border-b-4 w-[60%] h-[10%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%]' type="password" placeholder='confirm password' required/>
+              <input {...register('passwordConfirmation')} className='border-b-4 w-[80%] h-[13%] lg:h-[13%] pl-2 border-b-[#4169E1] bg-[#E6F3FE] text-gray-200 placeholder-gray-200 text-md outline-none rounded-lg bg-opacity-[20%] lg:w-[60%]' type="password" placeholder='confirm password' required/>
               <p className='text-xs text-[#EE4B2B]'>{errors.passwordConfirmation?.message}</p>
-              <button type='submit' disabled={submitted} className='bg-[#4169E1] font-semibold w-[60%] h-[10%] lg:h-[13%] text-white rounded-lg flex flex-row gap-x-3 justify-center place-items-center'>{!submitted ? <>Register</> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
+              <button type='submit' disabled={submitted} className='bg-[#4169E1] font-semibold w-[80%] h-[13%] lg:h-[13%] text-white rounded-lg flex flex-row gap-x-3 justify-center place-items-center lg:w-[60%]'>{!submitted ? <>Register</> : <><FaSpinner className='animate-spin font-extrabold text-2xl text-center text-white'/> <h1>Loading...</h1></>}</button>
             </form>
             
             <div className='flex flex-col text-center w-full h-[20%] gap-y-[1%]'>
