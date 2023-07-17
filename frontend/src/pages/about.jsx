@@ -32,7 +32,7 @@ const About =()=> {
             <div className='w-full h-[10%] flex place-items-center'><h1 className='text-[#4169E1] font-extrabold text-4xl w-full h text-center'>Meet The Team</h1></div>
         <div className='w-full h-full relative flex flex-wrap justify-center lg:flex-row place-items-center gap-x-[3%] lg:gap-x-[1%] overflow-hidden'>
             <div className='w-[40%] h-[45%] lg:w-[20%] lg:h-[80%] bg-white rounded-lg relative flex flex-col justify-center place-items-center shadow-lg shadow-[#4169E1] hover:scale-[101%]  ease-in-out'>
-                <div className=' w-20 h-20 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
+                <div className=' w-28 h-28 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
                     <img src={alt} alt='#' className=' object-cover'/>
                 </div>
                 <div className='h-[60%] w-full text-gray-600 pl-2 flex flex-col gap-y-[3%] justify-normal pr-2 place-items-center text-center'>
@@ -48,7 +48,7 @@ const About =()=> {
                 </div> 
             </div>
             <div className='w-[40%] h-[45%] lg:w-[20%] lg:h-[80%] bg-white rounded-lg relative flex flex-col justify-center place-items-center shadow-lg shadow-[#4169E1] hover:scale-[101%]  ease-in-out'>
-                <div className=' w-20 h-20 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
+                <div className=' w-28 h-28 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
                     <img src={tojo} alt="#" className=' object-cover w-[140%] h-[140%]'/>
                 </div>
                 <div className='h-[60%] w-full text-gray-600 pl-2 flex flex-col gap-y-[3%] justify-normal pr-2 place-items-center text-center overflow-x-auto'>
@@ -65,7 +65,7 @@ const About =()=> {
                 </div> 
             </div>
             <div className='w-[40%] h-[45%] lg:w-[20%] lg:h-[80%] bg-white rounded-lg relative flex flex-col justify-center place-items-center shadow-lg shadow-[#4169E1] hover:scale-[101%]  ease-in-out'>
-                <div className=' w-20 h-20 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
+                <div className=' w-28 h-28 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
                     <img src={alt} alt="#" className=' object-cover'/>
                 </div>
                 <div className='h-[60%] w-full text-gray-600 pl-2 flex flex-col gap-y-[3%] justify-normal pr-2 place-items-center text-center'>
@@ -81,7 +81,7 @@ const About =()=> {
                 </div> 
             </div>
             <div className='w-[40%] h-[45%] lg:w-[20%] lg:h-[80%] bg-white rounded-lg relative flex flex-col justify-center place-items-center shadow-lg shadow-[#4169E1] hover:scale-[101%]  ease-in-out'>
-                <div className=' w-20 h-20 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
+                <div className=' w-28 h-28 lg:w-36 lg:h-36 border-4 border-[#4169E1] rounded-full overflow-hidden'>
                     <img src={alt} alt="#" className=' object-cover'/>
                 </div>
                 <div className='h-[60%] w-full text-gray-600 pl-2 flex flex-col gap-y-[3%] justify-normal pr-2 place-items-center text-center'>

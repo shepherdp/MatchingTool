@@ -37,9 +37,9 @@ const LoggedNav = () => {
             <section>
                 <header className="justify-start">
                     {isOpen && 
-                        <div ref={windowRef} className='absolute z-50 bg-white w-[30%] lg:w-[20%] h-[30%] lg:h-[40%] lg:left-[78.5%] left-[65%] top-[7%] lg:top-[6%] rounded-lg overflow-hidden shadow-lg shadow-[#4169E1] flex flex-col justify-center place-items-center'>
+                        <div ref={windowRef} className='absolute z-50 bg-white w-[30%] lg:w-[20%] h-[30%] lg:h-[40%] lg:left-[78.5%] left-[65%] top-[4%] lg:top-[6%] rounded-lg overflow-hidden shadow-lg shadow-[#4169E1] flex flex-col justify-center place-items-center'>
                             <div className='w-full h-[30%] flex justify-center place-items-center'>
-                                <button className="w-[60%] h-[34%] lg:h-[30%] bg-[#002147] font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
+                                <button className="w-[60%] h-[25%] lg:h-[30%] bg-[#002147] font-semibold text-white rounded-lg hover:scale-[105%]" onClick={
                                     ()=>{
                                         console.log('clicked')
                                         fetch(`${server_domain}/user/logout`, {
@@ -56,21 +56,21 @@ const LoggedNav = () => {
                                 </button>
                             </div>
                                     <div className='w-full h-[30%] flex justify-center place-items-center text-white'>
-                                        <button type='button' className='w-[60%] h-[34%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75' onClick={()=>navigate('/aboutteam')}>About Us</button>
+                                        <button type='button' className='w-[60%] h-[25%] bg-[#4169E1] rounded-lg font-semibold hover:scale-105 delay-75' onClick={()=>navigate('/aboutteam')}>About Us</button>
                                     </div>
                                     <div className='w-full h-[40%] flex flex-col justify-center place-items-center gap-y-[10%] text-white'>
-                                        <button onClick={()=>navigate('/privacy')} className='w-[85%] h-[27%] bg-[#4169E1] rounded-lg text-xs font-semibold hover:scale-105 delay-75'>
+                                        <button onClick={()=>navigate('/privacy')} className='w-[60%] h-[20%] bg-[#4169E1] rounded-lg text-xs font-semibold hover:scale-105 delay-75'>
                                             Privacy Policy
                                         </button>
-                                        <button onClick={()=>{setDeleteAcc(true)}} className='w-[60%] h-[27%] bg-red-400 rounded-lg font-semibold hover:scale-105 delay-75'>
+                                        <button onClick={()=>{setDeleteAcc(true)}} className='w-[60%] h-[20%] bg-red-400 rounded-lg font-semibold hover:scale-105 delay-75'>
                                             Delete Account
                                         </button>
                                 </div>
                         </div> 
                      }
                     {deleteAcc && <div className='w-screen h-screen bg-[#E6F3FE] bg-opacity-[70%] z-50 absolute flex justify-center place-items-center'>
-                        <div className='w-[70%] h-[25%] lg:w-[30%] lg:h-[30%] bg-white text-sm rounded-lg overflow-hidden shadow-lg shadow-[#4169E1]'>
-                            <div className='w-full h-[50%] text-center flex flex-col justify-center place-items-center font-semibold'>
+                        <div className='w-[60%] h-[20%] lg:w-[30%] lg:h-[30%] bg-white rounded-lg overflow-hidden shadow-lg shadow-[#4169E1]'>
+                            <div className='w-full h-[50%] text-center flex flex-col justify-center place-items-center text-lg font-semibold'>
                                 <p>Are you sure you would like to delete your profile?</p>
                                 <p>Please note this action is irreversible.</p>
                             </div>
